@@ -1,6 +1,5 @@
 import {
 	Injectable,
-	InternalServerErrorException,
 	NotFoundException,
 	UnauthorizedException
 } from '@nestjs/common'
@@ -10,6 +9,7 @@ import type { Request } from 'express'
 import { PrismaService } from '@/src/core/prisma/prisma.service'
 import { RedisService } from '@/src/core/redis/redis.service'
 import { getSessionMetadata } from '@/src/shared/utils/session-metadata.util'
+import { destroySession, saveSession } from '@/src/shared/utils/session.util'
 import { LoginInput } from './inputs/login.input'
 
 @Injectable()
@@ -87,36 +87,11 @@ export class SessionService {
 
 		const metadata = getSessionMetadata(req, userAgent)
 
-		return new Promise((resolve, regect) => {
-			req.session.createdAt = new Date()
-			req.session.userId = user.id
-			req.session.metadata = metadata
-
-			req.session.save(err => {
-				if (err) {
-					return regect(
-						new InternalServerErrorException('Failed to save session')
-					)
-				} else {
-					resolve(user)
-				}
-			})
-		})
+		return saveSession(req, user, metadata)
 	}
 
 	public async logout(req: Request) {
-		return new Promise((resolve, reject) => {
-			req.session.destroy(err => {
-				if (err) {
-					reject(new InternalServerErrorException('Failed to destroy session'))
-				} else {
-					req.res.clearCookie(
-						this.configService.getOrThrow<string>('SESSION_NAME')
-					)
-					resolve(true)
-				}
-			})
-		})
+		return destroySession(req, this.configService)
 	}
 
 	public async clearSession(req: Request) {
