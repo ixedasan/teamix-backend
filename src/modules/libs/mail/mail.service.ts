@@ -4,7 +4,7 @@ import { ConfigService } from '@nestjs/config'
 
 @Injectable()
 export class MailService {
-	private constructor(
+	public constructor(
 		private readonly mailerService: MailerService,
 		private readonly configService: ConfigService
 	) {}
