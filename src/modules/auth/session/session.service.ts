@@ -1,4 +1,5 @@
 import {
+	BadRequestException,
 	Injectable,
 	NotFoundException,
 	UnauthorizedException
@@ -10,6 +11,7 @@ import { PrismaService } from '@/src/core/prisma/prisma.service'
 import { RedisService } from '@/src/core/redis/redis.service'
 import { getSessionMetadata } from '@/src/shared/utils/session-metadata.util'
 import { destroySession, saveSession } from '@/src/shared/utils/session.util'
+import { VerificationService } from '../verification/verification.service'
 import { LoginInput } from './inputs/login.input'
 
 @Injectable()
@@ -17,7 +19,8 @@ export class SessionService {
 	public constructor(
 		private readonly prismaServiece: PrismaService,
 		private readonly redisService: RedisService,
-		private readonly configService: ConfigService
+		private readonly configService: ConfigService,
+		private readonly verificationService: VerificationService
 	) {}
 
 	public async findByUser(req: Request) {
@@ -83,6 +86,14 @@ export class SessionService {
 
 		if (!isPasswordValid) {
 			throw new UnauthorizedException('Invalid password')
+		}
+
+		if (!user.isEmailVerified) {
+			await this.verificationService.sendVerificationToken(user)
+
+			throw new BadRequestException(
+				'Email is not verified, please check your email'
+			)
 		}
 
 		const metadata = getSessionMetadata(req, userAgent)
