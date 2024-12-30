@@ -10,6 +10,7 @@ import { TotpService } from './totp.service'
 export class TotpResolver {
 	public constructor(private readonly totpService: TotpService) {}
 
+	@Authorization()
 	@Query(() => TotpModel, { name: 'generateTotpSecret' })
 	public async generate(@Authorized() user: User) {
 		return this.totpService.generate(user)

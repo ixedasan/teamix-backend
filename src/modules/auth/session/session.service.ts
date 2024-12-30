@@ -97,22 +97,26 @@ export class SessionService {
 			)
 		}
 
-		if (user.isTotpEnabled && !pin) {
-			throw new BadRequestException('Pin is required')
-		}
+		if (user.isTotpEnabled) {
+			if (!pin) {
+				return {
+					message: 'Please provide pin'
+				}
+			}
 
-		const totp = new TOTP({
-			issuer: 'teamix',
-			label: `${user.email}`,
-			algorithm: 'SHA1',
-			digits: 6,
-			secret: user.totpSecret
-		})
+			const totp = new TOTP({
+				issuer: 'teamix',
+				label: `${user.email}`,
+				algorithm: 'SHA1',
+				digits: 6,
+				secret: user.totpSecret
+			})
 
-		const delta = totp.validate({ token: pin })
+			const delta = totp.validate({ token: pin })
 
-		if (delta === null) {
-			throw new BadRequestException('Invalid pin')
+			if (delta === null) {
+				throw new BadRequestException('Invalid pin')
+			}
 		}
 
 		const metadata = getSessionMetadata(req, userAgent)
