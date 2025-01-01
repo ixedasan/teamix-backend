@@ -22,7 +22,9 @@ export class StorageService {
 				secretAccessKey: this.configService.getOrThrow<string>(
 					'S3_SECRET_ACCESS_KEY'
 				)
-			}
+			},
+			// TODO: Test this
+			forcePathStyle: true // !!! This is important for LocalStack
 		})
 
 		this.bucket = this.configService.getOrThrow<string>('S3_BUCKET_NAME')
