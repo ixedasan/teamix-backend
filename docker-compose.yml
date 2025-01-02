@@ -28,6 +28,20 @@ services:
         networks:
             - teamix-backend
 
+    localstack:
+        container_name: localstack
+        image: localstack/localstack
+        ports:
+            - "4566:4566" 
+        environment:
+            - DEBUG=${DEBUG:-0}
+        volumes:
+            - "${LOCALSTACK_VOLUME_DIR:-./volume}:/var/lib/localstack"
+            - "/var/run/docker.sock:/var/run/docker.sock"
+        networks:
+            - teamix-backend
+
+
 volumes:
     postgres_data:
     redis_data:
