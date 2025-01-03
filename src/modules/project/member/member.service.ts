@@ -61,16 +61,8 @@ export class MemberService {
 		await this.prismaService.member.create({
 			data: {
 				role: inviteToken.role,
-				user: {
-					connect: {
-						id: user.id
-					}
-				},
-				project: {
-					connect: {
-						id: inviteToken.projectId
-					}
-				}
+				userId: user.id,
+				projectId: inviteToken.projectId
 			}
 		})
 
