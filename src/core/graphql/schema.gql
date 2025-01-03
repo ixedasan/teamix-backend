@@ -68,25 +68,25 @@ type Mutation {
   changePassword(data: ChangePasswordInput!): Boolean!
   changeProfileAvatar(avatar: Upload!): Boolean!
   changeProfileInfo(data: ChangeProfileInfoInput!): Boolean!
-  changeProjectCover(cover: Upload!, id: String!): Boolean!
+  changeProjectCover(cover: Upload!, projectId: String!): Boolean!
   clearSessionCookie: Boolean!
   createProject(data: ProjectInput!): Boolean!
   createSocialLink(data: SocialLinkInput!): Boolean!
   createUser(data: CreateUserInput!): Boolean!
-  deleteProject(id: String!): Boolean!
+  deleteProject(projectId: String!): Boolean!
   disableTotp: Boolean!
   enableTotp(data: EnableTotpInput!): Boolean!
-  inviteProjectMember(data: InviteMemberInput!, id: String!): Boolean!
+  inviteProjectMember(data: InviteMemberInput!, projectId: String!): Boolean!
   loginUser(data: LoginInput!): AuthModel!
   logoutUser: Boolean!
   newPassword(data: NewPasswordInput!): Boolean!
   removeProfileAvatar: Boolean!
-  removeProjectCover(id: String!): Boolean!
+  removeProjectCover(projectId: String!): Boolean!
   removeSession(id: String!): Boolean!
   removeSocialLink(id: String!): Boolean!
   reorderSocialLink(list: [SocialLinkOrderInput!]!): Boolean!
   resetPassword(data: ResetPasswordInput!): Boolean!
-  updateProject(data: ProjectInput!, id: String!): Boolean!
+  updateProject(data: ProjectInput!, projectId: String!): Boolean!
   updateSocialLink(data: SocialLinkInput!, id: String!): Boolean!
   verifyAccaunt(data: VerificationInput!): UserModel!
 }

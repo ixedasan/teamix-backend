@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common'
+import {
+	BadRequestException,
+	Injectable,
+	NotFoundException
+} from '@nestjs/common'
 import { v4 as uuidv4 } from 'uuid'
 import { Role, TokenType } from '@/prisma/generated'
 import { PrismaService } from '@/src/core/prisma/prisma.service'
@@ -14,6 +18,19 @@ export class MemberService {
 
 	public async inviteMember(id: string, input: InviteMemberInput) {
 		const { email, role } = input
+
+		const existingMember = await this.prismaService.member.findFirst({
+			where: {
+				projectId: id,
+				user: {
+					email
+				}
+			}
+		})
+
+		if (existingMember) {
+			throw new BadRequestException('Member already exists')
+		}
 
 		const project = await this.prismaService.project.findUnique({
 			where: {

@@ -13,7 +13,7 @@ export class MemberResolver {
 	@RolesAccess(Role.ADMIN)
 	@Mutation(() => Boolean, { name: 'inviteProjectMember' })
 	public async inviteMember(
-		@Args('id') id: string,
+		@Args('projectId') id: string,
 		@Args('data') input: InviteMemberInput
 	) {
 		return this.memberService.inviteMember(id, input)

@@ -34,7 +34,7 @@ export class ProjectCoreResolver {
 	@Mutation(() => Boolean, { name: 'updateProject' })
 	public async updateProject(
 		@Authorized() user: User,
-		@Args('id') id: string,
+		@Args('projectId') id: string,
 		@Args('data') input: ProjectInput
 	) {
 		return this.projectCoreService.updateProject(user, id, input)
@@ -43,7 +43,7 @@ export class ProjectCoreResolver {
 	@Authorization()
 	@RolesAccess(Role.ADMIN)
 	@Mutation(() => Boolean, { name: 'deleteProject' })
-	public async deleteProject(@Args('id') id: string) {
+	public async deleteProject(@Args('projectId') id: string) {
 		return this.projectCoreService.deleteProject(id)
 	}
 
@@ -51,7 +51,7 @@ export class ProjectCoreResolver {
 	@RolesAccess(Role.ADMIN)
 	@Mutation(() => Boolean, { name: 'changeProjectCover' })
 	public async changeCover(
-		@Args('id') id: string,
+		@Args('projectId') id: string,
 		@Args('cover', { type: () => GraphQLUpload }, FileValidationPipe)
 		cover: Upload
 	) {
@@ -61,7 +61,7 @@ export class ProjectCoreResolver {
 	@Authorization()
 	@RolesAccess(Role.ADMIN)
 	@Mutation(() => Boolean, { name: 'removeProjectCover' })
-	public async removeCover(@Args('id') id: string) {
+	public async removeCover(@Args('projectId') id: string) {
 		return this.projectCoreService.removeCover(id)
 	}
 }
