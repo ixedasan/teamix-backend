@@ -10,6 +10,7 @@ import { TotpModule } from '../modules/auth/totp/totp.module'
 import { VerificationModule } from '../modules/auth/verification/verification.module'
 import { MailModule } from '../modules/libs/mail/mail.module'
 import { StorageModule } from '../modules/libs/storage/storage.module'
+import { MemberModule } from '../modules/project/member/member.module'
 import { ProjectCoreModule } from '../modules/project/project-core/project-core.module'
 import { getGraphQLConfig } from './config/graphql.config'
 import { PrismaModule } from './prisma/prisma.module'
@@ -37,7 +38,8 @@ import { RedisModule } from './redis/redis.module'
 		VerificationModule,
 		PasswordRecoveryModule,
 		TotpModule,
-		ProjectCoreModule
+		ProjectCoreModule,
+		MemberModule
 	]
 })
 export class CoreModule {}

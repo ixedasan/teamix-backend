@@ -44,6 +44,11 @@ input EnableTotpInput {
   secret: String!
 }
 
+input InviteMemberInput {
+  email: String!
+  role: String!
+}
+
 type LocationModel {
   city: String!
   country: String!
@@ -58,6 +63,7 @@ input LoginInput {
 }
 
 type Mutation {
+  acceptProjectInvitation(token: String!): Boolean!
   changeEmail(data: ChangeEmailInput!): Boolean!
   changePassword(data: ChangePasswordInput!): Boolean!
   changeProfileAvatar(avatar: Upload!): Boolean!
@@ -70,6 +76,7 @@ type Mutation {
   deleteProject(id: String!): Boolean!
   disableTotp: Boolean!
   enableTotp(data: EnableTotpInput!): Boolean!
+  inviteProjectMember(data: InviteMemberInput!, id: String!): Boolean!
   loginUser(data: LoginInput!): AuthModel!
   logoutUser: Boolean!
   newPassword(data: NewPasswordInput!): Boolean!
