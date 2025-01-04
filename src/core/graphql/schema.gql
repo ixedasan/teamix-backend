@@ -131,11 +131,11 @@ type ProjectModel {
 type Query {
   findCurrentSession: SessionModel!
   findProfile: UserModel!
+  findProjectMembers(projectId: String!): [MemberModel!]!
   findSessionsByUser: [SessionModel!]!
   findSocialLinks: [SocialLinksModel!]!
   generateTotpSecret: TotpModel!
   getAllUserProjects: [ProjectModel!]!
-  getProjectMembers(projectId: String!): [MemberModel!]!
 }
 
 input ResetPasswordInput {
@@ -193,7 +193,6 @@ type UserModel {
   isEmailVerified: Boolean!
   isTotpEnabled: Boolean!
   isVerified: Boolean!
-  memberships: [MemberModel!]!
   password: String!
   socialLinks: [SocialLinksModel!]!
   totpSecret: String

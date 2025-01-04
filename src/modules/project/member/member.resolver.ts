@@ -13,7 +13,7 @@ export class MemberResolver {
 	public constructor(private readonly memberService: MemberService) {}
 
 	@Authorization()
-	@Query(() => [MemberModel], { name: 'getProjectMembers' })
+	@Query(() => [MemberModel], { name: 'findProjectMembers' })
 	public async getProjectMembers(@Args('projectId') id: string) {
 		return this.memberService.getProjectMembers(id)
 	}

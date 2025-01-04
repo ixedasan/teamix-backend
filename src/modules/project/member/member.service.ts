@@ -1,7 +1,8 @@
 import {
 	BadRequestException,
 	Injectable,
-	NotFoundException
+	NotFoundException,
+	UnauthorizedException
 } from '@nestjs/common'
 import { v4 as uuidv4 } from 'uuid'
 import { Role, TokenType, User } from '@/prisma/generated'
@@ -17,10 +18,10 @@ export class MemberService {
 		private readonly mailService: MailService
 	) {}
 
-	public async getProjectMembers(id: string) {
+	public async getProjectMembers(projectId: string) {
 		const members = await this.prismaService.member.findMany({
 			where: {
-				projectId: id
+				projectId
 			},
 			include: {
 				user: true
@@ -33,6 +34,16 @@ export class MemberService {
 	public async inviteMember(id: string, input: InviteMemberInput) {
 		const { email, role } = input
 
+		const project = await this.prismaService.project.findUnique({
+			where: {
+				id
+			}
+		})
+
+		if (!project) {
+			throw new NotFoundException('Project not found')
+		}
+
 		const existingMember = await this.prismaService.member.findFirst({
 			where: {
 				projectId: id,
@@ -44,16 +55,6 @@ export class MemberService {
 
 		if (existingMember) {
 			throw new BadRequestException('Member already exists')
-		}
-
-		const project = await this.prismaService.project.findUnique({
-			where: {
-				id
-			}
-		})
-
-		if (!project) {
-			throw new NotFoundException('Project not found')
 		}
 
 		const inviteToken = await this.generateInviteToken(email, id, role)
@@ -76,7 +77,17 @@ export class MemberService {
 		})
 
 		if (!inviteToken) {
-			throw new NotFoundException('Token not found')
+			await this.prismaService.token.delete({
+				where: {
+					id: inviteToken.id
+				}
+			})
+
+			throw new UnauthorizedException('Token not found')
+		}
+
+		if (new Date(inviteToken.expiresIn) < new Date()) {
+			throw new BadRequestException('Invitation token has expired')
 		}
 
 		const user = await this.prismaService.user.findFirst({
@@ -89,21 +100,25 @@ export class MemberService {
 			throw new NotFoundException('User not found')
 		}
 
-		await this.prismaService.member.create({
-			data: {
-				role: inviteToken.role,
-				userId: user.id,
-				projectId: inviteToken.projectId
-			}
-		})
+		try {
+			await this.prismaService.$transaction(async prisma => {
+				await prisma.member.create({
+					data: {
+						role: inviteToken.role,
+						userId: user.id,
+						projectId: inviteToken.projectId
+					}
+				})
 
-		await this.prismaService.token.delete({
-			where: {
-				id: inviteToken.id
-			}
-		})
+				await prisma.token.delete({
+					where: { id: inviteToken.id }
+				})
+			})
 
-		return true
+			return true
+		} catch (error) {
+			throw new BadRequestException(`Failed to accept invitation: ${error}`)
+		}
 	}
 
 	public async changeMemberRole(
@@ -143,10 +158,12 @@ export class MemberService {
 	}
 
 	public async removeMember(id: string, memberId: string) {
-		const member = await this.prismaService.member.findFirst({
+		const member = await this.prismaService.member.findUnique({
 			where: {
-				projectId: id,
-				userId: memberId
+				userId_projectId: {
+					projectId: id,
+					userId: memberId
+				}
 			}
 		})
 
@@ -182,15 +199,14 @@ export class MemberService {
 		const existingToken = await this.prismaService.token.findFirst({
 			where: {
 				type: TokenType.INVITATION,
-				email
+				email,
+				projectId
 			}
 		})
 
 		if (existingToken) {
 			await this.prismaService.token.delete({
-				where: {
-					id: existingToken.id
-				}
+				where: { id: existingToken.id }
 			})
 		}
 
