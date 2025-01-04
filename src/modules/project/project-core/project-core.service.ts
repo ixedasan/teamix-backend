@@ -21,6 +21,9 @@ export class ProjectCoreService {
 						userId: user.id
 					}
 				}
+			},
+			include: {
+				members: true
 			}
 		})
 

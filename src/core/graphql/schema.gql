@@ -22,6 +22,12 @@ input ChangeProfileInfoInput {
   username: String!
 }
 
+input ChangeRoleInput {
+  projectId: String!
+  role: String!
+  userId: String!
+}
+
 input CreateUserInput {
   email: String!
   password: String!
@@ -62,9 +68,19 @@ input LoginInput {
   pin: String
 }
 
+type MemberModel {
+  createdAt: DateTime!
+  id: ID!
+  projectId: ID!
+  role: String!
+  updatedAt: DateTime!
+  userId: ID!
+}
+
 type Mutation {
   acceptProjectInvitation(token: String!): Boolean!
   changeEmail(data: ChangeEmailInput!): Boolean!
+  changeMemberRole(data: ChangeRoleInput!): Boolean!
   changePassword(data: ChangePasswordInput!): Boolean!
   changeProfileAvatar(avatar: Upload!): Boolean!
   changeProfileInfo(data: ChangeProfileInfoInput!): Boolean!
@@ -82,6 +98,7 @@ type Mutation {
   newPassword(data: NewPasswordInput!): Boolean!
   removeProfileAvatar: Boolean!
   removeProjectCover(projectId: String!): Boolean!
+  removeProjectMember(projectId: String!, userId: String!): Boolean!
   removeSession(id: String!): Boolean!
   removeSocialLink(id: String!): Boolean!
   reorderSocialLink(list: [SocialLinkOrderInput!]!): Boolean!
@@ -107,6 +124,7 @@ type ProjectModel {
   createdAt: DateTime!
   description: String
   id: ID!
+  members: [MemberModel!]!
   name: String!
   updatedAt: DateTime!
 }
@@ -118,6 +136,7 @@ type Query {
   findSocialLinks: [SocialLinksModel!]!
   generateTotpSecret: TotpModel!
   getAllUserProjects: [ProjectModel!]!
+  getProjectMembers(projectId: String!): [MemberModel!]!
 }
 
 input ResetPasswordInput {
