@@ -102,7 +102,8 @@ type Mutation {
   removeSocialLink(id: String!): Boolean!
   reorderSocialLink(list: [SocialLinkOrderInput!]!): Boolean!
   resetPassword(data: ResetPasswordInput!): Boolean!
-  updateProject(data: ProjectInput!, projectId: String!): Boolean!
+  setCurrentProject(projectId: String!): Boolean!
+  updateProject(data: ProjectInput!): Boolean!
   updateSocialLink(data: SocialLinkInput!, id: String!): Boolean!
   verifyAccaunt(data: VerificationInput!): UserModel!
 }
@@ -131,7 +132,7 @@ type ProjectModel {
 type Query {
   findCurrentSession: SessionModel!
   findProfile: UserModel!
-  findProjectMembers(projectId: String!): [MemberModel!]!
+  findProjectMembers: [MemberModel!]!
   findSessionsByUser: [SessionModel!]!
   findSocialLinks: [SocialLinksModel!]!
   generateTotpSecret: TotpModel!
@@ -152,6 +153,7 @@ type SessionModel {
   createdAt: String!
   id: ID!
   metadata: SessionMetadataModel!
+  projectId: String
   userId: String!
 }
 

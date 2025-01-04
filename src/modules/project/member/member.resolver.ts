@@ -2,6 +2,8 @@ import { Args, Mutation, Query, Resolver } from '@nestjs/graphql'
 import { Role, User } from '@/prisma/generated'
 import { Authorization } from '@/src/shared/decorators/auth.decorator'
 import { Authorized } from '@/src/shared/decorators/authorized.decorator'
+import { CurrentProject } from '@/src/shared/decorators/current-project.decorator'
+import { UseProjectGuard } from '@/src/shared/decorators/project.decorator'
 import { RolesAccess } from '@/src/shared/decorators/role-access.decorator'
 import { ChangeRoleInput } from './inputs/change-role.input'
 import { InviteMemberInput } from './inputs/invite-member.input'
@@ -13,8 +15,9 @@ export class MemberResolver {
 	public constructor(private readonly memberService: MemberService) {}
 
 	@Authorization()
+	@UseProjectGuard()
 	@Query(() => [MemberModel], { name: 'findProjectMembers' })
-	public async getProjectMembers(@Args('projectId') id: string) {
+	public async getProjectMembers(@CurrentProject() id: string) {
 		return this.memberService.getProjectMembers(id)
 	}
 

@@ -1,4 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
+import type { Request } from 'express'
 import * as Upload from 'graphql-upload/Upload.js'
 import sharp from 'sharp'
 import { Role, type User } from '@/prisma/generated'
@@ -28,6 +29,31 @@ export class ProjectCoreService {
 		})
 
 		return projects
+	}
+
+	async setCurrentProject(req: Request, projectId: string) {
+		if (!req.session.userId) {
+			throw new NotFoundException('User not authenticated')
+		}
+
+		const project = await this.prismaService.project.findFirst({
+			where: {
+				id: projectId,
+				members: {
+					some: {
+						userId: req.session.userId
+					}
+				}
+			}
+		})
+
+		if (!project) {
+			throw new NotFoundException('Project not found or access denied')
+		}
+
+		req.session.projectId = project.id
+
+		return true
 	}
 
 	public async createProject(user: User, input: ProjectInput) {

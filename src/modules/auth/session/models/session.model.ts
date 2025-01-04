@@ -52,6 +52,9 @@ export class SessionModel {
 	@Field(() => String)
 	public userId: string
 
+	@Field(() => String, { nullable: true })
+	public projectId: string
+
 	@Field(() => String)
 	public createdAt: string
 
