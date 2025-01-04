@@ -39,9 +39,10 @@ export class MemberResolver {
 	@Mutation(() => Boolean, { name: 'changeMemberRole' })
 	public async changeRole(
 		@Authorized() user: User,
+		@Args('projectId') projectId: string,
 		@Args('data') input: ChangeRoleInput
 	) {
-		return this.memberService.changeMemberRole(user, input)
+		return this.memberService.changeMemberRole(user, projectId, input)
 	}
 
 	@Authorization()

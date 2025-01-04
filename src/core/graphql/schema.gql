@@ -23,7 +23,6 @@ input ChangeProfileInfoInput {
 }
 
 input ChangeRoleInput {
-  projectId: String!
   role: String!
   userId: String!
 }
@@ -80,7 +79,7 @@ type MemberModel {
 type Mutation {
   acceptProjectInvitation(token: String!): Boolean!
   changeEmail(data: ChangeEmailInput!): Boolean!
-  changeMemberRole(data: ChangeRoleInput!): Boolean!
+  changeMemberRole(data: ChangeRoleInput!, projectId: String!): Boolean!
   changePassword(data: ChangePasswordInput!): Boolean!
   changeProfileAvatar(avatar: Upload!): Boolean!
   changeProfileInfo(data: ChangeProfileInfoInput!): Boolean!
@@ -194,6 +193,7 @@ type UserModel {
   isEmailVerified: Boolean!
   isTotpEnabled: Boolean!
   isVerified: Boolean!
+  memberships: [MemberModel!]!
   password: String!
   socialLinks: [SocialLinksModel!]!
   totpSecret: String

@@ -7,11 +7,6 @@ export class ChangeRoleInput {
 	@Field(() => String)
 	@IsString()
 	@IsNotEmpty()
-	public projectId: string
-
-	@Field(() => String)
-	@IsString()
-	@IsNotEmpty()
 	public userId: string
 
 	@Field(() => String)

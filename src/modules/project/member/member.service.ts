@@ -106,21 +106,19 @@ export class MemberService {
 		return true
 	}
 
-	public async changeMemberRole(user: User, input: ChangeRoleInput) {
-		const { projectId, userId, role } = input
+	public async changeMemberRole(
+		user: User,
+		projectId: string,
+		input: ChangeRoleInput
+	) {
+		const { userId, role } = input
 
-		const project = await this.prismaService.project.findUnique({
-			where: { id: projectId }
-		})
-
-		if (!project) {
-			throw new NotFoundException('Project not found!')
-		}
-
-		const member = await this.prismaService.member.findFirst({
+		const member = await this.prismaService.member.findUnique({
 			where: {
-				projectId,
-				userId
+				userId_projectId: {
+					projectId,
+					userId
+				}
 			}
 		})
 
