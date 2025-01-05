@@ -4,6 +4,7 @@ import { type SessionMetadata } from './session-metadata.types'
 declare module 'express-session' {
 	interface SessionData {
 		userId?: string
+		projectId?: string
 		createdAt?: Date | string
 		metadata: SessionMetadata
 	}

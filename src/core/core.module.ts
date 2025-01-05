@@ -1,5 +1,5 @@
 import { ApolloDriver } from '@nestjs/apollo'
-import { Module } from '@nestjs/common'
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common'
 import { ConfigModule, ConfigService } from '@nestjs/config'
 import { GraphQLModule } from '@nestjs/graphql'
 import { AccountModule } from '../modules/auth/account/account.module'
@@ -10,6 +10,9 @@ import { TotpModule } from '../modules/auth/totp/totp.module'
 import { VerificationModule } from '../modules/auth/verification/verification.module'
 import { MailModule } from '../modules/libs/mail/mail.module'
 import { StorageModule } from '../modules/libs/storage/storage.module'
+import { MemberModule } from '../modules/project/member/member.module'
+import { ProjectCoreModule } from '../modules/project/project-core/project-core.module'
+import { ProjectMiddleware } from '../shared/middlewares/project.middleware'
 import { getGraphQLConfig } from './config/graphql.config'
 import { PrismaModule } from './prisma/prisma.module'
 import { RedisModule } from './redis/redis.module'
@@ -35,7 +38,13 @@ import { RedisModule } from './redis/redis.module'
 		ProfileModule,
 		VerificationModule,
 		PasswordRecoveryModule,
-		TotpModule
+		TotpModule,
+		ProjectCoreModule,
+		MemberModule
 	]
 })
-export class CoreModule {}
+export class CoreModule implements NestModule {
+	configure(consumer: MiddlewareConsumer) {
+		consumer.apply(ProjectMiddleware).forRoutes('*')
+	}
+}

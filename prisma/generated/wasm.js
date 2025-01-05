@@ -151,6 +151,7 @@ exports.Prisma.TokenScalarFieldEnum = {
   userId: 'userId',
   projectId: 'projectId',
   role: 'role',
+  email: 'email',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };

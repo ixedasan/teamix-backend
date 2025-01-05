@@ -4071,6 +4071,7 @@ export namespace Prisma {
     userId: string | null
     projectId: string | null
     role: $Enums.Role | null
+    email: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -4083,6 +4084,7 @@ export namespace Prisma {
     userId: string | null
     projectId: string | null
     role: $Enums.Role | null
+    email: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -4095,6 +4097,7 @@ export namespace Prisma {
     userId: number
     projectId: number
     role: number
+    email: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -4109,6 +4112,7 @@ export namespace Prisma {
     userId?: true
     projectId?: true
     role?: true
+    email?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -4121,6 +4125,7 @@ export namespace Prisma {
     userId?: true
     projectId?: true
     role?: true
+    email?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -4133,6 +4138,7 @@ export namespace Prisma {
     userId?: true
     projectId?: true
     role?: true
+    email?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -4218,6 +4224,7 @@ export namespace Prisma {
     userId: string | null
     projectId: string | null
     role: $Enums.Role | null
+    email: string | null
     createdAt: Date
     updatedAt: Date
     _count: TokenCountAggregateOutputType | null
@@ -4247,6 +4254,7 @@ export namespace Prisma {
     userId?: boolean
     projectId?: boolean
     role?: boolean
+    email?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     user?: boolean | Token$userArgs<ExtArgs>
@@ -4261,6 +4269,7 @@ export namespace Prisma {
     userId?: boolean
     projectId?: boolean
     role?: boolean
+    email?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     user?: boolean | Token$userArgs<ExtArgs>
@@ -4275,6 +4284,7 @@ export namespace Prisma {
     userId?: boolean
     projectId?: boolean
     role?: boolean
+    email?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
@@ -4302,6 +4312,7 @@ export namespace Prisma {
       userId: string | null
       projectId: string | null
       role: $Enums.Role | null
+      email: string | null
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["token"]>
@@ -4706,6 +4717,7 @@ export namespace Prisma {
     readonly userId: FieldRef<"Token", 'String'>
     readonly projectId: FieldRef<"Token", 'String'>
     readonly role: FieldRef<"Token", 'Role'>
+    readonly email: FieldRef<"Token", 'String'>
     readonly createdAt: FieldRef<"Token", 'DateTime'>
     readonly updatedAt: FieldRef<"Token", 'DateTime'>
   }
@@ -12006,6 +12018,7 @@ export namespace Prisma {
     userId: 'userId',
     projectId: 'projectId',
     role: 'role',
+    email: 'email',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -12462,6 +12475,7 @@ export namespace Prisma {
     userId?: StringNullableFilter<"Token"> | string | null
     projectId?: StringNullableFilter<"Token"> | string | null
     role?: EnumRoleNullableFilter<"Token"> | $Enums.Role | null
+    email?: StringNullableFilter<"Token"> | string | null
     createdAt?: DateTimeFilter<"Token"> | Date | string
     updatedAt?: DateTimeFilter<"Token"> | Date | string
     user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
@@ -12476,6 +12490,7 @@ export namespace Prisma {
     userId?: SortOrderInput | SortOrder
     projectId?: SortOrderInput | SortOrder
     role?: SortOrderInput | SortOrder
+    email?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     user?: UserOrderByWithRelationInput
@@ -12493,6 +12508,7 @@ export namespace Prisma {
     userId?: StringNullableFilter<"Token"> | string | null
     projectId?: StringNullableFilter<"Token"> | string | null
     role?: EnumRoleNullableFilter<"Token"> | $Enums.Role | null
+    email?: StringNullableFilter<"Token"> | string | null
     createdAt?: DateTimeFilter<"Token"> | Date | string
     updatedAt?: DateTimeFilter<"Token"> | Date | string
     user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
@@ -12507,6 +12523,7 @@ export namespace Prisma {
     userId?: SortOrderInput | SortOrder
     projectId?: SortOrderInput | SortOrder
     role?: SortOrderInput | SortOrder
+    email?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: TokenCountOrderByAggregateInput
@@ -12525,6 +12542,7 @@ export namespace Prisma {
     userId?: StringNullableWithAggregatesFilter<"Token"> | string | null
     projectId?: StringNullableWithAggregatesFilter<"Token"> | string | null
     role?: EnumRoleNullableWithAggregatesFilter<"Token"> | $Enums.Role | null
+    email?: StringNullableWithAggregatesFilter<"Token"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Token"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Token"> | Date | string
   }
@@ -13213,6 +13231,7 @@ export namespace Prisma {
     type: $Enums.TokenType
     expiresIn: Date | string
     role?: $Enums.Role | null
+    email?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     user?: UserCreateNestedOneWithoutTokensInput
@@ -13227,6 +13246,7 @@ export namespace Prisma {
     userId?: string | null
     projectId?: string | null
     role?: $Enums.Role | null
+    email?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -13237,6 +13257,7 @@ export namespace Prisma {
     type?: EnumTokenTypeFieldUpdateOperationsInput | $Enums.TokenType
     expiresIn?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: NullableEnumRoleFieldUpdateOperationsInput | $Enums.Role | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneWithoutTokensNestedInput
@@ -13251,6 +13272,7 @@ export namespace Prisma {
     userId?: NullableStringFieldUpdateOperationsInput | string | null
     projectId?: NullableStringFieldUpdateOperationsInput | string | null
     role?: NullableEnumRoleFieldUpdateOperationsInput | $Enums.Role | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -13263,6 +13285,7 @@ export namespace Prisma {
     userId?: string | null
     projectId?: string | null
     role?: $Enums.Role | null
+    email?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -13273,6 +13296,7 @@ export namespace Prisma {
     type?: EnumTokenTypeFieldUpdateOperationsInput | $Enums.TokenType
     expiresIn?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: NullableEnumRoleFieldUpdateOperationsInput | $Enums.Role | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -13285,6 +13309,7 @@ export namespace Prisma {
     userId?: NullableStringFieldUpdateOperationsInput | string | null
     projectId?: NullableStringFieldUpdateOperationsInput | string | null
     role?: NullableEnumRoleFieldUpdateOperationsInput | $Enums.Role | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -14096,6 +14121,7 @@ export namespace Prisma {
     userId?: SortOrder
     projectId?: SortOrder
     role?: SortOrder
+    email?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -14108,6 +14134,7 @@ export namespace Prisma {
     userId?: SortOrder
     projectId?: SortOrder
     role?: SortOrder
+    email?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -14120,6 +14147,7 @@ export namespace Prisma {
     userId?: SortOrder
     projectId?: SortOrder
     role?: SortOrder
+    email?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -15646,6 +15674,7 @@ export namespace Prisma {
     type: $Enums.TokenType
     expiresIn: Date | string
     role?: $Enums.Role | null
+    email?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     project?: ProjectCreateNestedOneWithoutTokensInput
@@ -15658,6 +15687,7 @@ export namespace Prisma {
     expiresIn: Date | string
     projectId?: string | null
     role?: $Enums.Role | null
+    email?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -15843,6 +15873,7 @@ export namespace Prisma {
     userId?: StringNullableFilter<"Token"> | string | null
     projectId?: StringNullableFilter<"Token"> | string | null
     role?: EnumRoleNullableFilter<"Token"> | $Enums.Role | null
+    email?: StringNullableFilter<"Token"> | string | null
     createdAt?: DateTimeFilter<"Token"> | Date | string
     updatedAt?: DateTimeFilter<"Token"> | Date | string
   }
@@ -16265,6 +16296,7 @@ export namespace Prisma {
     type: $Enums.TokenType
     expiresIn: Date | string
     role?: $Enums.Role | null
+    email?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     user?: UserCreateNestedOneWithoutTokensInput
@@ -16277,6 +16309,7 @@ export namespace Prisma {
     expiresIn: Date | string
     userId?: string | null
     role?: $Enums.Role | null
+    email?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -17528,6 +17561,7 @@ export namespace Prisma {
     expiresIn: Date | string
     projectId?: string | null
     role?: $Enums.Role | null
+    email?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -17582,6 +17616,7 @@ export namespace Prisma {
     type?: EnumTokenTypeFieldUpdateOperationsInput | $Enums.TokenType
     expiresIn?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: NullableEnumRoleFieldUpdateOperationsInput | $Enums.Role | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     project?: ProjectUpdateOneWithoutTokensNestedInput
@@ -17594,6 +17629,7 @@ export namespace Prisma {
     expiresIn?: DateTimeFieldUpdateOperationsInput | Date | string
     projectId?: NullableStringFieldUpdateOperationsInput | string | null
     role?: NullableEnumRoleFieldUpdateOperationsInput | $Enums.Role | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -17605,6 +17641,7 @@ export namespace Prisma {
     expiresIn?: DateTimeFieldUpdateOperationsInput | Date | string
     projectId?: NullableStringFieldUpdateOperationsInput | string | null
     role?: NullableEnumRoleFieldUpdateOperationsInput | $Enums.Role | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -17754,6 +17791,7 @@ export namespace Prisma {
     expiresIn: Date | string
     userId?: string | null
     role?: $Enums.Role | null
+    email?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -17801,6 +17839,7 @@ export namespace Prisma {
     type?: EnumTokenTypeFieldUpdateOperationsInput | $Enums.TokenType
     expiresIn?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: NullableEnumRoleFieldUpdateOperationsInput | $Enums.Role | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneWithoutTokensNestedInput
@@ -17813,6 +17852,7 @@ export namespace Prisma {
     expiresIn?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: NullableStringFieldUpdateOperationsInput | string | null
     role?: NullableEnumRoleFieldUpdateOperationsInput | $Enums.Role | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -17824,6 +17864,7 @@ export namespace Prisma {
     expiresIn?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: NullableStringFieldUpdateOperationsInput | string | null
     role?: NullableEnumRoleFieldUpdateOperationsInput | $Enums.Role | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

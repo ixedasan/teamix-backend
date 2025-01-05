@@ -3,6 +3,7 @@ import { Injectable } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { render } from '@react-email/components'
 import type { SessionMetadata } from '@/src/shared/types/session-metadata.types'
+import { InviteMemberTemplate } from './templates/invite-member.template'
 import { PasswordRecoveryTemplate } from './templates/password-recovery.template'
 import { VerificationTemplate } from './templates/verification.template'
 
@@ -31,6 +32,19 @@ export class MailService {
 		)
 
 		return this.sendMail(email, 'Password reset', html)
+	}
+
+	public async sendInviteMemberToken(
+		email: string,
+		projectName: string,
+		token: string
+	) {
+		const domain = this.configService.getOrThrow<string>('ALLOWED_ORIGIN')
+		const html = await render(
+			InviteMemberTemplate({ domain, projectName, token })
+		)
+
+		return this.sendMail(email, 'Invitation to join a project', html)
 	}
 
 	private sendMail(email: string, subject: string, html: string) {
