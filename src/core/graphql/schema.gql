@@ -79,31 +79,31 @@ type MemberModel {
 type Mutation {
   acceptProjectInvitation(token: String!): Boolean!
   changeEmail(data: ChangeEmailInput!): Boolean!
-  changeMemberRole(data: ChangeRoleInput!, projectId: String!): Boolean!
+  changeMemberRole(data: ChangeRoleInput!): Boolean!
   changePassword(data: ChangePasswordInput!): Boolean!
   changeProfileAvatar(avatar: Upload!): Boolean!
   changeProfileInfo(data: ChangeProfileInfoInput!): Boolean!
-  changeProjectCover(cover: Upload!, projectId: String!): Boolean!
+  changeProjectCover(cover: Upload!): Boolean!
   clearSessionCookie: Boolean!
   createProject(data: ProjectInput!): Boolean!
   createSocialLink(data: SocialLinkInput!): Boolean!
   createUser(data: CreateUserInput!): Boolean!
-  deleteProject(projectId: String!): Boolean!
+  deleteProject: Boolean!
   disableTotp: Boolean!
   enableTotp(data: EnableTotpInput!): Boolean!
-  inviteProjectMember(data: InviteMemberInput!, projectId: String!): Boolean!
+  inviteProjectMember(data: InviteMemberInput!): Boolean!
   loginUser(data: LoginInput!): AuthModel!
   logoutUser: Boolean!
   newPassword(data: NewPasswordInput!): Boolean!
   removeProfileAvatar: Boolean!
-  removeProjectCover(projectId: String!): Boolean!
-  removeProjectMember(projectId: String!, userId: String!): Boolean!
+  removeProjectCover: Boolean!
+  removeProjectMember(userId: String!): Boolean!
   removeSession(id: String!): Boolean!
   removeSocialLink(id: String!): Boolean!
   reorderSocialLink(list: [SocialLinkOrderInput!]!): Boolean!
   resetPassword(data: ResetPasswordInput!): Boolean!
   setCurrentProject(projectId: String!): Boolean!
-  updateProject(data: ProjectInput!): Boolean!
+  updateProjectInfo(data: ProjectInput!): Boolean!
   updateSocialLink(data: SocialLinkInput!, id: String!): Boolean!
   verifyAccaunt(data: VerificationInput!): UserModel!
 }

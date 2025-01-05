@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common'
 import type { Request } from 'express'
 import * as Upload from 'graphql-upload/Upload.js'
 import sharp from 'sharp'
-import { Role, type User } from '@/prisma/generated'
+import { Role, type Project, type User } from '@/prisma/generated'
 import { PrismaService } from '@/src/core/prisma/prisma.service'
 import { StorageService } from '../../libs/storage/storage.service'
 import { ProjectInput } from './input/project.input'
@@ -79,20 +79,10 @@ export class ProjectCoreService {
 		return true
 	}
 
-	public async updateProject(user: User, id: string, input: ProjectInput) {
-		const project = await this.prismaService.project.findUnique({
-			where: {
-				id
-			}
-		})
-
-		if (!project) {
-			throw new NotFoundException('Project not found')
-		}
-
+	public async updateProject(project: Project, input: ProjectInput) {
 		await this.prismaService.project.update({
 			where: {
-				id
+				id: project.id
 			},
 			data: {
 				...input
@@ -102,27 +92,17 @@ export class ProjectCoreService {
 		return true
 	}
 
-	public async deleteProject(id: string) {
+	public async deleteProject(project: Project) {
 		await this.prismaService.project.delete({
 			where: {
-				id
+				id: project.id
 			}
 		})
 
 		return true
 	}
 
-	public async changeCover(id: string, file: Upload) {
-		const project = await this.prismaService.project.findUnique({
-			where: {
-				id
-			}
-		})
-
-		if (!project) {
-			throw new NotFoundException('Project not found')
-		}
-
+	public async changeCover(project: Project, file: Upload) {
 		if (project.cover) {
 			await this.storageService.delete(project.cover)
 		}
@@ -151,7 +131,7 @@ export class ProjectCoreService {
 
 		await this.prismaService.project.update({
 			where: {
-				id
+				id: project.id
 			},
 			data: {
 				cover: fileName
@@ -161,17 +141,7 @@ export class ProjectCoreService {
 		return true
 	}
 
-	public async removeCover(id: string) {
-		const project = await this.prismaService.project.findUnique({
-			where: {
-				id
-			}
-		})
-
-		if (!project) {
-			throw new NotFoundException('Project not found')
-		}
-
+	public async removeCover(project: Project) {
 		if (!project.cover) {
 			return
 		}
@@ -180,7 +150,7 @@ export class ProjectCoreService {
 
 		await this.prismaService.project.update({
 			where: {
-				id
+				id: project.id
 			},
 			data: {
 				cover: null

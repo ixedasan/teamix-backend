@@ -38,6 +38,8 @@ export class ProjectGuard implements CanActivate {
 			throw new NotFoundException('Project not found or access denied')
 		}
 
+		request.project = project
+
 		return true
 	}
 }

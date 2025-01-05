@@ -1,21 +1,26 @@
-import { createParamDecorator, type ExecutionContext } from '@nestjs/common'
+import {
+	BadRequestException,
+	createParamDecorator,
+	type ExecutionContext
+} from '@nestjs/common'
 import { GqlExecutionContext } from '@nestjs/graphql'
+import type { Project } from '@/prisma/generated'
 
 export const CurrentProject = createParamDecorator(
-	(data: unknown, ctx: ExecutionContext) => {
-		let projectId: string
+	(data: keyof Project, ctx: ExecutionContext) => {
+		let project: string
 
 		if (ctx.getType() === 'http') {
-			projectId = ctx.switchToHttp().getRequest().session.projectId
+			project = ctx.switchToHttp().getRequest().project
 		} else {
 			const context = GqlExecutionContext.create(ctx)
-			projectId = context.getContext().req.session.projectId
+			project = context.getContext().req.project
 		}
 
-		if (!projectId) {
-			throw new Error('Project ID not set in session')
+		if (!project) {
+			throw new BadRequestException('Project ID not set in session')
 		}
 
-		return projectId
+		return data ? project[data] : project
 	}
 )

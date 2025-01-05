@@ -5,7 +5,7 @@ import {
 	UnauthorizedException
 } from '@nestjs/common'
 import { v4 as uuidv4 } from 'uuid'
-import { Role, TokenType, User } from '@/prisma/generated'
+import { Role, TokenType, type Project, type User } from '@/prisma/generated'
 import { PrismaService } from '@/src/core/prisma/prisma.service'
 import { MailService } from '../../libs/mail/mail.service'
 import { ChangeRoleInput } from './inputs/change-role.input'
@@ -31,22 +31,12 @@ export class MemberService {
 		return members
 	}
 
-	public async inviteMember(id: string, input: InviteMemberInput) {
+	public async inviteMember(project: Project, input: InviteMemberInput) {
 		const { email, role } = input
-
-		const project = await this.prismaService.project.findUnique({
-			where: {
-				id
-			}
-		})
-
-		if (!project) {
-			throw new NotFoundException('Project not found')
-		}
 
 		const existingMember = await this.prismaService.member.findFirst({
 			where: {
-				projectId: id,
+				projectId: project.id,
 				user: {
 					email
 				}
@@ -57,7 +47,7 @@ export class MemberService {
 			throw new BadRequestException('Member already exists')
 		}
 
-		const inviteToken = await this.generateInviteToken(email, id, role)
+		const inviteToken = await this.generateInviteToken(email, project.id, role)
 
 		await this.mailService.sendInviteMemberToken(
 			email,

@@ -1,10 +1,12 @@
+import { UseGuards } from '@nestjs/common'
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql'
-import { Role, User } from '@/prisma/generated'
+import { Role, type Project, type User } from '@/prisma/generated'
 import { Authorization } from '@/src/shared/decorators/auth.decorator'
 import { Authorized } from '@/src/shared/decorators/authorized.decorator'
 import { CurrentProject } from '@/src/shared/decorators/current-project.decorator'
-import { UseProjectGuard } from '@/src/shared/decorators/project.decorator'
 import { RolesAccess } from '@/src/shared/decorators/role-access.decorator'
+import { GqlAuthGuard } from '@/src/shared/guards/gql-auth.guard'
+import { ProjectGuard } from '@/src/shared/guards/project.guard'
 import { ChangeRoleInput } from './inputs/change-role.input'
 import { InviteMemberInput } from './inputs/invite-member.input'
 import { MemberService } from './member.service'
@@ -14,21 +16,20 @@ import { MemberModel } from './models/member.model'
 export class MemberResolver {
 	public constructor(private readonly memberService: MemberService) {}
 
-	@Authorization()
-	@UseProjectGuard()
+	@UseGuards(GqlAuthGuard, ProjectGuard)
 	@Query(() => [MemberModel], { name: 'findProjectMembers' })
-	public async getProjectMembers(@CurrentProject() id: string) {
-		return this.memberService.getProjectMembers(id)
+	public async getProjectMembers(@CurrentProject('id') projectId: string) {
+		return this.memberService.getProjectMembers(projectId)
 	}
 
-	@Authorization()
+	@UseGuards(GqlAuthGuard, ProjectGuard)
 	@RolesAccess(Role.ADMIN)
 	@Mutation(() => Boolean, { name: 'inviteProjectMember' })
 	public async inviteMember(
-		@Args('projectId') id: string,
+		@CurrentProject() project: Project,
 		@Args('data') input: InviteMemberInput
 	) {
-		return this.memberService.inviteMember(id, input)
+		return this.memberService.inviteMember(project, input)
 	}
 
 	@Authorization()
@@ -37,22 +38,22 @@ export class MemberResolver {
 		return this.memberService.acceptInvitation(token)
 	}
 
-	@Authorization()
+	@UseGuards(GqlAuthGuard, ProjectGuard)
 	@RolesAccess(Role.ADMIN)
 	@Mutation(() => Boolean, { name: 'changeMemberRole' })
 	public async changeRole(
 		@Authorized() user: User,
-		@Args('projectId') projectId: string,
+		@CurrentProject('id') projectId: string,
 		@Args('data') input: ChangeRoleInput
 	) {
 		return this.memberService.changeMemberRole(user, projectId, input)
 	}
 
-	@Authorization()
+	@UseGuards(GqlAuthGuard, ProjectGuard)
 	@RolesAccess(Role.ADMIN)
 	@Mutation(() => Boolean, { name: 'removeProjectMember' })
 	public async removeMember(
-		@Args('projectId') projectId: string,
+		@CurrentProject('id') projectId: string,
 		@Args('userId') userId: string
 	) {
 		return this.memberService.removeMember(projectId, userId)
