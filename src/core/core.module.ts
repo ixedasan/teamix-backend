@@ -12,6 +12,7 @@ import { MailModule } from '../modules/libs/mail/mail.module'
 import { StorageModule } from '../modules/libs/storage/storage.module'
 import { MemberModule } from '../modules/project/member/member.module'
 import { ProjectCoreModule } from '../modules/project/project-core/project-core.module'
+import { CommentModule } from '../modules/task/comment/comment.module'
 import { TaskAssigneeModule } from '../modules/task/task-assignee/task-assignee.module'
 import { TaskModule } from '../modules/tasks/task/task.module'
 import { ProjectMiddleware } from '../shared/middlewares/project.middleware'
@@ -44,7 +45,8 @@ import { RedisModule } from './redis/redis.module'
 		ProjectCoreModule,
 		MemberModule,
 		TaskModule,
-		TaskAssigneeModule
+		TaskAssigneeModule,
+		CommentModule
 	]
 })
 export class CoreModule implements NestModule {

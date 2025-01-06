@@ -32,6 +32,16 @@ input ChangeStatusInput {
   taskId: ID!
 }
 
+type CommentModel {
+  author: UserModel!
+  authorId: ID!
+  content: String!
+  createdAt: DateTime!
+  id: ID!
+  taskId: ID!
+  updatedAt: DateTime!
+}
+
 input CreateUserInput {
   email: String!
   password: String!
@@ -96,6 +106,7 @@ type Mutation {
   createSocialLink(data: SocialLinkInput!): Boolean!
   createTask(input: TaskInput!): TaskModel!
   createUser(data: CreateUserInput!): Boolean!
+  deleteComment(commentId: String!): Boolean!
   deleteProject: Boolean!
   deleteTask(taskId: String!): TaskModel!
   disableTotp: Boolean!
@@ -111,6 +122,7 @@ type Mutation {
   removeSocialLink(id: String!): Boolean!
   reorderSocialLink(list: [SocialLinkOrderInput!]!): Boolean!
   resetPassword(data: ResetPasswordInput!): Boolean!
+  sendComment(input: SendCommentInput!): CommentModel!
   setCurrentProject(projectId: String!): Boolean!
   unassignTask(taskId: String!, userId: String!): Boolean!
   updateProjectInfo(data: ProjectInput!): Boolean!
@@ -150,6 +162,7 @@ type ProjectModel {
 
 type Query {
   findAllTasks: [TaskModel!]!
+  findCommentsByTask(taskId: String!): [CommentModel!]!
   findCurrentSession: SessionModel!
   findProfile: UserModel!
   findProjectMembers: [MemberModel!]!
@@ -163,6 +176,11 @@ type Query {
 
 input ResetPasswordInput {
   email: String!
+}
+
+input SendCommentInput {
+  content: String!
+  taskId: ID!
 }
 
 type SessionMetadataModel {
@@ -200,6 +218,7 @@ type SocialLinksModel {
 }
 
 type Subscription {
+  commentAdded(taskId: String!): CommentModel!
   taskChanged(projectId: String!): TaskModel!
 }
 
@@ -226,6 +245,7 @@ input TaskInput {
 
 type TaskModel {
   assignees: [TaskAssigneeModel!]!
+  comments: [CommentModel!]!
   createdAt: DateTime!
   createdBy: UserModel!
   createdById: ID!

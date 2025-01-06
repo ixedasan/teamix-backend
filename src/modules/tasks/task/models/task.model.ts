@@ -2,6 +2,7 @@ import { Field, ID, ObjectType, registerEnumType } from '@nestjs/graphql'
 import { Priority, TaskStatus, type Task } from '@/prisma/generated'
 import { UserModel } from '@/src/modules/auth/account/models/user.models'
 import { ProjectModel } from '@/src/modules/project/project-core/models/project.model'
+import { CommentModel } from '@/src/modules/task/comment/models/comment.model'
 import { TaskAssigneeModel } from '@/src/modules/task/task-assignee/model/task-assignee.model'
 
 registerEnumType(TaskStatus, {
@@ -35,9 +36,12 @@ export class TaskModel implements Task {
 	@Field(() => Date, { nullable: true })
 	public dueDate: Date
 
-	// !TODO: assignees, attachments, labels, comments
+	// !TODO: attachments, labels
 	@Field(() => [TaskAssigneeModel])
 	public assignees: TaskAssigneeModel[]
+
+	@Field(() => [CommentModel])
+	public comments: CommentModel[]
 
 	@Field(() => ID)
 	public createdById: string
