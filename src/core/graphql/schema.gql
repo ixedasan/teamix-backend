@@ -89,14 +89,14 @@ type Mutation {
   changeProfileAvatar(avatar: Upload!): Boolean!
   changeProfileInfo(data: ChangeProfileInfoInput!): Boolean!
   changeProjectCover(cover: Upload!): Boolean!
-  changeTaskStatus(input: ChangeStatusInput!): Boolean!
+  changeTaskStatus(input: ChangeStatusInput!): TaskModel!
   clearSessionCookie: Boolean!
   createProject(data: ProjectInput!): Boolean!
   createSocialLink(data: SocialLinkInput!): Boolean!
   createTask(input: TaskInput!): TaskModel!
   createUser(data: CreateUserInput!): Boolean!
   deleteProject: Boolean!
-  deleteTask(taskId: String!): Boolean!
+  deleteTask(taskId: String!): TaskModel!
   disableTotp: Boolean!
   enableTotp(data: EnableTotpInput!): Boolean!
   inviteProjectMember(data: InviteMemberInput!): Boolean!

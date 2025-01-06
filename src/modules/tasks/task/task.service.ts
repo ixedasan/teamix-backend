@@ -88,19 +88,19 @@ export class TaskService {
 			throw new NotFoundException('Task not found')
 		}
 
-		await this.prismaServie.task.delete({
+		const deletedTask = await this.prismaServie.task.delete({
 			where: {
 				id: taskId
 			}
 		})
 
-		return true
+		return deletedTask
 	}
 
 	public async changeTaskStatus(input: ChangeStatusInput) {
 		const { taskId, status } = input
 
-		await this.prismaServie.task.update({
+		const task = await this.prismaServie.task.update({
 			where: {
 				id: taskId
 			},
@@ -109,6 +109,10 @@ export class TaskService {
 			}
 		})
 
-		return true
+		return task
+	}
+
+	public async findAllProjects() {
+		return this.prismaServie.project.findMany()
 	}
 }
