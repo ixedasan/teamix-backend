@@ -12,6 +12,7 @@ import { MailModule } from '../modules/libs/mail/mail.module'
 import { StorageModule } from '../modules/libs/storage/storage.module'
 import { MemberModule } from '../modules/project/member/member.module'
 import { ProjectCoreModule } from '../modules/project/project-core/project-core.module'
+import { TaskAssigneeModule } from '../modules/task/task-assignee/task-assignee.module'
 import { TaskModule } from '../modules/tasks/task/task.module'
 import { ProjectMiddleware } from '../shared/middlewares/project.middleware'
 import { getGraphQLConfig } from './config/graphql.config'
@@ -42,7 +43,8 @@ import { RedisModule } from './redis/redis.module'
 		TotpModule,
 		ProjectCoreModule,
 		MemberModule,
-		TaskModule
+		TaskModule,
+		TaskAssigneeModule
 	]
 })
 export class CoreModule implements NestModule {

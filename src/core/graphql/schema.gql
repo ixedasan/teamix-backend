@@ -83,6 +83,7 @@ type MemberModel {
 
 type Mutation {
   acceptProjectInvitation(token: String!): Boolean!
+  assignTask(taskId: String!, userId: String!): Boolean!
   changeEmail(data: ChangeEmailInput!): Boolean!
   changeMemberRole(data: ChangeRoleInput!): Boolean!
   changePassword(data: ChangePasswordInput!): Boolean!
@@ -111,6 +112,7 @@ type Mutation {
   reorderSocialLink(list: [SocialLinkOrderInput!]!): Boolean!
   resetPassword(data: ResetPasswordInput!): Boolean!
   setCurrentProject(projectId: String!): Boolean!
+  unassignTask(taskId: String!, userId: String!): Boolean!
   updateProjectInfo(data: ProjectInput!): Boolean!
   updateSocialLink(data: SocialLinkInput!, id: String!): Boolean!
   updateTask(input: TaskInput!, taskId: String!): TaskModel!
@@ -156,6 +158,7 @@ type Query {
   findTask(taskId: String!): TaskModel!
   generateTotpSecret: TotpModel!
   getAllUserProjects: [ProjectModel!]!
+  getTaskAssignees(taskId: String!): [TaskAssigneeModel!]!
 }
 
 input ResetPasswordInput {
@@ -200,6 +203,16 @@ type Subscription {
   taskChanged(projectId: String!): TaskModel!
 }
 
+type TaskAssigneeModel {
+  createdAt: DateTime!
+  id: ID!
+  task: TaskModel!
+  taskId: ID!
+  updatedAt: DateTime!
+  user: UserModel!
+  userId: ID!
+}
+
 input TaskInput {
   assigneeId: ID
   description: String
@@ -212,6 +225,7 @@ input TaskInput {
 }
 
 type TaskModel {
+  assignees: [TaskAssigneeModel!]!
   createdAt: DateTime!
   createdBy: UserModel!
   createdById: ID!

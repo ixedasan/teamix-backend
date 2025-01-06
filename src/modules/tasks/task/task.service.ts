@@ -12,6 +12,10 @@ export class TaskService {
 		return this.prismaServie.task.findFirst({
 			where: {
 				id: taskId
+			},
+			include: {
+				createdBy: true,
+				assignees: true
 			}
 		})
 	}
@@ -23,6 +27,14 @@ export class TaskService {
 			},
 			orderBy: {
 				createdAt: 'desc'
+			},
+			include: {
+				createdBy: true,
+				assignees: {
+					include: {
+						user: true
+					}
+				}
 			}
 		})
 	}
