@@ -29,6 +29,9 @@ model User {
   createdAt       DateTime       @default(now()) @map("created_at")
   updatedAt       DateTime       @updatedAt @map("updated_at")
 
+  @@index([email])
+  @@index([username])
+  @@index([createdAt])
   @@map("users")
 }
 
@@ -89,6 +92,8 @@ model Member {
   updatedAt DateTime @updatedAt @map("updated_at")
 
   @@unique([userId, projectId])
+  @@index([userId])
+  @@index([projectId])
   @@map("members")
 }
 
@@ -102,6 +107,7 @@ model Task {
   startDate   DateTime?      @map("start_date")
   dueDate     DateTime?      @map("due_date")
   assignees   TaskAssignee[]
+  attachment  Attachment[]
   comments    Comment[]
   createdById String         @map("created_by_id")
   createdBy   User           @relation(fields: [createdById], references: [id], onDelete: Cascade)
@@ -110,6 +116,10 @@ model Task {
   createdAt   DateTime       @default(now()) @map("created_at")
   updatedAt   DateTime       @updatedAt @map("updated_at")
 
+  @@index([projectId])
+  @@index([status])
+  @@index([priority])
+  @@index([createdAt])
   @@map("tasks")
 }
 
@@ -120,8 +130,11 @@ model TaskAssignee {
   userId    String
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 
   @@unique([taskId, userId])
+  @@index([userId])
+  @@index([taskId])
   @@map("task_assignees")
 }
 
@@ -135,7 +148,21 @@ model TaskLabel {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
+  @@index([projectId])
   @@map("task_labels")
+}
+
+model Attachment {
+  id        String   @id @default(uuid())
+  name      String
+  url       String
+  taskId    String
+  task      Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@index([taskId])
+  @@map("attachments")
 }
 
 model Comment {
@@ -148,6 +175,7 @@ model Comment {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
+  @@index([taskId])
   @@map("comments")
 }
 
@@ -160,6 +188,7 @@ model Document {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
+  @@index([projectId])
   @@map("documents")
 }
 
@@ -190,6 +219,7 @@ enum TaskStatus {
 }
 
 enum Priority {
+  NONE
   LOW
   MEDIUM
   HIGH
