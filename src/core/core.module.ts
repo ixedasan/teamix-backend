@@ -12,6 +12,7 @@ import { MailModule } from '../modules/libs/mail/mail.module'
 import { StorageModule } from '../modules/libs/storage/storage.module'
 import { MemberModule } from '../modules/project/member/member.module'
 import { ProjectCoreModule } from '../modules/project/project-core/project-core.module'
+import { TaskModule } from '../modules/tasks/task/task.module'
 import { ProjectMiddleware } from '../shared/middlewares/project.middleware'
 import { getGraphQLConfig } from './config/graphql.config'
 import { PrismaModule } from './prisma/prisma.module'
@@ -40,7 +41,8 @@ import { RedisModule } from './redis/redis.module'
 		PasswordRecoveryModule,
 		TotpModule,
 		ProjectCoreModule,
-		MemberModule
+		MemberModule,
+		TaskModule
 	]
 })
 export class CoreModule implements NestModule {

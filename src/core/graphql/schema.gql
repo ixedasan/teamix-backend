@@ -27,6 +27,11 @@ input ChangeRoleInput {
   userId: String!
 }
 
+input ChangeStatusInput {
+  status: TaskStatus
+  taskId: ID!
+}
+
 input CreateUserInput {
   email: String!
   password: String!
@@ -84,11 +89,14 @@ type Mutation {
   changeProfileAvatar(avatar: Upload!): Boolean!
   changeProfileInfo(data: ChangeProfileInfoInput!): Boolean!
   changeProjectCover(cover: Upload!): Boolean!
+  changeTaskStatus(input: ChangeStatusInput!): Boolean!
   clearSessionCookie: Boolean!
   createProject(data: ProjectInput!): Boolean!
   createSocialLink(data: SocialLinkInput!): Boolean!
+  createTask(input: TaskInput!): TaskModel!
   createUser(data: CreateUserInput!): Boolean!
   deleteProject: Boolean!
+  deleteTask(taskId: String!): Boolean!
   disableTotp: Boolean!
   enableTotp(data: EnableTotpInput!): Boolean!
   inviteProjectMember(data: InviteMemberInput!): Boolean!
@@ -105,6 +113,7 @@ type Mutation {
   setCurrentProject(projectId: String!): Boolean!
   updateProjectInfo(data: ProjectInput!): Boolean!
   updateSocialLink(data: SocialLinkInput!, id: String!): Boolean!
+  updateTask(input: TaskInput!, taskId: String!): TaskModel!
   verifyAccaunt(data: VerificationInput!): UserModel!
 }
 
@@ -112,6 +121,14 @@ input NewPasswordInput {
   password: String!
   passwordConfirmation: String!
   token: String!
+}
+
+enum Priority {
+  HIGH
+  LOW
+  MEDIUM
+  NONE
+  URGENT
 }
 
 input ProjectInput {
@@ -130,11 +147,13 @@ type ProjectModel {
 }
 
 type Query {
+  findAllTasks: [TaskModel!]!
   findCurrentSession: SessionModel!
   findProfile: UserModel!
   findProjectMembers: [MemberModel!]!
   findSessionsByUser: [SessionModel!]!
   findSocialLinks: [SocialLinksModel!]!
+  findTask(taskId: String!): TaskModel!
   generateTotpSecret: TotpModel!
   getAllUserProjects: [ProjectModel!]!
 }
@@ -175,6 +194,45 @@ type SocialLinksModel {
   updatedAt: DateTime!
   url: String!
   userId: String!
+}
+
+type Subscription {
+  taskChanged(projectId: String!): TaskModel!
+}
+
+input TaskInput {
+  assigneeId: ID
+  description: String
+  dueDate: DateTime
+  labelsIds: [ID!]
+  priority: Priority!
+  startDate: DateTime
+  status: TaskStatus!
+  title: String!
+}
+
+type TaskModel {
+  createdAt: DateTime!
+  createdBy: UserModel!
+  createdById: ID!
+  description: String
+  dueDate: DateTime
+  id: ID!
+  priority: Priority!
+  project: ProjectModel!
+  projectId: ID!
+  startDate: DateTime
+  status: TaskStatus!
+  title: String!
+  updatedAt: DateTime!
+}
+
+enum TaskStatus {
+  BACKLOG
+  CANCELLED
+  DONE
+  IN_PROGRESS
+  TODO
 }
 
 type TotpModel {
