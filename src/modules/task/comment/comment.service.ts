@@ -1,4 +1,9 @@
-import { Injectable, NotFoundException } from '@nestjs/common'
+import {
+	BadRequestException,
+	Injectable,
+	NotFoundException
+} from '@nestjs/common'
+import { Role } from '@/prisma/generated'
 import { PrismaService } from '@/src/core/prisma/prisma.service'
 import { SendCommentInput } from './inputs/send-comment.input'
 
@@ -69,23 +74,32 @@ export class CommentService {
 
 	public async deleteComment(userId: string, commentId: string) {
 		const comment = await this.prismaService.comment.findUnique({
-			where: {
-				id: commentId
-			}
+			where: { id: commentId },
+			include: { task: true }
 		})
 
 		if (!comment) {
 			throw new NotFoundException('Comment not found')
 		}
 
-		if (comment.authorId !== userId) {
-			throw new NotFoundException('You can delete only your comments')
+		const membership = await this.prismaService.member.findUnique({
+			where: {
+				userId_projectId: {
+					userId: userId,
+					projectId: comment.task.projectId
+				}
+			}
+		})
+
+		const isAdmin = membership?.role === Role.ADMIN
+		const isAuthor = comment.authorId === userId
+
+		if (!isAdmin && !isAuthor) {
+			throw new BadRequestException('You can only delete your own comments')
 		}
 
 		await this.prismaService.comment.delete({
-			where: {
-				id: commentId
-			}
+			where: { id: commentId }
 		})
 
 		return true

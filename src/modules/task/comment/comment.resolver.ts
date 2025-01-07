@@ -1,7 +1,9 @@
 import { UseGuards } from '@nestjs/common'
 import { Args, Mutation, Query, Resolver, Subscription } from '@nestjs/graphql'
 import { PubSub } from 'graphql-subscriptions'
+import { Role } from '@/prisma/generated'
 import { Authorized } from '@/src/shared/decorators/authorized.decorator'
+import { RolesAccess } from '@/src/shared/decorators/role-access.decorator'
 import { GqlAuthGuard } from '@/src/shared/guards/gql-auth.guard'
 import { ProjectGuard } from '@/src/shared/guards/project.guard'
 import { CommentService } from './comment.service'
@@ -23,6 +25,7 @@ export class CommentResolver {
 	}
 
 	@UseGuards(GqlAuthGuard, ProjectGuard)
+	@RolesAccess(Role.ADMIN, Role.MEMBER)
 	@Mutation(() => CommentModel, { name: 'sendComment' })
 	public async sendComment(
 		@Authorized('id') userId: string,

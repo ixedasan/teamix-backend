@@ -1,7 +1,7 @@
 import { Field, ID, ObjectType } from '@nestjs/graphql'
 import { TaskAssignee } from '@/prisma/generated'
 import { UserModel } from '../../../auth/account/models/user.models'
-import { TaskModel } from '../../../tasks/task/models/task.model'
+import { TaskModel } from '../../task/models/task.model'
 
 @ObjectType()
 export class TaskAssigneeModel implements TaskAssignee {
