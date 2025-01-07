@@ -42,6 +42,11 @@ type CommentModel {
   updatedAt: DateTime!
 }
 
+input CreateLabelInput {
+  color: String!
+  name: String!
+}
+
 input CreateUserInput {
   email: String!
   password: String!
@@ -93,6 +98,7 @@ type MemberModel {
 
 type Mutation {
   acceptProjectInvitation(token: String!): Boolean!
+  addLabelToTask(labelId: String!, taskId: String!): Boolean!
   assignTask(taskId: String!, userId: String!): Boolean!
   changeEmail(data: ChangeEmailInput!): Boolean!
   changeMemberRole(data: ChangeRoleInput!): Boolean!
@@ -105,16 +111,19 @@ type Mutation {
   createProject(data: ProjectInput!): Boolean!
   createSocialLink(data: SocialLinkInput!): Boolean!
   createTask(input: TaskInput!): TaskModel!
+  createTaskLabel(input: CreateLabelInput!): Boolean!
   createUser(data: CreateUserInput!): Boolean!
   deleteComment(commentId: String!): Boolean!
   deleteProject: Boolean!
   deleteTask(taskId: String!): TaskModel!
+  deleteTaskLabel(labelId: String!): Boolean!
   disableTotp: Boolean!
   enableTotp(data: EnableTotpInput!): Boolean!
   inviteProjectMember(data: InviteMemberInput!): Boolean!
   loginUser(data: LoginInput!): AuthModel!
   logoutUser: Boolean!
   newPassword(data: NewPasswordInput!): Boolean!
+  removeLabelFromTask(labelId: String!, taskId: String!): Boolean!
   removeProfileAvatar: Boolean!
   removeProjectCover: Boolean!
   removeProjectMember(userId: String!): Boolean!
@@ -169,6 +178,8 @@ type Query {
   findSessionsByUser: [SessionModel!]!
   findSocialLinks: [SocialLinksModel!]!
   findTask(taskId: String!): TaskModel!
+  findTaskLabelsByProject: [TaskLabelModel!]!
+  findTaskLabelsByTask(taskId: String!): [TaskLabelModel!]!
   generateTotpSecret: TotpModel!
   getAllUserProjects: [ProjectModel!]!
   getTaskAssignees(taskId: String!): [TaskAssigneeModel!]!
@@ -243,6 +254,15 @@ input TaskInput {
   title: String!
 }
 
+type TaskLabelModel {
+  color: String!
+  createdAt: DateTime!
+  id: ID!
+  name: String!
+  projectId: ID!
+  updatedAt: DateTime!
+}
+
 type TaskModel {
   assignees: [TaskAssigneeModel!]!
   comments: [CommentModel!]!
@@ -252,6 +272,7 @@ type TaskModel {
   description: String
   dueDate: DateTime
   id: ID!
+  labels: [TaskLabelModel!]!
   priority: Priority!
   project: ProjectModel!
   projectId: ID!

@@ -14,6 +14,7 @@ import { MemberModule } from '../modules/project/member/member.module'
 import { ProjectCoreModule } from '../modules/project/project-core/project-core.module'
 import { CommentModule } from '../modules/task/comment/comment.module'
 import { TaskAssigneeModule } from '../modules/task/task-assignee/task-assignee.module'
+import { TaskLabelsModule } from '../modules/task/task-labels/task-labels.module'
 import { TaskModule } from '../modules/task/task/task.module'
 import { ProjectMiddleware } from '../shared/middlewares/project.middleware'
 import { getGraphQLConfig } from './config/graphql.config'
@@ -46,6 +47,7 @@ import { RedisModule } from './redis/redis.module'
 		MemberModule,
 		TaskModule,
 		TaskAssigneeModule,
+		TaskLabelsModule,
 		CommentModule
 	]
 })
