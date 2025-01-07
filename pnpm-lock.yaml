@@ -83,6 +83,9 @@ importers:
       graphql-subscriptions:
         specifier: ^3.0.0
         version: 3.0.0(graphql@16.10.0)
+      graphql-type-json:
+        specifier: ^0.3.2
+        version: 0.3.2(graphql@16.10.0)
       graphql-upload:
         specifier: '14'
         version: 14.0.0(@types/express@5.0.0)(graphql@16.10.0)
@@ -2929,6 +2932,11 @@ packages:
     engines: {node: '>=10'}
     peerDependencies:
       graphql: ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0
+
+  graphql-type-json@0.3.2:
+    resolution: {integrity: sha512-J+vjof74oMlCWXSvt0DOf2APEdZOCdubEvGDUAlqH//VBYcOYsGgRW7Xzorr44LvkjiuvecWc8fChxuZZbChtg==}
+    peerDependencies:
+      graphql: '>=0.8.0'
 
   graphql-upload@14.0.0:
     resolution: {integrity: sha512-l3utaN0p/VLUFFrUAijwEfmsSxEolVri5uuD91yhbOkxRD6q5l0rsy1F4Naq4TKWFSKsGciCjyrc1ZhCT2Ew7A==}
@@ -8433,6 +8441,10 @@ snapshots:
     dependencies:
       graphql: 16.10.0
       tslib: 2.8.1
+
+  graphql-type-json@0.3.2(graphql@16.10.0):
+    dependencies:
+      graphql: 16.10.0
 
   graphql-upload@14.0.0(@types/express@5.0.0)(graphql@16.10.0):
     dependencies:

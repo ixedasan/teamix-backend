@@ -7,6 +7,11 @@ type AuthModel {
   user: UserModel
 }
 
+input ChangeDocumentInput {
+  content: JSON
+  title: String
+}
+
 input ChangeEmailInput {
   email: String!
 }
@@ -42,6 +47,10 @@ type CommentModel {
   updatedAt: DateTime!
 }
 
+input CreateDocumentInput {
+  title: String!
+}
+
 input CreateLabelInput {
   color: String!
   name: String!
@@ -64,6 +73,15 @@ type DeviceModel {
   type: String!
 }
 
+type DocumentModel {
+  content: JSON!
+  createdAt: DateTime!
+  id: ID!
+  projectId: String!
+  title: String!
+  updatedAt: DateTime!
+}
+
 input EnableTotpInput {
   pin: String!
   secret: String!
@@ -73,6 +91,11 @@ input InviteMemberInput {
   email: String!
   role: String!
 }
+
+"""
+The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
+"""
+scalar JSON
 
 type LocationModel {
   city: String!
@@ -100,6 +123,7 @@ type Mutation {
   acceptProjectInvitation(token: String!): Boolean!
   addLabelToTask(labelId: String!, taskId: String!): Boolean!
   assignTask(taskId: String!, userId: String!): Boolean!
+  changeDocument(documentId: String!, input: ChangeDocumentInput!): DocumentModel!
   changeEmail(data: ChangeEmailInput!): Boolean!
   changeMemberRole(data: ChangeRoleInput!): Boolean!
   changePassword(data: ChangePasswordInput!): Boolean!
@@ -108,12 +132,14 @@ type Mutation {
   changeProjectCover(cover: Upload!): Boolean!
   changeTaskStatus(input: ChangeStatusInput!): TaskModel!
   clearSessionCookie: Boolean!
+  createDocument(data: CreateDocumentInput!): Boolean!
   createProject(data: ProjectInput!): Boolean!
   createSocialLink(data: SocialLinkInput!): Boolean!
   createTask(input: TaskInput!): TaskModel!
   createTaskLabel(input: CreateLabelInput!): Boolean!
   createUser(data: CreateUserInput!): Boolean!
   deleteComment(commentId: String!): Boolean!
+  deleteDocument(documentId: String!): Boolean!
   deleteProject: Boolean!
   deleteTask(taskId: String!): TaskModel!
   deleteTaskLabel(labelId: String!): Boolean!
@@ -173,6 +199,8 @@ type Query {
   findAllTasks: [TaskModel!]!
   findCommentsByTask(taskId: String!): [CommentModel!]!
   findCurrentSession: SessionModel!
+  findDocument(documentId: String!): DocumentModel!
+  findDocumentsByProject: [DocumentModel!]!
   findProfile: UserModel!
   findProjectMembers: [MemberModel!]!
   findSessionsByUser: [SessionModel!]!
@@ -230,6 +258,7 @@ type SocialLinksModel {
 
 type Subscription {
   commentAdded(taskId: String!): CommentModel!
+  documentUpdated(projectId: String!): DocumentModel!
   taskChanged(projectId: String!): TaskModel!
 }
 
