@@ -207,7 +207,18 @@ exports.Prisma.TaskLabelScalarFieldEnum = {
 
 exports.Prisma.AttachmentScalarFieldEnum = {
   id: 'id',
-  name: 'name',
+  filename: 'filename',
+  filepath: 'filepath',
+  mimeType: 'mimeType',
+  size: 'size',
+  taskId: 'taskId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.LinkScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
   url: 'url',
   taskId: 'taskId',
   createdAt: 'createdAt',
@@ -295,6 +306,7 @@ exports.Prisma.ModelName = {
   TaskAssignee: 'TaskAssignee',
   TaskLabel: 'TaskLabel',
   Attachment: 'Attachment',
+  Link: 'Link',
   Comment: 'Comment',
   Document: 'Document'
 };

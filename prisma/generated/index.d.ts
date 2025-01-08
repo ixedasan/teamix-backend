@@ -59,6 +59,11 @@ export type TaskLabel = $Result.DefaultSelection<Prisma.$TaskLabelPayload>
  */
 export type Attachment = $Result.DefaultSelection<Prisma.$AttachmentPayload>
 /**
+ * Model Link
+ * 
+ */
+export type Link = $Result.DefaultSelection<Prisma.$LinkPayload>
+/**
  * Model Comment
  * 
  */
@@ -342,6 +347,16 @@ export class PrismaClient<
     * ```
     */
   get attachment(): Prisma.AttachmentDelegate<ExtArgs>;
+
+  /**
+   * `prisma.link`: Exposes CRUD operations for the **Link** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Links
+    * const links = await prisma.link.findMany()
+    * ```
+    */
+  get link(): Prisma.LinkDelegate<ExtArgs>;
 
   /**
    * `prisma.comment`: Exposes CRUD operations for the **Comment** model.
@@ -811,6 +826,7 @@ export namespace Prisma {
     TaskAssignee: 'TaskAssignee',
     TaskLabel: 'TaskLabel',
     Attachment: 'Attachment',
+    Link: 'Link',
     Comment: 'Comment',
     Document: 'Document'
   };
@@ -828,7 +844,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, ClientOptions = {}> = {
     meta: {
-      modelProps: "user" | "socialLink" | "token" | "project" | "member" | "task" | "taskAssignee" | "taskLabel" | "attachment" | "comment" | "document"
+      modelProps: "user" | "socialLink" | "token" | "project" | "member" | "task" | "taskAssignee" | "taskLabel" | "attachment" | "link" | "comment" | "document"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1462,6 +1478,76 @@ export namespace Prisma {
           }
         }
       }
+      Link: {
+        payload: Prisma.$LinkPayload<ExtArgs>
+        fields: Prisma.LinkFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.LinkFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LinkPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.LinkFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LinkPayload>
+          }
+          findFirst: {
+            args: Prisma.LinkFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LinkPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.LinkFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LinkPayload>
+          }
+          findMany: {
+            args: Prisma.LinkFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LinkPayload>[]
+          }
+          create: {
+            args: Prisma.LinkCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LinkPayload>
+          }
+          createMany: {
+            args: Prisma.LinkCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.LinkCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LinkPayload>[]
+          }
+          delete: {
+            args: Prisma.LinkDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LinkPayload>
+          }
+          update: {
+            args: Prisma.LinkUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LinkPayload>
+          }
+          deleteMany: {
+            args: Prisma.LinkDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.LinkUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.LinkUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LinkPayload>
+          }
+          aggregate: {
+            args: Prisma.LinkAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateLink>
+          }
+          groupBy: {
+            args: Prisma.LinkGroupByArgs<ExtArgs>
+            result: $Utils.Optional<LinkGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.LinkCountArgs<ExtArgs>
+            result: $Utils.Optional<LinkCountAggregateOutputType> | number
+          }
+        }
+      }
       Comment: {
         payload: Prisma.$CommentPayload<ExtArgs>
         fields: Prisma.CommentFieldRefs
@@ -1908,14 +1994,16 @@ export namespace Prisma {
   export type TaskCountOutputType = {
     labels: number
     assignees: number
-    attachment: number
+    attachments: number
+    links: number
     comments: number
   }
 
   export type TaskCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     labels?: boolean | TaskCountOutputTypeCountLabelsArgs
     assignees?: boolean | TaskCountOutputTypeCountAssigneesArgs
-    attachment?: boolean | TaskCountOutputTypeCountAttachmentArgs
+    attachments?: boolean | TaskCountOutputTypeCountAttachmentsArgs
+    links?: boolean | TaskCountOutputTypeCountLinksArgs
     comments?: boolean | TaskCountOutputTypeCountCommentsArgs
   }
 
@@ -1947,8 +2035,15 @@ export namespace Prisma {
   /**
    * TaskCountOutputType without action
    */
-  export type TaskCountOutputTypeCountAttachmentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type TaskCountOutputTypeCountAttachmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: AttachmentWhereInput
+  }
+
+  /**
+   * TaskCountOutputType without action
+   */
+  export type TaskCountOutputTypeCountLinksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: LinkWhereInput
   }
 
   /**
@@ -7399,7 +7494,8 @@ export namespace Prisma {
     updatedAt?: boolean
     labels?: boolean | Task$labelsArgs<ExtArgs>
     assignees?: boolean | Task$assigneesArgs<ExtArgs>
-    attachment?: boolean | Task$attachmentArgs<ExtArgs>
+    attachments?: boolean | Task$attachmentsArgs<ExtArgs>
+    links?: boolean | Task$linksArgs<ExtArgs>
     comments?: boolean | Task$commentsArgs<ExtArgs>
     createdBy?: boolean | UserDefaultArgs<ExtArgs>
     project?: boolean | ProjectDefaultArgs<ExtArgs>
@@ -7439,7 +7535,8 @@ export namespace Prisma {
   export type TaskInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     labels?: boolean | Task$labelsArgs<ExtArgs>
     assignees?: boolean | Task$assigneesArgs<ExtArgs>
-    attachment?: boolean | Task$attachmentArgs<ExtArgs>
+    attachments?: boolean | Task$attachmentsArgs<ExtArgs>
+    links?: boolean | Task$linksArgs<ExtArgs>
     comments?: boolean | Task$commentsArgs<ExtArgs>
     createdBy?: boolean | UserDefaultArgs<ExtArgs>
     project?: boolean | ProjectDefaultArgs<ExtArgs>
@@ -7455,7 +7552,8 @@ export namespace Prisma {
     objects: {
       labels: Prisma.$TaskLabelPayload<ExtArgs>[]
       assignees: Prisma.$TaskAssigneePayload<ExtArgs>[]
-      attachment: Prisma.$AttachmentPayload<ExtArgs>[]
+      attachments: Prisma.$AttachmentPayload<ExtArgs>[]
+      links: Prisma.$LinkPayload<ExtArgs>[]
       comments: Prisma.$CommentPayload<ExtArgs>[]
       createdBy: Prisma.$UserPayload<ExtArgs>
       project: Prisma.$ProjectPayload<ExtArgs>
@@ -7838,7 +7936,8 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     labels<T extends Task$labelsArgs<ExtArgs> = {}>(args?: Subset<T, Task$labelsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TaskLabelPayload<ExtArgs>, T, "findMany"> | Null>
     assignees<T extends Task$assigneesArgs<ExtArgs> = {}>(args?: Subset<T, Task$assigneesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TaskAssigneePayload<ExtArgs>, T, "findMany"> | Null>
-    attachment<T extends Task$attachmentArgs<ExtArgs> = {}>(args?: Subset<T, Task$attachmentArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AttachmentPayload<ExtArgs>, T, "findMany"> | Null>
+    attachments<T extends Task$attachmentsArgs<ExtArgs> = {}>(args?: Subset<T, Task$attachmentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AttachmentPayload<ExtArgs>, T, "findMany"> | Null>
+    links<T extends Task$linksArgs<ExtArgs> = {}>(args?: Subset<T, Task$linksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LinkPayload<ExtArgs>, T, "findMany"> | Null>
     comments<T extends Task$commentsArgs<ExtArgs> = {}>(args?: Subset<T, Task$commentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CommentPayload<ExtArgs>, T, "findMany"> | Null>
     createdBy<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
     project<T extends ProjectDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ProjectDefaultArgs<ExtArgs>>): Prisma__ProjectClient<$Result.GetResult<Prisma.$ProjectPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
@@ -8240,9 +8339,9 @@ export namespace Prisma {
   }
 
   /**
-   * Task.attachment
+   * Task.attachments
    */
-  export type Task$attachmentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Task$attachmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Attachment
      */
@@ -8257,6 +8356,26 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: AttachmentScalarFieldEnum | AttachmentScalarFieldEnum[]
+  }
+
+  /**
+   * Task.links
+   */
+  export type Task$linksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Link
+     */
+    select?: LinkSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LinkInclude<ExtArgs> | null
+    where?: LinkWhereInput
+    orderBy?: LinkOrderByWithRelationInput | LinkOrderByWithRelationInput[]
+    cursor?: LinkWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: LinkScalarFieldEnum | LinkScalarFieldEnum[]
   }
 
   /**
@@ -10210,14 +10329,26 @@ export namespace Prisma {
 
   export type AggregateAttachment = {
     _count: AttachmentCountAggregateOutputType | null
+    _avg: AttachmentAvgAggregateOutputType | null
+    _sum: AttachmentSumAggregateOutputType | null
     _min: AttachmentMinAggregateOutputType | null
     _max: AttachmentMaxAggregateOutputType | null
   }
 
+  export type AttachmentAvgAggregateOutputType = {
+    size: number | null
+  }
+
+  export type AttachmentSumAggregateOutputType = {
+    size: number | null
+  }
+
   export type AttachmentMinAggregateOutputType = {
     id: string | null
-    name: string | null
-    url: string | null
+    filename: string | null
+    filepath: string | null
+    mimeType: string | null
+    size: number | null
     taskId: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -10225,8 +10356,10 @@ export namespace Prisma {
 
   export type AttachmentMaxAggregateOutputType = {
     id: string | null
-    name: string | null
-    url: string | null
+    filename: string | null
+    filepath: string | null
+    mimeType: string | null
+    size: number | null
     taskId: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -10234,8 +10367,10 @@ export namespace Prisma {
 
   export type AttachmentCountAggregateOutputType = {
     id: number
-    name: number
-    url: number
+    filename: number
+    filepath: number
+    mimeType: number
+    size: number
     taskId: number
     createdAt: number
     updatedAt: number
@@ -10243,10 +10378,20 @@ export namespace Prisma {
   }
 
 
+  export type AttachmentAvgAggregateInputType = {
+    size?: true
+  }
+
+  export type AttachmentSumAggregateInputType = {
+    size?: true
+  }
+
   export type AttachmentMinAggregateInputType = {
     id?: true
-    name?: true
-    url?: true
+    filename?: true
+    filepath?: true
+    mimeType?: true
+    size?: true
     taskId?: true
     createdAt?: true
     updatedAt?: true
@@ -10254,8 +10399,10 @@ export namespace Prisma {
 
   export type AttachmentMaxAggregateInputType = {
     id?: true
-    name?: true
-    url?: true
+    filename?: true
+    filepath?: true
+    mimeType?: true
+    size?: true
     taskId?: true
     createdAt?: true
     updatedAt?: true
@@ -10263,8 +10410,10 @@ export namespace Prisma {
 
   export type AttachmentCountAggregateInputType = {
     id?: true
-    name?: true
-    url?: true
+    filename?: true
+    filepath?: true
+    mimeType?: true
+    size?: true
     taskId?: true
     createdAt?: true
     updatedAt?: true
@@ -10309,6 +10458,18 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
+     * Select which fields to average
+    **/
+    _avg?: AttachmentAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: AttachmentSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
      * Select which fields to find the minimum value
     **/
     _min?: AttachmentMinAggregateInputType
@@ -10339,18 +10500,24 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: AttachmentCountAggregateInputType | true
+    _avg?: AttachmentAvgAggregateInputType
+    _sum?: AttachmentSumAggregateInputType
     _min?: AttachmentMinAggregateInputType
     _max?: AttachmentMaxAggregateInputType
   }
 
   export type AttachmentGroupByOutputType = {
     id: string
-    name: string
-    url: string
+    filename: string
+    filepath: string
+    mimeType: string
+    size: number
     taskId: string
     createdAt: Date
     updatedAt: Date
     _count: AttachmentCountAggregateOutputType | null
+    _avg: AttachmentAvgAggregateOutputType | null
+    _sum: AttachmentSumAggregateOutputType | null
     _min: AttachmentMinAggregateOutputType | null
     _max: AttachmentMaxAggregateOutputType | null
   }
@@ -10371,8 +10538,10 @@ export namespace Prisma {
 
   export type AttachmentSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    name?: boolean
-    url?: boolean
+    filename?: boolean
+    filepath?: boolean
+    mimeType?: boolean
+    size?: boolean
     taskId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -10381,8 +10550,10 @@ export namespace Prisma {
 
   export type AttachmentSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    name?: boolean
-    url?: boolean
+    filename?: boolean
+    filepath?: boolean
+    mimeType?: boolean
+    size?: boolean
     taskId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -10391,8 +10562,10 @@ export namespace Prisma {
 
   export type AttachmentSelectScalar = {
     id?: boolean
-    name?: boolean
-    url?: boolean
+    filename?: boolean
+    filepath?: boolean
+    mimeType?: boolean
+    size?: boolean
     taskId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -10412,8 +10585,10 @@ export namespace Prisma {
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
-      name: string
-      url: string
+      filename: string
+      filepath: string
+      mimeType: string
+      size: number
       taskId: string
       createdAt: Date
       updatedAt: Date
@@ -10812,8 +10987,10 @@ export namespace Prisma {
    */ 
   interface AttachmentFieldRefs {
     readonly id: FieldRef<"Attachment", 'String'>
-    readonly name: FieldRef<"Attachment", 'String'>
-    readonly url: FieldRef<"Attachment", 'String'>
+    readonly filename: FieldRef<"Attachment", 'String'>
+    readonly filepath: FieldRef<"Attachment", 'String'>
+    readonly mimeType: FieldRef<"Attachment", 'String'>
+    readonly size: FieldRef<"Attachment", 'Int'>
     readonly taskId: FieldRef<"Attachment", 'String'>
     readonly createdAt: FieldRef<"Attachment", 'DateTime'>
     readonly updatedAt: FieldRef<"Attachment", 'DateTime'>
@@ -11146,6 +11323,951 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: AttachmentInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Link
+   */
+
+  export type AggregateLink = {
+    _count: LinkCountAggregateOutputType | null
+    _min: LinkMinAggregateOutputType | null
+    _max: LinkMaxAggregateOutputType | null
+  }
+
+  export type LinkMinAggregateOutputType = {
+    id: string | null
+    title: string | null
+    url: string | null
+    taskId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type LinkMaxAggregateOutputType = {
+    id: string | null
+    title: string | null
+    url: string | null
+    taskId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type LinkCountAggregateOutputType = {
+    id: number
+    title: number
+    url: number
+    taskId: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type LinkMinAggregateInputType = {
+    id?: true
+    title?: true
+    url?: true
+    taskId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type LinkMaxAggregateInputType = {
+    id?: true
+    title?: true
+    url?: true
+    taskId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type LinkCountAggregateInputType = {
+    id?: true
+    title?: true
+    url?: true
+    taskId?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type LinkAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Link to aggregate.
+     */
+    where?: LinkWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Links to fetch.
+     */
+    orderBy?: LinkOrderByWithRelationInput | LinkOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: LinkWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Links from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Links.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Links
+    **/
+    _count?: true | LinkCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: LinkMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: LinkMaxAggregateInputType
+  }
+
+  export type GetLinkAggregateType<T extends LinkAggregateArgs> = {
+        [P in keyof T & keyof AggregateLink]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateLink[P]>
+      : GetScalarType<T[P], AggregateLink[P]>
+  }
+
+
+
+
+  export type LinkGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: LinkWhereInput
+    orderBy?: LinkOrderByWithAggregationInput | LinkOrderByWithAggregationInput[]
+    by: LinkScalarFieldEnum[] | LinkScalarFieldEnum
+    having?: LinkScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: LinkCountAggregateInputType | true
+    _min?: LinkMinAggregateInputType
+    _max?: LinkMaxAggregateInputType
+  }
+
+  export type LinkGroupByOutputType = {
+    id: string
+    title: string
+    url: string
+    taskId: string
+    createdAt: Date
+    updatedAt: Date
+    _count: LinkCountAggregateOutputType | null
+    _min: LinkMinAggregateOutputType | null
+    _max: LinkMaxAggregateOutputType | null
+  }
+
+  type GetLinkGroupByPayload<T extends LinkGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<LinkGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof LinkGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], LinkGroupByOutputType[P]>
+            : GetScalarType<T[P], LinkGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type LinkSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    url?: boolean
+    taskId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    task?: boolean | TaskDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["link"]>
+
+  export type LinkSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    url?: boolean
+    taskId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    task?: boolean | TaskDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["link"]>
+
+  export type LinkSelectScalar = {
+    id?: boolean
+    title?: boolean
+    url?: boolean
+    taskId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type LinkInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    task?: boolean | TaskDefaultArgs<ExtArgs>
+  }
+  export type LinkIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    task?: boolean | TaskDefaultArgs<ExtArgs>
+  }
+
+  export type $LinkPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Link"
+    objects: {
+      task: Prisma.$TaskPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      title: string
+      url: string
+      taskId: string
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["link"]>
+    composites: {}
+  }
+
+  type LinkGetPayload<S extends boolean | null | undefined | LinkDefaultArgs> = $Result.GetResult<Prisma.$LinkPayload, S>
+
+  type LinkCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<LinkFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: LinkCountAggregateInputType | true
+    }
+
+  export interface LinkDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Link'], meta: { name: 'Link' } }
+    /**
+     * Find zero or one Link that matches the filter.
+     * @param {LinkFindUniqueArgs} args - Arguments to find a Link
+     * @example
+     * // Get one Link
+     * const link = await prisma.link.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends LinkFindUniqueArgs>(args: SelectSubset<T, LinkFindUniqueArgs<ExtArgs>>): Prisma__LinkClient<$Result.GetResult<Prisma.$LinkPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one Link that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {LinkFindUniqueOrThrowArgs} args - Arguments to find a Link
+     * @example
+     * // Get one Link
+     * const link = await prisma.link.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends LinkFindUniqueOrThrowArgs>(args: SelectSubset<T, LinkFindUniqueOrThrowArgs<ExtArgs>>): Prisma__LinkClient<$Result.GetResult<Prisma.$LinkPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first Link that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LinkFindFirstArgs} args - Arguments to find a Link
+     * @example
+     * // Get one Link
+     * const link = await prisma.link.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends LinkFindFirstArgs>(args?: SelectSubset<T, LinkFindFirstArgs<ExtArgs>>): Prisma__LinkClient<$Result.GetResult<Prisma.$LinkPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first Link that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LinkFindFirstOrThrowArgs} args - Arguments to find a Link
+     * @example
+     * // Get one Link
+     * const link = await prisma.link.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends LinkFindFirstOrThrowArgs>(args?: SelectSubset<T, LinkFindFirstOrThrowArgs<ExtArgs>>): Prisma__LinkClient<$Result.GetResult<Prisma.$LinkPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more Links that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LinkFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Links
+     * const links = await prisma.link.findMany()
+     * 
+     * // Get first 10 Links
+     * const links = await prisma.link.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const linkWithIdOnly = await prisma.link.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends LinkFindManyArgs>(args?: SelectSubset<T, LinkFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LinkPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a Link.
+     * @param {LinkCreateArgs} args - Arguments to create a Link.
+     * @example
+     * // Create one Link
+     * const Link = await prisma.link.create({
+     *   data: {
+     *     // ... data to create a Link
+     *   }
+     * })
+     * 
+     */
+    create<T extends LinkCreateArgs>(args: SelectSubset<T, LinkCreateArgs<ExtArgs>>): Prisma__LinkClient<$Result.GetResult<Prisma.$LinkPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many Links.
+     * @param {LinkCreateManyArgs} args - Arguments to create many Links.
+     * @example
+     * // Create many Links
+     * const link = await prisma.link.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends LinkCreateManyArgs>(args?: SelectSubset<T, LinkCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Links and returns the data saved in the database.
+     * @param {LinkCreateManyAndReturnArgs} args - Arguments to create many Links.
+     * @example
+     * // Create many Links
+     * const link = await prisma.link.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Links and only return the `id`
+     * const linkWithIdOnly = await prisma.link.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends LinkCreateManyAndReturnArgs>(args?: SelectSubset<T, LinkCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LinkPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a Link.
+     * @param {LinkDeleteArgs} args - Arguments to delete one Link.
+     * @example
+     * // Delete one Link
+     * const Link = await prisma.link.delete({
+     *   where: {
+     *     // ... filter to delete one Link
+     *   }
+     * })
+     * 
+     */
+    delete<T extends LinkDeleteArgs>(args: SelectSubset<T, LinkDeleteArgs<ExtArgs>>): Prisma__LinkClient<$Result.GetResult<Prisma.$LinkPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one Link.
+     * @param {LinkUpdateArgs} args - Arguments to update one Link.
+     * @example
+     * // Update one Link
+     * const link = await prisma.link.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends LinkUpdateArgs>(args: SelectSubset<T, LinkUpdateArgs<ExtArgs>>): Prisma__LinkClient<$Result.GetResult<Prisma.$LinkPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more Links.
+     * @param {LinkDeleteManyArgs} args - Arguments to filter Links to delete.
+     * @example
+     * // Delete a few Links
+     * const { count } = await prisma.link.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends LinkDeleteManyArgs>(args?: SelectSubset<T, LinkDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Links.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LinkUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Links
+     * const link = await prisma.link.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends LinkUpdateManyArgs>(args: SelectSubset<T, LinkUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Link.
+     * @param {LinkUpsertArgs} args - Arguments to update or create a Link.
+     * @example
+     * // Update or create a Link
+     * const link = await prisma.link.upsert({
+     *   create: {
+     *     // ... data to create a Link
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Link we want to update
+     *   }
+     * })
+     */
+    upsert<T extends LinkUpsertArgs>(args: SelectSubset<T, LinkUpsertArgs<ExtArgs>>): Prisma__LinkClient<$Result.GetResult<Prisma.$LinkPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of Links.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LinkCountArgs} args - Arguments to filter Links to count.
+     * @example
+     * // Count the number of Links
+     * const count = await prisma.link.count({
+     *   where: {
+     *     // ... the filter for the Links we want to count
+     *   }
+     * })
+    **/
+    count<T extends LinkCountArgs>(
+      args?: Subset<T, LinkCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], LinkCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Link.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LinkAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends LinkAggregateArgs>(args: Subset<T, LinkAggregateArgs>): Prisma.PrismaPromise<GetLinkAggregateType<T>>
+
+    /**
+     * Group by Link.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LinkGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends LinkGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: LinkGroupByArgs['orderBy'] }
+        : { orderBy?: LinkGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, LinkGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetLinkGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Link model
+   */
+  readonly fields: LinkFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Link.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__LinkClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    task<T extends TaskDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TaskDefaultArgs<ExtArgs>>): Prisma__TaskClient<$Result.GetResult<Prisma.$TaskPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Link model
+   */ 
+  interface LinkFieldRefs {
+    readonly id: FieldRef<"Link", 'String'>
+    readonly title: FieldRef<"Link", 'String'>
+    readonly url: FieldRef<"Link", 'String'>
+    readonly taskId: FieldRef<"Link", 'String'>
+    readonly createdAt: FieldRef<"Link", 'DateTime'>
+    readonly updatedAt: FieldRef<"Link", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Link findUnique
+   */
+  export type LinkFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Link
+     */
+    select?: LinkSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LinkInclude<ExtArgs> | null
+    /**
+     * Filter, which Link to fetch.
+     */
+    where: LinkWhereUniqueInput
+  }
+
+  /**
+   * Link findUniqueOrThrow
+   */
+  export type LinkFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Link
+     */
+    select?: LinkSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LinkInclude<ExtArgs> | null
+    /**
+     * Filter, which Link to fetch.
+     */
+    where: LinkWhereUniqueInput
+  }
+
+  /**
+   * Link findFirst
+   */
+  export type LinkFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Link
+     */
+    select?: LinkSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LinkInclude<ExtArgs> | null
+    /**
+     * Filter, which Link to fetch.
+     */
+    where?: LinkWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Links to fetch.
+     */
+    orderBy?: LinkOrderByWithRelationInput | LinkOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Links.
+     */
+    cursor?: LinkWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Links from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Links.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Links.
+     */
+    distinct?: LinkScalarFieldEnum | LinkScalarFieldEnum[]
+  }
+
+  /**
+   * Link findFirstOrThrow
+   */
+  export type LinkFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Link
+     */
+    select?: LinkSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LinkInclude<ExtArgs> | null
+    /**
+     * Filter, which Link to fetch.
+     */
+    where?: LinkWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Links to fetch.
+     */
+    orderBy?: LinkOrderByWithRelationInput | LinkOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Links.
+     */
+    cursor?: LinkWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Links from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Links.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Links.
+     */
+    distinct?: LinkScalarFieldEnum | LinkScalarFieldEnum[]
+  }
+
+  /**
+   * Link findMany
+   */
+  export type LinkFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Link
+     */
+    select?: LinkSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LinkInclude<ExtArgs> | null
+    /**
+     * Filter, which Links to fetch.
+     */
+    where?: LinkWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Links to fetch.
+     */
+    orderBy?: LinkOrderByWithRelationInput | LinkOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Links.
+     */
+    cursor?: LinkWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Links from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Links.
+     */
+    skip?: number
+    distinct?: LinkScalarFieldEnum | LinkScalarFieldEnum[]
+  }
+
+  /**
+   * Link create
+   */
+  export type LinkCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Link
+     */
+    select?: LinkSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LinkInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Link.
+     */
+    data: XOR<LinkCreateInput, LinkUncheckedCreateInput>
+  }
+
+  /**
+   * Link createMany
+   */
+  export type LinkCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Links.
+     */
+    data: LinkCreateManyInput | LinkCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Link createManyAndReturn
+   */
+  export type LinkCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Link
+     */
+    select?: LinkSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many Links.
+     */
+    data: LinkCreateManyInput | LinkCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LinkIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Link update
+   */
+  export type LinkUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Link
+     */
+    select?: LinkSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LinkInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Link.
+     */
+    data: XOR<LinkUpdateInput, LinkUncheckedUpdateInput>
+    /**
+     * Choose, which Link to update.
+     */
+    where: LinkWhereUniqueInput
+  }
+
+  /**
+   * Link updateMany
+   */
+  export type LinkUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Links.
+     */
+    data: XOR<LinkUpdateManyMutationInput, LinkUncheckedUpdateManyInput>
+    /**
+     * Filter which Links to update
+     */
+    where?: LinkWhereInput
+  }
+
+  /**
+   * Link upsert
+   */
+  export type LinkUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Link
+     */
+    select?: LinkSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LinkInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Link to update in case it exists.
+     */
+    where: LinkWhereUniqueInput
+    /**
+     * In case the Link found by the `where` argument doesn't exist, create a new Link with this data.
+     */
+    create: XOR<LinkCreateInput, LinkUncheckedCreateInput>
+    /**
+     * In case the Link was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<LinkUpdateInput, LinkUncheckedUpdateInput>
+  }
+
+  /**
+   * Link delete
+   */
+  export type LinkDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Link
+     */
+    select?: LinkSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LinkInclude<ExtArgs> | null
+    /**
+     * Filter which Link to delete.
+     */
+    where: LinkWhereUniqueInput
+  }
+
+  /**
+   * Link deleteMany
+   */
+  export type LinkDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Links to delete
+     */
+    where?: LinkWhereInput
+  }
+
+  /**
+   * Link without action
+   */
+  export type LinkDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Link
+     */
+    select?: LinkSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LinkInclude<ExtArgs> | null
   }
 
 
@@ -13169,14 +14291,28 @@ export namespace Prisma {
 
   export const AttachmentScalarFieldEnum: {
     id: 'id',
-    name: 'name',
-    url: 'url',
+    filename: 'filename',
+    filepath: 'filepath',
+    mimeType: 'mimeType',
+    size: 'size',
     taskId: 'taskId',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
 
   export type AttachmentScalarFieldEnum = (typeof AttachmentScalarFieldEnum)[keyof typeof AttachmentScalarFieldEnum]
+
+
+  export const LinkScalarFieldEnum: {
+    id: 'id',
+    title: 'title',
+    url: 'url',
+    taskId: 'taskId',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type LinkScalarFieldEnum = (typeof LinkScalarFieldEnum)[keyof typeof LinkScalarFieldEnum]
 
 
   export const CommentScalarFieldEnum: {
@@ -13791,7 +14927,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Task"> | Date | string
     labels?: TaskLabelListRelationFilter
     assignees?: TaskAssigneeListRelationFilter
-    attachment?: AttachmentListRelationFilter
+    attachments?: AttachmentListRelationFilter
+    links?: LinkListRelationFilter
     comments?: CommentListRelationFilter
     createdBy?: XOR<UserScalarRelationFilter, UserWhereInput>
     project?: XOR<ProjectScalarRelationFilter, ProjectWhereInput>
@@ -13811,7 +14948,8 @@ export namespace Prisma {
     updatedAt?: SortOrder
     labels?: TaskLabelOrderByRelationAggregateInput
     assignees?: TaskAssigneeOrderByRelationAggregateInput
-    attachment?: AttachmentOrderByRelationAggregateInput
+    attachments?: AttachmentOrderByRelationAggregateInput
+    links?: LinkOrderByRelationAggregateInput
     comments?: CommentOrderByRelationAggregateInput
     createdBy?: UserOrderByWithRelationInput
     project?: ProjectOrderByWithRelationInput
@@ -13834,7 +14972,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Task"> | Date | string
     labels?: TaskLabelListRelationFilter
     assignees?: TaskAssigneeListRelationFilter
-    attachment?: AttachmentListRelationFilter
+    attachments?: AttachmentListRelationFilter
+    links?: LinkListRelationFilter
     comments?: CommentListRelationFilter
     createdBy?: XOR<UserScalarRelationFilter, UserWhereInput>
     project?: XOR<ProjectScalarRelationFilter, ProjectWhereInput>
@@ -14001,8 +15140,10 @@ export namespace Prisma {
     OR?: AttachmentWhereInput[]
     NOT?: AttachmentWhereInput | AttachmentWhereInput[]
     id?: StringFilter<"Attachment"> | string
-    name?: StringFilter<"Attachment"> | string
-    url?: StringFilter<"Attachment"> | string
+    filename?: StringFilter<"Attachment"> | string
+    filepath?: StringFilter<"Attachment"> | string
+    mimeType?: StringFilter<"Attachment"> | string
+    size?: IntFilter<"Attachment"> | number
     taskId?: StringFilter<"Attachment"> | string
     createdAt?: DateTimeFilter<"Attachment"> | Date | string
     updatedAt?: DateTimeFilter<"Attachment"> | Date | string
@@ -14011,8 +15152,10 @@ export namespace Prisma {
 
   export type AttachmentOrderByWithRelationInput = {
     id?: SortOrder
-    name?: SortOrder
-    url?: SortOrder
+    filename?: SortOrder
+    filepath?: SortOrder
+    mimeType?: SortOrder
+    size?: SortOrder
     taskId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -14024,8 +15167,10 @@ export namespace Prisma {
     AND?: AttachmentWhereInput | AttachmentWhereInput[]
     OR?: AttachmentWhereInput[]
     NOT?: AttachmentWhereInput | AttachmentWhereInput[]
-    name?: StringFilter<"Attachment"> | string
-    url?: StringFilter<"Attachment"> | string
+    filename?: StringFilter<"Attachment"> | string
+    filepath?: StringFilter<"Attachment"> | string
+    mimeType?: StringFilter<"Attachment"> | string
+    size?: IntFilter<"Attachment"> | number
     taskId?: StringFilter<"Attachment"> | string
     createdAt?: DateTimeFilter<"Attachment"> | Date | string
     updatedAt?: DateTimeFilter<"Attachment"> | Date | string
@@ -14034,14 +15179,18 @@ export namespace Prisma {
 
   export type AttachmentOrderByWithAggregationInput = {
     id?: SortOrder
-    name?: SortOrder
-    url?: SortOrder
+    filename?: SortOrder
+    filepath?: SortOrder
+    mimeType?: SortOrder
+    size?: SortOrder
     taskId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: AttachmentCountOrderByAggregateInput
+    _avg?: AttachmentAvgOrderByAggregateInput
     _max?: AttachmentMaxOrderByAggregateInput
     _min?: AttachmentMinOrderByAggregateInput
+    _sum?: AttachmentSumOrderByAggregateInput
   }
 
   export type AttachmentScalarWhereWithAggregatesInput = {
@@ -14049,11 +15198,73 @@ export namespace Prisma {
     OR?: AttachmentScalarWhereWithAggregatesInput[]
     NOT?: AttachmentScalarWhereWithAggregatesInput | AttachmentScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Attachment"> | string
-    name?: StringWithAggregatesFilter<"Attachment"> | string
-    url?: StringWithAggregatesFilter<"Attachment"> | string
+    filename?: StringWithAggregatesFilter<"Attachment"> | string
+    filepath?: StringWithAggregatesFilter<"Attachment"> | string
+    mimeType?: StringWithAggregatesFilter<"Attachment"> | string
+    size?: IntWithAggregatesFilter<"Attachment"> | number
     taskId?: StringWithAggregatesFilter<"Attachment"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Attachment"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Attachment"> | Date | string
+  }
+
+  export type LinkWhereInput = {
+    AND?: LinkWhereInput | LinkWhereInput[]
+    OR?: LinkWhereInput[]
+    NOT?: LinkWhereInput | LinkWhereInput[]
+    id?: StringFilter<"Link"> | string
+    title?: StringFilter<"Link"> | string
+    url?: StringFilter<"Link"> | string
+    taskId?: StringFilter<"Link"> | string
+    createdAt?: DateTimeFilter<"Link"> | Date | string
+    updatedAt?: DateTimeFilter<"Link"> | Date | string
+    task?: XOR<TaskScalarRelationFilter, TaskWhereInput>
+  }
+
+  export type LinkOrderByWithRelationInput = {
+    id?: SortOrder
+    title?: SortOrder
+    url?: SortOrder
+    taskId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    task?: TaskOrderByWithRelationInput
+  }
+
+  export type LinkWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: LinkWhereInput | LinkWhereInput[]
+    OR?: LinkWhereInput[]
+    NOT?: LinkWhereInput | LinkWhereInput[]
+    title?: StringFilter<"Link"> | string
+    url?: StringFilter<"Link"> | string
+    taskId?: StringFilter<"Link"> | string
+    createdAt?: DateTimeFilter<"Link"> | Date | string
+    updatedAt?: DateTimeFilter<"Link"> | Date | string
+    task?: XOR<TaskScalarRelationFilter, TaskWhereInput>
+  }, "id">
+
+  export type LinkOrderByWithAggregationInput = {
+    id?: SortOrder
+    title?: SortOrder
+    url?: SortOrder
+    taskId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: LinkCountOrderByAggregateInput
+    _max?: LinkMaxOrderByAggregateInput
+    _min?: LinkMinOrderByAggregateInput
+  }
+
+  export type LinkScalarWhereWithAggregatesInput = {
+    AND?: LinkScalarWhereWithAggregatesInput | LinkScalarWhereWithAggregatesInput[]
+    OR?: LinkScalarWhereWithAggregatesInput[]
+    NOT?: LinkScalarWhereWithAggregatesInput | LinkScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Link"> | string
+    title?: StringWithAggregatesFilter<"Link"> | string
+    url?: StringWithAggregatesFilter<"Link"> | string
+    taskId?: StringWithAggregatesFilter<"Link"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"Link"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Link"> | Date | string
   }
 
   export type CommentWhereInput = {
@@ -14629,7 +15840,8 @@ export namespace Prisma {
     updatedAt?: Date | string
     labels?: TaskLabelCreateNestedManyWithoutTasksInput
     assignees?: TaskAssigneeCreateNestedManyWithoutTaskInput
-    attachment?: AttachmentCreateNestedManyWithoutTaskInput
+    attachments?: AttachmentCreateNestedManyWithoutTaskInput
+    links?: LinkCreateNestedManyWithoutTaskInput
     comments?: CommentCreateNestedManyWithoutTaskInput
     createdBy: UserCreateNestedOneWithoutTasksInput
     project: ProjectCreateNestedOneWithoutTasksInput
@@ -14649,7 +15861,8 @@ export namespace Prisma {
     updatedAt?: Date | string
     labels?: TaskLabelUncheckedCreateNestedManyWithoutTasksInput
     assignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTaskInput
-    attachment?: AttachmentUncheckedCreateNestedManyWithoutTaskInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutTaskInput
+    links?: LinkUncheckedCreateNestedManyWithoutTaskInput
     comments?: CommentUncheckedCreateNestedManyWithoutTaskInput
   }
 
@@ -14665,7 +15878,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     labels?: TaskLabelUpdateManyWithoutTasksNestedInput
     assignees?: TaskAssigneeUpdateManyWithoutTaskNestedInput
-    attachment?: AttachmentUpdateManyWithoutTaskNestedInput
+    attachments?: AttachmentUpdateManyWithoutTaskNestedInput
+    links?: LinkUpdateManyWithoutTaskNestedInput
     comments?: CommentUpdateManyWithoutTaskNestedInput
     createdBy?: UserUpdateOneRequiredWithoutTasksNestedInput
     project?: ProjectUpdateOneRequiredWithoutTasksNestedInput
@@ -14685,7 +15899,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     labels?: TaskLabelUncheckedUpdateManyWithoutTasksNestedInput
     assignees?: TaskAssigneeUncheckedUpdateManyWithoutTaskNestedInput
-    attachment?: AttachmentUncheckedUpdateManyWithoutTaskNestedInput
+    attachments?: AttachmentUncheckedUpdateManyWithoutTaskNestedInput
+    links?: LinkUncheckedUpdateManyWithoutTaskNestedInput
     comments?: CommentUncheckedUpdateManyWithoutTaskNestedInput
   }
 
@@ -14851,17 +16066,21 @@ export namespace Prisma {
 
   export type AttachmentCreateInput = {
     id?: string
-    name: string
-    url: string
+    filename: string
+    filepath: string
+    mimeType: string
+    size: number
     createdAt?: Date | string
     updatedAt?: Date | string
-    task: TaskCreateNestedOneWithoutAttachmentInput
+    task: TaskCreateNestedOneWithoutAttachmentsInput
   }
 
   export type AttachmentUncheckedCreateInput = {
     id?: string
-    name: string
-    url: string
+    filename: string
+    filepath: string
+    mimeType: string
+    size: number
     taskId: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -14869,17 +16088,21 @@ export namespace Prisma {
 
   export type AttachmentUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    url?: StringFieldUpdateOperationsInput | string
+    filename?: StringFieldUpdateOperationsInput | string
+    filepath?: StringFieldUpdateOperationsInput | string
+    mimeType?: StringFieldUpdateOperationsInput | string
+    size?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    task?: TaskUpdateOneRequiredWithoutAttachmentNestedInput
+    task?: TaskUpdateOneRequiredWithoutAttachmentsNestedInput
   }
 
   export type AttachmentUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    url?: StringFieldUpdateOperationsInput | string
+    filename?: StringFieldUpdateOperationsInput | string
+    filepath?: StringFieldUpdateOperationsInput | string
+    mimeType?: StringFieldUpdateOperationsInput | string
+    size?: IntFieldUpdateOperationsInput | number
     taskId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -14887,8 +16110,10 @@ export namespace Prisma {
 
   export type AttachmentCreateManyInput = {
     id?: string
-    name: string
-    url: string
+    filename: string
+    filepath: string
+    mimeType: string
+    size: number
     taskId: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -14896,15 +16121,81 @@ export namespace Prisma {
 
   export type AttachmentUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    url?: StringFieldUpdateOperationsInput | string
+    filename?: StringFieldUpdateOperationsInput | string
+    filepath?: StringFieldUpdateOperationsInput | string
+    mimeType?: StringFieldUpdateOperationsInput | string
+    size?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type AttachmentUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
+    filename?: StringFieldUpdateOperationsInput | string
+    filepath?: StringFieldUpdateOperationsInput | string
+    mimeType?: StringFieldUpdateOperationsInput | string
+    size?: IntFieldUpdateOperationsInput | number
+    taskId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LinkCreateInput = {
+    id?: string
+    title: string
+    url: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    task: TaskCreateNestedOneWithoutLinksInput
+  }
+
+  export type LinkUncheckedCreateInput = {
+    id?: string
+    title: string
+    url: string
+    taskId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type LinkUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    task?: TaskUpdateOneRequiredWithoutLinksNestedInput
+  }
+
+  export type LinkUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    taskId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LinkCreateManyInput = {
+    id?: string
+    title: string
+    url: string
+    taskId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type LinkUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LinkUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
     url?: StringFieldUpdateOperationsInput | string
     taskId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -15536,7 +16827,17 @@ export namespace Prisma {
     none?: AttachmentWhereInput
   }
 
+  export type LinkListRelationFilter = {
+    every?: LinkWhereInput
+    some?: LinkWhereInput
+    none?: LinkWhereInput
+  }
+
   export type AttachmentOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type LinkOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -15679,17 +16980,25 @@ export namespace Prisma {
 
   export type AttachmentCountOrderByAggregateInput = {
     id?: SortOrder
-    name?: SortOrder
-    url?: SortOrder
+    filename?: SortOrder
+    filepath?: SortOrder
+    mimeType?: SortOrder
+    size?: SortOrder
     taskId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
+  export type AttachmentAvgOrderByAggregateInput = {
+    size?: SortOrder
+  }
+
   export type AttachmentMaxOrderByAggregateInput = {
     id?: SortOrder
-    name?: SortOrder
-    url?: SortOrder
+    filename?: SortOrder
+    filepath?: SortOrder
+    mimeType?: SortOrder
+    size?: SortOrder
     taskId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -15697,7 +17006,40 @@ export namespace Prisma {
 
   export type AttachmentMinOrderByAggregateInput = {
     id?: SortOrder
-    name?: SortOrder
+    filename?: SortOrder
+    filepath?: SortOrder
+    mimeType?: SortOrder
+    size?: SortOrder
+    taskId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type AttachmentSumOrderByAggregateInput = {
+    size?: SortOrder
+  }
+
+  export type LinkCountOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    url?: SortOrder
+    taskId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type LinkMaxOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    url?: SortOrder
+    taskId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type LinkMinOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
     url?: SortOrder
     taskId?: SortOrder
     createdAt?: SortOrder
@@ -16395,6 +17737,13 @@ export namespace Prisma {
     connect?: AttachmentWhereUniqueInput | AttachmentWhereUniqueInput[]
   }
 
+  export type LinkCreateNestedManyWithoutTaskInput = {
+    create?: XOR<LinkCreateWithoutTaskInput, LinkUncheckedCreateWithoutTaskInput> | LinkCreateWithoutTaskInput[] | LinkUncheckedCreateWithoutTaskInput[]
+    connectOrCreate?: LinkCreateOrConnectWithoutTaskInput | LinkCreateOrConnectWithoutTaskInput[]
+    createMany?: LinkCreateManyTaskInputEnvelope
+    connect?: LinkWhereUniqueInput | LinkWhereUniqueInput[]
+  }
+
   export type CommentCreateNestedManyWithoutTaskInput = {
     create?: XOR<CommentCreateWithoutTaskInput, CommentUncheckedCreateWithoutTaskInput> | CommentCreateWithoutTaskInput[] | CommentUncheckedCreateWithoutTaskInput[]
     connectOrCreate?: CommentCreateOrConnectWithoutTaskInput | CommentCreateOrConnectWithoutTaskInput[]
@@ -16432,6 +17781,13 @@ export namespace Prisma {
     connectOrCreate?: AttachmentCreateOrConnectWithoutTaskInput | AttachmentCreateOrConnectWithoutTaskInput[]
     createMany?: AttachmentCreateManyTaskInputEnvelope
     connect?: AttachmentWhereUniqueInput | AttachmentWhereUniqueInput[]
+  }
+
+  export type LinkUncheckedCreateNestedManyWithoutTaskInput = {
+    create?: XOR<LinkCreateWithoutTaskInput, LinkUncheckedCreateWithoutTaskInput> | LinkCreateWithoutTaskInput[] | LinkUncheckedCreateWithoutTaskInput[]
+    connectOrCreate?: LinkCreateOrConnectWithoutTaskInput | LinkCreateOrConnectWithoutTaskInput[]
+    createMany?: LinkCreateManyTaskInputEnvelope
+    connect?: LinkWhereUniqueInput | LinkWhereUniqueInput[]
   }
 
   export type CommentUncheckedCreateNestedManyWithoutTaskInput = {
@@ -16492,6 +17848,20 @@ export namespace Prisma {
     update?: AttachmentUpdateWithWhereUniqueWithoutTaskInput | AttachmentUpdateWithWhereUniqueWithoutTaskInput[]
     updateMany?: AttachmentUpdateManyWithWhereWithoutTaskInput | AttachmentUpdateManyWithWhereWithoutTaskInput[]
     deleteMany?: AttachmentScalarWhereInput | AttachmentScalarWhereInput[]
+  }
+
+  export type LinkUpdateManyWithoutTaskNestedInput = {
+    create?: XOR<LinkCreateWithoutTaskInput, LinkUncheckedCreateWithoutTaskInput> | LinkCreateWithoutTaskInput[] | LinkUncheckedCreateWithoutTaskInput[]
+    connectOrCreate?: LinkCreateOrConnectWithoutTaskInput | LinkCreateOrConnectWithoutTaskInput[]
+    upsert?: LinkUpsertWithWhereUniqueWithoutTaskInput | LinkUpsertWithWhereUniqueWithoutTaskInput[]
+    createMany?: LinkCreateManyTaskInputEnvelope
+    set?: LinkWhereUniqueInput | LinkWhereUniqueInput[]
+    disconnect?: LinkWhereUniqueInput | LinkWhereUniqueInput[]
+    delete?: LinkWhereUniqueInput | LinkWhereUniqueInput[]
+    connect?: LinkWhereUniqueInput | LinkWhereUniqueInput[]
+    update?: LinkUpdateWithWhereUniqueWithoutTaskInput | LinkUpdateWithWhereUniqueWithoutTaskInput[]
+    updateMany?: LinkUpdateManyWithWhereWithoutTaskInput | LinkUpdateManyWithWhereWithoutTaskInput[]
+    deleteMany?: LinkScalarWhereInput | LinkScalarWhereInput[]
   }
 
   export type CommentUpdateManyWithoutTaskNestedInput = {
@@ -16563,6 +17933,20 @@ export namespace Prisma {
     update?: AttachmentUpdateWithWhereUniqueWithoutTaskInput | AttachmentUpdateWithWhereUniqueWithoutTaskInput[]
     updateMany?: AttachmentUpdateManyWithWhereWithoutTaskInput | AttachmentUpdateManyWithWhereWithoutTaskInput[]
     deleteMany?: AttachmentScalarWhereInput | AttachmentScalarWhereInput[]
+  }
+
+  export type LinkUncheckedUpdateManyWithoutTaskNestedInput = {
+    create?: XOR<LinkCreateWithoutTaskInput, LinkUncheckedCreateWithoutTaskInput> | LinkCreateWithoutTaskInput[] | LinkUncheckedCreateWithoutTaskInput[]
+    connectOrCreate?: LinkCreateOrConnectWithoutTaskInput | LinkCreateOrConnectWithoutTaskInput[]
+    upsert?: LinkUpsertWithWhereUniqueWithoutTaskInput | LinkUpsertWithWhereUniqueWithoutTaskInput[]
+    createMany?: LinkCreateManyTaskInputEnvelope
+    set?: LinkWhereUniqueInput | LinkWhereUniqueInput[]
+    disconnect?: LinkWhereUniqueInput | LinkWhereUniqueInput[]
+    delete?: LinkWhereUniqueInput | LinkWhereUniqueInput[]
+    connect?: LinkWhereUniqueInput | LinkWhereUniqueInput[]
+    update?: LinkUpdateWithWhereUniqueWithoutTaskInput | LinkUpdateWithWhereUniqueWithoutTaskInput[]
+    updateMany?: LinkUpdateManyWithWhereWithoutTaskInput | LinkUpdateManyWithWhereWithoutTaskInput[]
+    deleteMany?: LinkScalarWhereInput | LinkScalarWhereInput[]
   }
 
   export type CommentUncheckedUpdateManyWithoutTaskNestedInput = {
@@ -16659,18 +18043,32 @@ export namespace Prisma {
     deleteMany?: TaskScalarWhereInput | TaskScalarWhereInput[]
   }
 
-  export type TaskCreateNestedOneWithoutAttachmentInput = {
-    create?: XOR<TaskCreateWithoutAttachmentInput, TaskUncheckedCreateWithoutAttachmentInput>
-    connectOrCreate?: TaskCreateOrConnectWithoutAttachmentInput
+  export type TaskCreateNestedOneWithoutAttachmentsInput = {
+    create?: XOR<TaskCreateWithoutAttachmentsInput, TaskUncheckedCreateWithoutAttachmentsInput>
+    connectOrCreate?: TaskCreateOrConnectWithoutAttachmentsInput
     connect?: TaskWhereUniqueInput
   }
 
-  export type TaskUpdateOneRequiredWithoutAttachmentNestedInput = {
-    create?: XOR<TaskCreateWithoutAttachmentInput, TaskUncheckedCreateWithoutAttachmentInput>
-    connectOrCreate?: TaskCreateOrConnectWithoutAttachmentInput
-    upsert?: TaskUpsertWithoutAttachmentInput
+  export type TaskUpdateOneRequiredWithoutAttachmentsNestedInput = {
+    create?: XOR<TaskCreateWithoutAttachmentsInput, TaskUncheckedCreateWithoutAttachmentsInput>
+    connectOrCreate?: TaskCreateOrConnectWithoutAttachmentsInput
+    upsert?: TaskUpsertWithoutAttachmentsInput
     connect?: TaskWhereUniqueInput
-    update?: XOR<XOR<TaskUpdateToOneWithWhereWithoutAttachmentInput, TaskUpdateWithoutAttachmentInput>, TaskUncheckedUpdateWithoutAttachmentInput>
+    update?: XOR<XOR<TaskUpdateToOneWithWhereWithoutAttachmentsInput, TaskUpdateWithoutAttachmentsInput>, TaskUncheckedUpdateWithoutAttachmentsInput>
+  }
+
+  export type TaskCreateNestedOneWithoutLinksInput = {
+    create?: XOR<TaskCreateWithoutLinksInput, TaskUncheckedCreateWithoutLinksInput>
+    connectOrCreate?: TaskCreateOrConnectWithoutLinksInput
+    connect?: TaskWhereUniqueInput
+  }
+
+  export type TaskUpdateOneRequiredWithoutLinksNestedInput = {
+    create?: XOR<TaskCreateWithoutLinksInput, TaskUncheckedCreateWithoutLinksInput>
+    connectOrCreate?: TaskCreateOrConnectWithoutLinksInput
+    upsert?: TaskUpsertWithoutLinksInput
+    connect?: TaskWhereUniqueInput
+    update?: XOR<XOR<TaskUpdateToOneWithWhereWithoutLinksInput, TaskUpdateWithoutLinksInput>, TaskUncheckedUpdateWithoutLinksInput>
   }
 
   export type TaskCreateNestedOneWithoutCommentsInput = {
@@ -17096,7 +18494,8 @@ export namespace Prisma {
     updatedAt?: Date | string
     labels?: TaskLabelCreateNestedManyWithoutTasksInput
     assignees?: TaskAssigneeCreateNestedManyWithoutTaskInput
-    attachment?: AttachmentCreateNestedManyWithoutTaskInput
+    attachments?: AttachmentCreateNestedManyWithoutTaskInput
+    links?: LinkCreateNestedManyWithoutTaskInput
     comments?: CommentCreateNestedManyWithoutTaskInput
     project: ProjectCreateNestedOneWithoutTasksInput
   }
@@ -17114,7 +18513,8 @@ export namespace Prisma {
     updatedAt?: Date | string
     labels?: TaskLabelUncheckedCreateNestedManyWithoutTasksInput
     assignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTaskInput
-    attachment?: AttachmentUncheckedCreateNestedManyWithoutTaskInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutTaskInput
+    links?: LinkUncheckedCreateNestedManyWithoutTaskInput
     comments?: CommentUncheckedCreateNestedManyWithoutTaskInput
   }
 
@@ -17695,7 +19095,8 @@ export namespace Prisma {
     updatedAt?: Date | string
     labels?: TaskLabelCreateNestedManyWithoutTasksInput
     assignees?: TaskAssigneeCreateNestedManyWithoutTaskInput
-    attachment?: AttachmentCreateNestedManyWithoutTaskInput
+    attachments?: AttachmentCreateNestedManyWithoutTaskInput
+    links?: LinkCreateNestedManyWithoutTaskInput
     comments?: CommentCreateNestedManyWithoutTaskInput
     createdBy: UserCreateNestedOneWithoutTasksInput
   }
@@ -17713,7 +19114,8 @@ export namespace Prisma {
     updatedAt?: Date | string
     labels?: TaskLabelUncheckedCreateNestedManyWithoutTasksInput
     assignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTaskInput
-    attachment?: AttachmentUncheckedCreateNestedManyWithoutTaskInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutTaskInput
+    links?: LinkUncheckedCreateNestedManyWithoutTaskInput
     comments?: CommentUncheckedCreateNestedManyWithoutTaskInput
   }
 
@@ -18102,16 +19504,20 @@ export namespace Prisma {
 
   export type AttachmentCreateWithoutTaskInput = {
     id?: string
-    name: string
-    url: string
+    filename: string
+    filepath: string
+    mimeType: string
+    size: number
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
   export type AttachmentUncheckedCreateWithoutTaskInput = {
     id?: string
-    name: string
-    url: string
+    filename: string
+    filepath: string
+    mimeType: string
+    size: number
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -18123,6 +19529,32 @@ export namespace Prisma {
 
   export type AttachmentCreateManyTaskInputEnvelope = {
     data: AttachmentCreateManyTaskInput | AttachmentCreateManyTaskInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type LinkCreateWithoutTaskInput = {
+    id?: string
+    title: string
+    url: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type LinkUncheckedCreateWithoutTaskInput = {
+    id?: string
+    title: string
+    url: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type LinkCreateOrConnectWithoutTaskInput = {
+    where: LinkWhereUniqueInput
+    create: XOR<LinkCreateWithoutTaskInput, LinkUncheckedCreateWithoutTaskInput>
+  }
+
+  export type LinkCreateManyTaskInputEnvelope = {
+    data: LinkCreateManyTaskInput | LinkCreateManyTaskInput[]
     skipDuplicates?: boolean
   }
 
@@ -18283,11 +19715,41 @@ export namespace Prisma {
     OR?: AttachmentScalarWhereInput[]
     NOT?: AttachmentScalarWhereInput | AttachmentScalarWhereInput[]
     id?: StringFilter<"Attachment"> | string
-    name?: StringFilter<"Attachment"> | string
-    url?: StringFilter<"Attachment"> | string
+    filename?: StringFilter<"Attachment"> | string
+    filepath?: StringFilter<"Attachment"> | string
+    mimeType?: StringFilter<"Attachment"> | string
+    size?: IntFilter<"Attachment"> | number
     taskId?: StringFilter<"Attachment"> | string
     createdAt?: DateTimeFilter<"Attachment"> | Date | string
     updatedAt?: DateTimeFilter<"Attachment"> | Date | string
+  }
+
+  export type LinkUpsertWithWhereUniqueWithoutTaskInput = {
+    where: LinkWhereUniqueInput
+    update: XOR<LinkUpdateWithoutTaskInput, LinkUncheckedUpdateWithoutTaskInput>
+    create: XOR<LinkCreateWithoutTaskInput, LinkUncheckedCreateWithoutTaskInput>
+  }
+
+  export type LinkUpdateWithWhereUniqueWithoutTaskInput = {
+    where: LinkWhereUniqueInput
+    data: XOR<LinkUpdateWithoutTaskInput, LinkUncheckedUpdateWithoutTaskInput>
+  }
+
+  export type LinkUpdateManyWithWhereWithoutTaskInput = {
+    where: LinkScalarWhereInput
+    data: XOR<LinkUpdateManyMutationInput, LinkUncheckedUpdateManyWithoutTaskInput>
+  }
+
+  export type LinkScalarWhereInput = {
+    AND?: LinkScalarWhereInput | LinkScalarWhereInput[]
+    OR?: LinkScalarWhereInput[]
+    NOT?: LinkScalarWhereInput | LinkScalarWhereInput[]
+    id?: StringFilter<"Link"> | string
+    title?: StringFilter<"Link"> | string
+    url?: StringFilter<"Link"> | string
+    taskId?: StringFilter<"Link"> | string
+    createdAt?: DateTimeFilter<"Link"> | Date | string
+    updatedAt?: DateTimeFilter<"Link"> | Date | string
   }
 
   export type CommentUpsertWithWhereUniqueWithoutTaskInput = {
@@ -18407,7 +19869,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     labels?: TaskLabelCreateNestedManyWithoutTasksInput
-    attachment?: AttachmentCreateNestedManyWithoutTaskInput
+    attachments?: AttachmentCreateNestedManyWithoutTaskInput
+    links?: LinkCreateNestedManyWithoutTaskInput
     comments?: CommentCreateNestedManyWithoutTaskInput
     createdBy: UserCreateNestedOneWithoutTasksInput
     project: ProjectCreateNestedOneWithoutTasksInput
@@ -18426,7 +19889,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     labels?: TaskLabelUncheckedCreateNestedManyWithoutTasksInput
-    attachment?: AttachmentUncheckedCreateNestedManyWithoutTaskInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutTaskInput
+    links?: LinkUncheckedCreateNestedManyWithoutTaskInput
     comments?: CommentUncheckedCreateNestedManyWithoutTaskInput
   }
 
@@ -18504,7 +19968,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     labels?: TaskLabelUpdateManyWithoutTasksNestedInput
-    attachment?: AttachmentUpdateManyWithoutTaskNestedInput
+    attachments?: AttachmentUpdateManyWithoutTaskNestedInput
+    links?: LinkUpdateManyWithoutTaskNestedInput
     comments?: CommentUpdateManyWithoutTaskNestedInput
     createdBy?: UserUpdateOneRequiredWithoutTasksNestedInput
     project?: ProjectUpdateOneRequiredWithoutTasksNestedInput
@@ -18523,7 +19988,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     labels?: TaskLabelUncheckedUpdateManyWithoutTasksNestedInput
-    attachment?: AttachmentUncheckedUpdateManyWithoutTaskNestedInput
+    attachments?: AttachmentUncheckedUpdateManyWithoutTaskNestedInput
+    links?: LinkUncheckedUpdateManyWithoutTaskNestedInput
     comments?: CommentUncheckedUpdateManyWithoutTaskNestedInput
   }
 
@@ -18622,7 +20088,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     assignees?: TaskAssigneeCreateNestedManyWithoutTaskInput
-    attachment?: AttachmentCreateNestedManyWithoutTaskInput
+    attachments?: AttachmentCreateNestedManyWithoutTaskInput
+    links?: LinkCreateNestedManyWithoutTaskInput
     comments?: CommentCreateNestedManyWithoutTaskInput
     createdBy: UserCreateNestedOneWithoutTasksInput
     project: ProjectCreateNestedOneWithoutTasksInput
@@ -18641,7 +20108,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     assignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTaskInput
-    attachment?: AttachmentUncheckedCreateNestedManyWithoutTaskInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutTaskInput
+    links?: LinkUncheckedCreateNestedManyWithoutTaskInput
     comments?: CommentUncheckedCreateNestedManyWithoutTaskInput
   }
 
@@ -18703,7 +20171,7 @@ export namespace Prisma {
     data: XOR<TaskUpdateManyMutationInput, TaskUncheckedUpdateManyWithoutLabelsInput>
   }
 
-  export type TaskCreateWithoutAttachmentInput = {
+  export type TaskCreateWithoutAttachmentsInput = {
     id?: string
     title: string
     description?: string | null
@@ -18715,12 +20183,13 @@ export namespace Prisma {
     updatedAt?: Date | string
     labels?: TaskLabelCreateNestedManyWithoutTasksInput
     assignees?: TaskAssigneeCreateNestedManyWithoutTaskInput
+    links?: LinkCreateNestedManyWithoutTaskInput
     comments?: CommentCreateNestedManyWithoutTaskInput
     createdBy: UserCreateNestedOneWithoutTasksInput
     project: ProjectCreateNestedOneWithoutTasksInput
   }
 
-  export type TaskUncheckedCreateWithoutAttachmentInput = {
+  export type TaskUncheckedCreateWithoutAttachmentsInput = {
     id?: string
     title: string
     description?: string | null
@@ -18734,26 +20203,27 @@ export namespace Prisma {
     updatedAt?: Date | string
     labels?: TaskLabelUncheckedCreateNestedManyWithoutTasksInput
     assignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTaskInput
+    links?: LinkUncheckedCreateNestedManyWithoutTaskInput
     comments?: CommentUncheckedCreateNestedManyWithoutTaskInput
   }
 
-  export type TaskCreateOrConnectWithoutAttachmentInput = {
+  export type TaskCreateOrConnectWithoutAttachmentsInput = {
     where: TaskWhereUniqueInput
-    create: XOR<TaskCreateWithoutAttachmentInput, TaskUncheckedCreateWithoutAttachmentInput>
+    create: XOR<TaskCreateWithoutAttachmentsInput, TaskUncheckedCreateWithoutAttachmentsInput>
   }
 
-  export type TaskUpsertWithoutAttachmentInput = {
-    update: XOR<TaskUpdateWithoutAttachmentInput, TaskUncheckedUpdateWithoutAttachmentInput>
-    create: XOR<TaskCreateWithoutAttachmentInput, TaskUncheckedCreateWithoutAttachmentInput>
+  export type TaskUpsertWithoutAttachmentsInput = {
+    update: XOR<TaskUpdateWithoutAttachmentsInput, TaskUncheckedUpdateWithoutAttachmentsInput>
+    create: XOR<TaskCreateWithoutAttachmentsInput, TaskUncheckedCreateWithoutAttachmentsInput>
     where?: TaskWhereInput
   }
 
-  export type TaskUpdateToOneWithWhereWithoutAttachmentInput = {
+  export type TaskUpdateToOneWithWhereWithoutAttachmentsInput = {
     where?: TaskWhereInput
-    data: XOR<TaskUpdateWithoutAttachmentInput, TaskUncheckedUpdateWithoutAttachmentInput>
+    data: XOR<TaskUpdateWithoutAttachmentsInput, TaskUncheckedUpdateWithoutAttachmentsInput>
   }
 
-  export type TaskUpdateWithoutAttachmentInput = {
+  export type TaskUpdateWithoutAttachmentsInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
@@ -18765,12 +20235,13 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     labels?: TaskLabelUpdateManyWithoutTasksNestedInput
     assignees?: TaskAssigneeUpdateManyWithoutTaskNestedInput
+    links?: LinkUpdateManyWithoutTaskNestedInput
     comments?: CommentUpdateManyWithoutTaskNestedInput
     createdBy?: UserUpdateOneRequiredWithoutTasksNestedInput
     project?: ProjectUpdateOneRequiredWithoutTasksNestedInput
   }
 
-  export type TaskUncheckedUpdateWithoutAttachmentInput = {
+  export type TaskUncheckedUpdateWithoutAttachmentsInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
@@ -18784,6 +20255,95 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     labels?: TaskLabelUncheckedUpdateManyWithoutTasksNestedInput
     assignees?: TaskAssigneeUncheckedUpdateManyWithoutTaskNestedInput
+    links?: LinkUncheckedUpdateManyWithoutTaskNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutTaskNestedInput
+  }
+
+  export type TaskCreateWithoutLinksInput = {
+    id?: string
+    title: string
+    description?: string | null
+    status: $Enums.TaskStatus
+    priority?: $Enums.Priority | null
+    startDate?: Date | string | null
+    dueDate?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    labels?: TaskLabelCreateNestedManyWithoutTasksInput
+    assignees?: TaskAssigneeCreateNestedManyWithoutTaskInput
+    attachments?: AttachmentCreateNestedManyWithoutTaskInput
+    comments?: CommentCreateNestedManyWithoutTaskInput
+    createdBy: UserCreateNestedOneWithoutTasksInput
+    project: ProjectCreateNestedOneWithoutTasksInput
+  }
+
+  export type TaskUncheckedCreateWithoutLinksInput = {
+    id?: string
+    title: string
+    description?: string | null
+    status: $Enums.TaskStatus
+    priority?: $Enums.Priority | null
+    startDate?: Date | string | null
+    dueDate?: Date | string | null
+    createdById: string
+    projectId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    labels?: TaskLabelUncheckedCreateNestedManyWithoutTasksInput
+    assignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTaskInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutTaskInput
+    comments?: CommentUncheckedCreateNestedManyWithoutTaskInput
+  }
+
+  export type TaskCreateOrConnectWithoutLinksInput = {
+    where: TaskWhereUniqueInput
+    create: XOR<TaskCreateWithoutLinksInput, TaskUncheckedCreateWithoutLinksInput>
+  }
+
+  export type TaskUpsertWithoutLinksInput = {
+    update: XOR<TaskUpdateWithoutLinksInput, TaskUncheckedUpdateWithoutLinksInput>
+    create: XOR<TaskCreateWithoutLinksInput, TaskUncheckedCreateWithoutLinksInput>
+    where?: TaskWhereInput
+  }
+
+  export type TaskUpdateToOneWithWhereWithoutLinksInput = {
+    where?: TaskWhereInput
+    data: XOR<TaskUpdateWithoutLinksInput, TaskUncheckedUpdateWithoutLinksInput>
+  }
+
+  export type TaskUpdateWithoutLinksInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumTaskStatusFieldUpdateOperationsInput | $Enums.TaskStatus
+    priority?: NullableEnumPriorityFieldUpdateOperationsInput | $Enums.Priority | null
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    labels?: TaskLabelUpdateManyWithoutTasksNestedInput
+    assignees?: TaskAssigneeUpdateManyWithoutTaskNestedInput
+    attachments?: AttachmentUpdateManyWithoutTaskNestedInput
+    comments?: CommentUpdateManyWithoutTaskNestedInput
+    createdBy?: UserUpdateOneRequiredWithoutTasksNestedInput
+    project?: ProjectUpdateOneRequiredWithoutTasksNestedInput
+  }
+
+  export type TaskUncheckedUpdateWithoutLinksInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumTaskStatusFieldUpdateOperationsInput | $Enums.TaskStatus
+    priority?: NullableEnumPriorityFieldUpdateOperationsInput | $Enums.Priority | null
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdById?: StringFieldUpdateOperationsInput | string
+    projectId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    labels?: TaskLabelUncheckedUpdateManyWithoutTasksNestedInput
+    assignees?: TaskAssigneeUncheckedUpdateManyWithoutTaskNestedInput
+    attachments?: AttachmentUncheckedUpdateManyWithoutTaskNestedInput
     comments?: CommentUncheckedUpdateManyWithoutTaskNestedInput
   }
 
@@ -18799,7 +20359,8 @@ export namespace Prisma {
     updatedAt?: Date | string
     labels?: TaskLabelCreateNestedManyWithoutTasksInput
     assignees?: TaskAssigneeCreateNestedManyWithoutTaskInput
-    attachment?: AttachmentCreateNestedManyWithoutTaskInput
+    attachments?: AttachmentCreateNestedManyWithoutTaskInput
+    links?: LinkCreateNestedManyWithoutTaskInput
     createdBy: UserCreateNestedOneWithoutTasksInput
     project: ProjectCreateNestedOneWithoutTasksInput
   }
@@ -18818,7 +20379,8 @@ export namespace Prisma {
     updatedAt?: Date | string
     labels?: TaskLabelUncheckedCreateNestedManyWithoutTasksInput
     assignees?: TaskAssigneeUncheckedCreateNestedManyWithoutTaskInput
-    attachment?: AttachmentUncheckedCreateNestedManyWithoutTaskInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutTaskInput
+    links?: LinkUncheckedCreateNestedManyWithoutTaskInput
   }
 
   export type TaskCreateOrConnectWithoutCommentsInput = {
@@ -18896,7 +20458,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     labels?: TaskLabelUpdateManyWithoutTasksNestedInput
     assignees?: TaskAssigneeUpdateManyWithoutTaskNestedInput
-    attachment?: AttachmentUpdateManyWithoutTaskNestedInput
+    attachments?: AttachmentUpdateManyWithoutTaskNestedInput
+    links?: LinkUpdateManyWithoutTaskNestedInput
     createdBy?: UserUpdateOneRequiredWithoutTasksNestedInput
     project?: ProjectUpdateOneRequiredWithoutTasksNestedInput
   }
@@ -18915,7 +20478,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     labels?: TaskLabelUncheckedUpdateManyWithoutTasksNestedInput
     assignees?: TaskAssigneeUncheckedUpdateManyWithoutTaskNestedInput
-    attachment?: AttachmentUncheckedUpdateManyWithoutTaskNestedInput
+    attachments?: AttachmentUncheckedUpdateManyWithoutTaskNestedInput
+    links?: LinkUncheckedUpdateManyWithoutTaskNestedInput
   }
 
   export type UserUpsertWithoutCommentsInput = {
@@ -19195,7 +20759,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     labels?: TaskLabelUpdateManyWithoutTasksNestedInput
     assignees?: TaskAssigneeUpdateManyWithoutTaskNestedInput
-    attachment?: AttachmentUpdateManyWithoutTaskNestedInput
+    attachments?: AttachmentUpdateManyWithoutTaskNestedInput
+    links?: LinkUpdateManyWithoutTaskNestedInput
     comments?: CommentUpdateManyWithoutTaskNestedInput
     project?: ProjectUpdateOneRequiredWithoutTasksNestedInput
   }
@@ -19213,7 +20778,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     labels?: TaskLabelUncheckedUpdateManyWithoutTasksNestedInput
     assignees?: TaskAssigneeUncheckedUpdateManyWithoutTaskNestedInput
-    attachment?: AttachmentUncheckedUpdateManyWithoutTaskNestedInput
+    attachments?: AttachmentUncheckedUpdateManyWithoutTaskNestedInput
+    links?: LinkUncheckedUpdateManyWithoutTaskNestedInput
     comments?: CommentUncheckedUpdateManyWithoutTaskNestedInput
   }
 
@@ -19396,7 +20962,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     labels?: TaskLabelUpdateManyWithoutTasksNestedInput
     assignees?: TaskAssigneeUpdateManyWithoutTaskNestedInput
-    attachment?: AttachmentUpdateManyWithoutTaskNestedInput
+    attachments?: AttachmentUpdateManyWithoutTaskNestedInput
+    links?: LinkUpdateManyWithoutTaskNestedInput
     comments?: CommentUpdateManyWithoutTaskNestedInput
     createdBy?: UserUpdateOneRequiredWithoutTasksNestedInput
   }
@@ -19414,7 +20981,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     labels?: TaskLabelUncheckedUpdateManyWithoutTasksNestedInput
     assignees?: TaskAssigneeUncheckedUpdateManyWithoutTaskNestedInput
-    attachment?: AttachmentUncheckedUpdateManyWithoutTaskNestedInput
+    attachments?: AttachmentUncheckedUpdateManyWithoutTaskNestedInput
+    links?: LinkUncheckedUpdateManyWithoutTaskNestedInput
     comments?: CommentUncheckedUpdateManyWithoutTaskNestedInput
   }
 
@@ -19490,7 +21058,17 @@ export namespace Prisma {
 
   export type AttachmentCreateManyTaskInput = {
     id?: string
-    name: string
+    filename: string
+    filepath: string
+    mimeType: string
+    size: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type LinkCreateManyTaskInput = {
+    id?: string
+    title: string
     url: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -19554,23 +21132,53 @@ export namespace Prisma {
 
   export type AttachmentUpdateWithoutTaskInput = {
     id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    url?: StringFieldUpdateOperationsInput | string
+    filename?: StringFieldUpdateOperationsInput | string
+    filepath?: StringFieldUpdateOperationsInput | string
+    mimeType?: StringFieldUpdateOperationsInput | string
+    size?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type AttachmentUncheckedUpdateWithoutTaskInput = {
     id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    url?: StringFieldUpdateOperationsInput | string
+    filename?: StringFieldUpdateOperationsInput | string
+    filepath?: StringFieldUpdateOperationsInput | string
+    mimeType?: StringFieldUpdateOperationsInput | string
+    size?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type AttachmentUncheckedUpdateManyWithoutTaskInput = {
     id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
+    filename?: StringFieldUpdateOperationsInput | string
+    filepath?: StringFieldUpdateOperationsInput | string
+    mimeType?: StringFieldUpdateOperationsInput | string
+    size?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LinkUpdateWithoutTaskInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LinkUncheckedUpdateWithoutTaskInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LinkUncheckedUpdateManyWithoutTaskInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
     url?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -19611,7 +21219,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     assignees?: TaskAssigneeUpdateManyWithoutTaskNestedInput
-    attachment?: AttachmentUpdateManyWithoutTaskNestedInput
+    attachments?: AttachmentUpdateManyWithoutTaskNestedInput
+    links?: LinkUpdateManyWithoutTaskNestedInput
     comments?: CommentUpdateManyWithoutTaskNestedInput
     createdBy?: UserUpdateOneRequiredWithoutTasksNestedInput
     project?: ProjectUpdateOneRequiredWithoutTasksNestedInput
@@ -19630,7 +21239,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     assignees?: TaskAssigneeUncheckedUpdateManyWithoutTaskNestedInput
-    attachment?: AttachmentUncheckedUpdateManyWithoutTaskNestedInput
+    attachments?: AttachmentUncheckedUpdateManyWithoutTaskNestedInput
+    links?: LinkUncheckedUpdateManyWithoutTaskNestedInput
     comments?: CommentUncheckedUpdateManyWithoutTaskNestedInput
   }
 

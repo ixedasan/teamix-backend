@@ -107,7 +107,8 @@ model Task {
   startDate   DateTime?      @map("start_date")
   dueDate     DateTime?      @map("due_date")
   assignees   TaskAssignee[]
-  attachment  Attachment[]
+  attachments Attachment[]
+  links       Link[]
   comments    Comment[]
   createdById String         @map("created_by_id")
   createdBy   User           @relation(fields: [createdById], references: [id], onDelete: Cascade)
@@ -154,8 +155,10 @@ model TaskLabel {
 
 model Attachment {
   id        String   @id @default(uuid())
-  name      String
-  url       String
+  filename  String
+  filepath  String
+  mimeType  String
+  size      Int
   taskId    String
   task      Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now()) @map("created_at")
@@ -163,6 +166,19 @@ model Attachment {
 
   @@index([taskId])
   @@map("attachments")
+}
+
+model Link {
+  id        String   @id @default(uuid())
+  title     String
+  url       String
+  taskId    String   @map("task_id")
+  task      Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@index([taskId])
+  @@map("links")
 }
 
 model Comment {
