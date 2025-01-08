@@ -2,6 +2,17 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type AttachmentModel {
+  createdAt: DateTime!
+  filename: String!
+  filepath: String!
+  id: ID!
+  mimeType: String!
+  size: Float!
+  taskId: ID!
+  updatedAt: DateTime!
+}
+
 type AuthModel {
   message: String
   user: UserModel
@@ -142,9 +153,11 @@ type Mutation {
   deleteDocument(documentId: String!): Boolean!
   deleteProject: Boolean!
   deleteTask(taskId: String!): TaskModel!
+  deleteTaskAttachment(id: String!): Boolean!
   deleteTaskLabel(labelId: String!): Boolean!
   disableTotp: Boolean!
   enableTotp(data: EnableTotpInput!): Boolean!
+  generateAttachmentDownloadUrl(id: String!): String!
   inviteProjectMember(data: InviteMemberInput!): Boolean!
   loginUser(data: LoginInput!): AuthModel!
   logoutUser: Boolean!
@@ -163,6 +176,7 @@ type Mutation {
   updateProjectInfo(data: ProjectInput!): Boolean!
   updateSocialLink(data: SocialLinkInput!, id: String!): Boolean!
   updateTask(input: TaskInput!, taskId: String!): TaskModel!
+  uploadTaskAttachment(file: Upload!, taskId: String!): Boolean!
   verifyAccaunt(data: VerificationInput!): UserModel!
 }
 
@@ -206,6 +220,7 @@ type Query {
   findSessionsByUser: [SessionModel!]!
   findSocialLinks: [SocialLinksModel!]!
   findTask(taskId: String!): TaskModel!
+  findTaskAttachments(taskId: String!): [AttachmentModel!]!
   findTaskLabelsByProject: [TaskLabelModel!]!
   findTaskLabelsByTask(taskId: String!): [TaskLabelModel!]!
   generateTotpSecret: TotpModel!

@@ -14,14 +14,14 @@ export class AttachmentResolver {
 
 	@UseGuards(GqlAuthGuard, ProjectGuard)
 	@Query(() => [AttachmentModel], { name: 'findTaskAttachments' })
-	public async getAttachments(@Args() taskId: string) {
+	public async getAttachments(@Args('taskId') taskId: string) {
 		return this.attachmentService.getAttachments(taskId)
 	}
 
 	@UseGuards(GqlAuthGuard, ProjectGuard)
 	@Mutation(() => Boolean, { name: 'uploadTaskAttachment' })
 	public async uploadAttachment(
-		@Args() taskId: string,
+		@Args('taskId') taskId: string,
 		@Args('file', { type: () => GraphQLUpload }, AttachmentValidationPipe)
 		file: Upload
 	) {
@@ -30,13 +30,13 @@ export class AttachmentResolver {
 
 	@UseGuards(GqlAuthGuard, ProjectGuard)
 	@Mutation(() => Boolean, { name: 'deleteTaskAttachment' })
-	public async deleteAttachment(@Args() attachmentId: string) {
+	public async deleteAttachment(@Args('id') attachmentId: string) {
 		return this.attachmentService.deleteAttachment(attachmentId)
 	}
 
 	@UseGuards(GqlAuthGuard, ProjectGuard)
 	@Mutation(() => String, { name: 'generateAttachmentDownloadUrl' })
-	public async generateDownloadLink(@Args() attachmentId: string) {
+	public async generateDownloadLink(@Args('id') attachmentId: string) {
 		return this.attachmentService.generateDownloadUrl(attachmentId)
 	}
 }
