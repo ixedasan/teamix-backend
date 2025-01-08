@@ -36,7 +36,8 @@ export class TaskService {
 					}
 				},
 				comments: true,
-				labels: true
+				labels: true,
+				links: true
 			}
 		})
 	}

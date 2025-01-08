@@ -17,6 +17,7 @@ import { AttachmentModule } from '../modules/task/attachment/attachment.module'
 import { CommentModule } from '../modules/task/comment/comment.module'
 import { TaskAssigneeModule } from '../modules/task/task-assignee/task-assignee.module'
 import { TaskLabelsModule } from '../modules/task/task-labels/task-labels.module'
+import { TaskLinkModule } from '../modules/task/task-link/task-link.module'
 import { TaskModule } from '../modules/task/task/task.module'
 import { ProjectMiddleware } from '../shared/middlewares/project.middleware'
 import { getGraphQLConfig } from './config/graphql.config'
@@ -51,6 +52,7 @@ import { RedisModule } from './redis/redis.module'
 		TaskAssigneeModule,
 		TaskLabelsModule,
 		AttachmentModule,
+		TaskLinkModule,
 		CommentModule,
 		DocumentModule
 	]

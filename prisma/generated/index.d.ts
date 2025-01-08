@@ -11338,8 +11338,8 @@ export namespace Prisma {
 
   export type LinkMinAggregateOutputType = {
     id: string | null
-    title: string | null
     url: string | null
+    title: string | null
     taskId: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -11347,8 +11347,8 @@ export namespace Prisma {
 
   export type LinkMaxAggregateOutputType = {
     id: string | null
-    title: string | null
     url: string | null
+    title: string | null
     taskId: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -11356,8 +11356,8 @@ export namespace Prisma {
 
   export type LinkCountAggregateOutputType = {
     id: number
-    title: number
     url: number
+    title: number
     taskId: number
     createdAt: number
     updatedAt: number
@@ -11367,8 +11367,8 @@ export namespace Prisma {
 
   export type LinkMinAggregateInputType = {
     id?: true
-    title?: true
     url?: true
+    title?: true
     taskId?: true
     createdAt?: true
     updatedAt?: true
@@ -11376,8 +11376,8 @@ export namespace Prisma {
 
   export type LinkMaxAggregateInputType = {
     id?: true
-    title?: true
     url?: true
+    title?: true
     taskId?: true
     createdAt?: true
     updatedAt?: true
@@ -11385,8 +11385,8 @@ export namespace Prisma {
 
   export type LinkCountAggregateInputType = {
     id?: true
-    title?: true
     url?: true
+    title?: true
     taskId?: true
     createdAt?: true
     updatedAt?: true
@@ -11467,8 +11467,8 @@ export namespace Prisma {
 
   export type LinkGroupByOutputType = {
     id: string
-    title: string
     url: string
+    title: string | null
     taskId: string
     createdAt: Date
     updatedAt: Date
@@ -11493,8 +11493,8 @@ export namespace Prisma {
 
   export type LinkSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    title?: boolean
     url?: boolean
+    title?: boolean
     taskId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -11503,8 +11503,8 @@ export namespace Prisma {
 
   export type LinkSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    title?: boolean
     url?: boolean
+    title?: boolean
     taskId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -11513,8 +11513,8 @@ export namespace Prisma {
 
   export type LinkSelectScalar = {
     id?: boolean
-    title?: boolean
     url?: boolean
+    title?: boolean
     taskId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -11534,8 +11534,8 @@ export namespace Prisma {
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
-      title: string
       url: string
+      title: string | null
       taskId: string
       createdAt: Date
       updatedAt: Date
@@ -11934,8 +11934,8 @@ export namespace Prisma {
    */ 
   interface LinkFieldRefs {
     readonly id: FieldRef<"Link", 'String'>
-    readonly title: FieldRef<"Link", 'String'>
     readonly url: FieldRef<"Link", 'String'>
+    readonly title: FieldRef<"Link", 'String'>
     readonly taskId: FieldRef<"Link", 'String'>
     readonly createdAt: FieldRef<"Link", 'DateTime'>
     readonly updatedAt: FieldRef<"Link", 'DateTime'>
@@ -14305,8 +14305,8 @@ export namespace Prisma {
 
   export const LinkScalarFieldEnum: {
     id: 'id',
-    title: 'title',
     url: 'url',
+    title: 'title',
     taskId: 'taskId',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
@@ -15212,8 +15212,8 @@ export namespace Prisma {
     OR?: LinkWhereInput[]
     NOT?: LinkWhereInput | LinkWhereInput[]
     id?: StringFilter<"Link"> | string
-    title?: StringFilter<"Link"> | string
     url?: StringFilter<"Link"> | string
+    title?: StringNullableFilter<"Link"> | string | null
     taskId?: StringFilter<"Link"> | string
     createdAt?: DateTimeFilter<"Link"> | Date | string
     updatedAt?: DateTimeFilter<"Link"> | Date | string
@@ -15222,8 +15222,8 @@ export namespace Prisma {
 
   export type LinkOrderByWithRelationInput = {
     id?: SortOrder
-    title?: SortOrder
     url?: SortOrder
+    title?: SortOrderInput | SortOrder
     taskId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -15235,8 +15235,8 @@ export namespace Prisma {
     AND?: LinkWhereInput | LinkWhereInput[]
     OR?: LinkWhereInput[]
     NOT?: LinkWhereInput | LinkWhereInput[]
-    title?: StringFilter<"Link"> | string
     url?: StringFilter<"Link"> | string
+    title?: StringNullableFilter<"Link"> | string | null
     taskId?: StringFilter<"Link"> | string
     createdAt?: DateTimeFilter<"Link"> | Date | string
     updatedAt?: DateTimeFilter<"Link"> | Date | string
@@ -15245,8 +15245,8 @@ export namespace Prisma {
 
   export type LinkOrderByWithAggregationInput = {
     id?: SortOrder
-    title?: SortOrder
     url?: SortOrder
+    title?: SortOrderInput | SortOrder
     taskId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -15260,8 +15260,8 @@ export namespace Prisma {
     OR?: LinkScalarWhereWithAggregatesInput[]
     NOT?: LinkScalarWhereWithAggregatesInput | LinkScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Link"> | string
-    title?: StringWithAggregatesFilter<"Link"> | string
     url?: StringWithAggregatesFilter<"Link"> | string
+    title?: StringNullableWithAggregatesFilter<"Link"> | string | null
     taskId?: StringWithAggregatesFilter<"Link"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Link"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Link"> | Date | string
@@ -16142,8 +16142,8 @@ export namespace Prisma {
 
   export type LinkCreateInput = {
     id?: string
-    title: string
     url: string
+    title?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     task: TaskCreateNestedOneWithoutLinksInput
@@ -16151,8 +16151,8 @@ export namespace Prisma {
 
   export type LinkUncheckedCreateInput = {
     id?: string
-    title: string
     url: string
+    title?: string | null
     taskId: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -16160,8 +16160,8 @@ export namespace Prisma {
 
   export type LinkUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
     url?: StringFieldUpdateOperationsInput | string
+    title?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     task?: TaskUpdateOneRequiredWithoutLinksNestedInput
@@ -16169,8 +16169,8 @@ export namespace Prisma {
 
   export type LinkUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
     url?: StringFieldUpdateOperationsInput | string
+    title?: NullableStringFieldUpdateOperationsInput | string | null
     taskId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -16178,8 +16178,8 @@ export namespace Prisma {
 
   export type LinkCreateManyInput = {
     id?: string
-    title: string
     url: string
+    title?: string | null
     taskId: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -16187,16 +16187,16 @@ export namespace Prisma {
 
   export type LinkUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
     url?: StringFieldUpdateOperationsInput | string
+    title?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type LinkUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
     url?: StringFieldUpdateOperationsInput | string
+    title?: NullableStringFieldUpdateOperationsInput | string | null
     taskId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -17021,8 +17021,8 @@ export namespace Prisma {
 
   export type LinkCountOrderByAggregateInput = {
     id?: SortOrder
-    title?: SortOrder
     url?: SortOrder
+    title?: SortOrder
     taskId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -17030,8 +17030,8 @@ export namespace Prisma {
 
   export type LinkMaxOrderByAggregateInput = {
     id?: SortOrder
-    title?: SortOrder
     url?: SortOrder
+    title?: SortOrder
     taskId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -17039,8 +17039,8 @@ export namespace Prisma {
 
   export type LinkMinOrderByAggregateInput = {
     id?: SortOrder
-    title?: SortOrder
     url?: SortOrder
+    title?: SortOrder
     taskId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -19534,16 +19534,16 @@ export namespace Prisma {
 
   export type LinkCreateWithoutTaskInput = {
     id?: string
-    title: string
     url: string
+    title?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
   export type LinkUncheckedCreateWithoutTaskInput = {
     id?: string
-    title: string
     url: string
+    title?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -19745,8 +19745,8 @@ export namespace Prisma {
     OR?: LinkScalarWhereInput[]
     NOT?: LinkScalarWhereInput | LinkScalarWhereInput[]
     id?: StringFilter<"Link"> | string
-    title?: StringFilter<"Link"> | string
     url?: StringFilter<"Link"> | string
+    title?: StringNullableFilter<"Link"> | string | null
     taskId?: StringFilter<"Link"> | string
     createdAt?: DateTimeFilter<"Link"> | Date | string
     updatedAt?: DateTimeFilter<"Link"> | Date | string
@@ -21068,8 +21068,8 @@ export namespace Prisma {
 
   export type LinkCreateManyTaskInput = {
     id?: string
-    title: string
     url: string
+    title?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -21162,24 +21162,24 @@ export namespace Prisma {
 
   export type LinkUpdateWithoutTaskInput = {
     id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
     url?: StringFieldUpdateOperationsInput | string
+    title?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type LinkUncheckedUpdateWithoutTaskInput = {
     id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
     url?: StringFieldUpdateOperationsInput | string
+    title?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type LinkUncheckedUpdateManyWithoutTaskInput = {
     id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
     url?: StringFieldUpdateOperationsInput | string
+    title?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

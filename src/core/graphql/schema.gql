@@ -148,6 +148,7 @@ type Mutation {
   createSocialLink(data: SocialLinkInput!): Boolean!
   createTask(input: TaskInput!): TaskModel!
   createTaskLabel(input: CreateLabelInput!): Boolean!
+  createTaskLink(input: TaskLinkInput!, taskId: String!): Boolean!
   createUser(data: CreateUserInput!): Boolean!
   deleteComment(commentId: String!): Boolean!
   deleteDocument(documentId: String!): Boolean!
@@ -155,6 +156,7 @@ type Mutation {
   deleteTask(taskId: String!): TaskModel!
   deleteTaskAttachment(id: String!): Boolean!
   deleteTaskLabel(labelId: String!): Boolean!
+  deleteTaskLink(linkId: String!): Boolean!
   disableTotp: Boolean!
   enableTotp(data: EnableTotpInput!): Boolean!
   generateAttachmentDownloadUrl(id: String!): String!
@@ -176,6 +178,7 @@ type Mutation {
   updateProjectInfo(data: ProjectInput!): Boolean!
   updateSocialLink(data: SocialLinkInput!, id: String!): Boolean!
   updateTask(input: TaskInput!, taskId: String!): TaskModel!
+  updateTaskLink(input: TaskLinkInput!, linkId: String!): Boolean!
   uploadTaskAttachment(file: Upload!, taskId: String!): Boolean!
   verifyAccaunt(data: VerificationInput!): UserModel!
 }
@@ -223,6 +226,7 @@ type Query {
   findTaskAttachments(taskId: String!): [AttachmentModel!]!
   findTaskLabelsByProject: [TaskLabelModel!]!
   findTaskLabelsByTask(taskId: String!): [TaskLabelModel!]!
+  findTaskLinks(taskId: String!): [TaskLinkModel!]!
   generateTotpSecret: TotpModel!
   getAllUserProjects: [ProjectModel!]!
   getTaskAssignees(taskId: String!): [TaskAssigneeModel!]!
@@ -307,6 +311,20 @@ type TaskLabelModel {
   updatedAt: DateTime!
 }
 
+input TaskLinkInput {
+  title: String
+  url: String!
+}
+
+type TaskLinkModel {
+  createdAt: DateTime!
+  id: ID!
+  taskId: ID!
+  title: String
+  updatedAt: DateTime!
+  url: String!
+}
+
 type TaskModel {
   assignees: [TaskAssigneeModel!]!
   comments: [CommentModel!]!
@@ -317,6 +335,7 @@ type TaskModel {
   dueDate: DateTime
   id: ID!
   labels: [TaskLabelModel!]!
+  links: [TaskLinkModel!]!
   priority: Priority!
   project: ProjectModel!
   projectId: ID!

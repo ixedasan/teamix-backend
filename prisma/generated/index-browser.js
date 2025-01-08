@@ -218,8 +218,8 @@ exports.Prisma.AttachmentScalarFieldEnum = {
 
 exports.Prisma.LinkScalarFieldEnum = {
   id: 'id',
-  title: 'title',
   url: 'url',
+  title: 'title',
   taskId: 'taskId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'

@@ -170,8 +170,8 @@ model Attachment {
 
 model Link {
   id        String   @id @default(uuid())
-  title     String
   url       String
+  title     String?
   taskId    String   @map("task_id")
   task      Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now()) @map("created_at")
