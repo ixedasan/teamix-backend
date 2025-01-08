@@ -24,6 +24,7 @@
   "dependencies": {
     "@apollo/server": "^4.11.2",
     "@aws-sdk/client-s3": "^3.717.0",
+    "@aws-sdk/s3-request-presigner": "^3.723.0",
     "@nestjs-modules/mailer": "^2.0.2",
     "@nestjs/apollo": "^12.2.2",
     "@nestjs/common": "^10.0.0",
@@ -46,6 +47,8 @@
     "express-session": "^1.18.1",
     "geoip-lite": "^1.4.10",
     "graphql": "^16.10.0",
+    "graphql-subscriptions": "^3.0.0",
+    "graphql-type-json": "^0.3.2",
     "graphql-upload": "14",
     "hi-base32": "^0.5.1",
     "i18n-iso-countries": "^7.13.0",

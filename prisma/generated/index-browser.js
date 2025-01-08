@@ -192,7 +192,8 @@ exports.Prisma.TaskAssigneeScalarFieldEnum = {
   id: 'id',
   taskId: 'taskId',
   userId: 'userId',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.TaskLabelScalarFieldEnum = {
@@ -200,6 +201,26 @@ exports.Prisma.TaskLabelScalarFieldEnum = {
   name: 'name',
   color: 'color',
   projectId: 'projectId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.AttachmentScalarFieldEnum = {
+  id: 'id',
+  filename: 'filename',
+  filepath: 'filepath',
+  mimeType: 'mimeType',
+  size: 'size',
+  taskId: 'taskId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.LinkScalarFieldEnum = {
+  id: 'id',
+  url: 'url',
+  title: 'title',
+  taskId: 'taskId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -227,7 +248,8 @@ exports.Prisma.SortOrder = {
   desc: 'desc'
 };
 
-exports.Prisma.JsonNullValueInput = {
+exports.Prisma.NullableJsonNullValueInput = {
+  DbNull: Prisma.DbNull,
   JsonNull: Prisma.JsonNull
 };
 
@@ -267,6 +289,7 @@ exports.TaskStatus = exports.$Enums.TaskStatus = {
 };
 
 exports.Priority = exports.$Enums.Priority = {
+  NONE: 'NONE',
   LOW: 'LOW',
   MEDIUM: 'MEDIUM',
   HIGH: 'HIGH',
@@ -282,6 +305,8 @@ exports.Prisma.ModelName = {
   Task: 'Task',
   TaskAssignee: 'TaskAssignee',
   TaskLabel: 'TaskLabel',
+  Attachment: 'Attachment',
+  Link: 'Link',
   Comment: 'Comment',
   Document: 'Document'
 };

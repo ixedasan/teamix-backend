@@ -29,6 +29,9 @@ model User {
   createdAt       DateTime       @default(now()) @map("created_at")
   updatedAt       DateTime       @updatedAt @map("updated_at")
 
+  @@index([email])
+  @@index([username])
+  @@index([createdAt])
   @@map("users")
 }
 
@@ -89,6 +92,8 @@ model Member {
   updatedAt DateTime @updatedAt @map("updated_at")
 
   @@unique([userId, projectId])
+  @@index([userId])
+  @@index([projectId])
   @@map("members")
 }
 
@@ -102,6 +107,8 @@ model Task {
   startDate   DateTime?      @map("start_date")
   dueDate     DateTime?      @map("due_date")
   assignees   TaskAssignee[]
+  attachments Attachment[]
+  links       Link[]
   comments    Comment[]
   createdById String         @map("created_by_id")
   createdBy   User           @relation(fields: [createdById], references: [id], onDelete: Cascade)
@@ -110,6 +117,10 @@ model Task {
   createdAt   DateTime       @default(now()) @map("created_at")
   updatedAt   DateTime       @updatedAt @map("updated_at")
 
+  @@index([projectId])
+  @@index([status])
+  @@index([priority])
+  @@index([createdAt])
   @@map("tasks")
 }
 
@@ -120,8 +131,11 @@ model TaskAssignee {
   userId    String
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 
   @@unique([taskId, userId])
+  @@index([userId])
+  @@index([taskId])
   @@map("task_assignees")
 }
 
@@ -135,7 +149,36 @@ model TaskLabel {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
+  @@index([projectId])
   @@map("task_labels")
+}
+
+model Attachment {
+  id        String   @id @default(uuid())
+  filename  String
+  filepath  String
+  mimeType  String
+  size      Int
+  taskId    String
+  task      Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@index([taskId])
+  @@map("attachments")
+}
+
+model Link {
+  id        String   @id @default(uuid())
+  url       String
+  title     String?
+  taskId    String   @map("task_id")
+  task      Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@index([taskId])
+  @@map("links")
 }
 
 model Comment {
@@ -148,18 +191,20 @@ model Comment {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
+  @@index([taskId])
   @@map("comments")
 }
 
 model Document {
   id        String   @id @default(uuid())
-  title     String
-  content   Json
+  title     String?
+  content   Json?
   projectId String
   project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
+  @@index([projectId])
   @@map("documents")
 }
 
@@ -190,6 +235,7 @@ enum TaskStatus {
 }
 
 enum Priority {
+  NONE
   LOW
   MEDIUM
   HIGH
