@@ -13,6 +13,7 @@ import { MailModule } from '../modules/libs/mail/mail.module'
 import { StorageModule } from '../modules/libs/storage/storage.module'
 import { MemberModule } from '../modules/project/member/member.module'
 import { ProjectCoreModule } from '../modules/project/project-core/project-core.module'
+import { AttachmentModule } from '../modules/task/attachment/attachment.module'
 import { CommentModule } from '../modules/task/comment/comment.module'
 import { TaskAssigneeModule } from '../modules/task/task-assignee/task-assignee.module'
 import { TaskLabelsModule } from '../modules/task/task-labels/task-labels.module'
@@ -49,6 +50,7 @@ import { RedisModule } from './redis/redis.module'
 		TaskModule,
 		TaskAssigneeModule,
 		TaskLabelsModule,
+		AttachmentModule,
 		CommentModule,
 		DocumentModule
 	]
