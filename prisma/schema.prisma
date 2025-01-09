@@ -9,25 +9,28 @@ datasource db {
 }
 
 model User {
-  id              String         @id @default(uuid())
-  email           String         @unique
-  password        String
-  username        String         @unique
-  displayName     String         @map("display_name")
-  avatar          String?
-  bio             String?
-  isVerified      Boolean        @default(false) @map("is_verified")
-  isEmailVerified Boolean        @default(false) @map("is_email_verified")
-  isTotpEnabled   Boolean        @default(false) @map("is_totp_enabled")
-  totpSecret      String?        @map("totp_secret")
-  tokens          Token[]
-  socialLinks     SocialLink[]
-  memberships     Member[]
-  tasks           Task[]
-  assignedTasks   TaskAssignee[]
-  comments        Comment[]
-  createdAt       DateTime       @default(now()) @map("created_at")
-  updatedAt       DateTime       @updatedAt @map("updated_at")
+  id                   String                @id @default(uuid())
+  email                String                @unique
+  password             String
+  username             String                @unique
+  displayName          String                @map("display_name")
+  avatar               String?
+  bio                  String?
+  telegramId           String?               @unique @map("telegram_id")
+  isVerified           Boolean               @default(false) @map("is_verified")
+  isEmailVerified      Boolean               @default(false) @map("is_email_verified")
+  isTotpEnabled        Boolean               @default(false) @map("is_totp_enabled")
+  totpSecret           String?               @map("totp_secret")
+  tokens               Token[]
+  socialLinks          SocialLink[]
+  memberships          Member[]
+  tasks                Task[]
+  assignedTasks        TaskAssignee[]
+  comments             Comment[]
+  notifications        Notification[]
+  notificationSettings NotificationSettings?
+  createdAt            DateTime              @default(now()) @map("created_at")
+  updatedAt            DateTime              @updatedAt @map("updated_at")
 
   @@index([email])
   @@index([username])
@@ -208,6 +211,31 @@ model Document {
   @@map("documents")
 }
 
+model Notification {
+  id        String           @id @default(uuid())
+  message   String
+  type      NotificationType
+  isRead    Boolean          @default(false) @map("is_read")
+  userId    String?          @map("user_id")
+  user      User?            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime         @default(now()) @map("created_at")
+  updatedAt DateTime         @updatedAt @map("updated_at")
+
+  @@map("notifications")
+}
+
+model NotificationSettings {
+  id                   String   @id @default(uuid())
+  siteNotification     Boolean  @default(true) @map("site_notification")
+  telegramNotification Boolean  @default(true) @map("telegram_notification")
+  userId               String   @unique @map("user_id")
+  user                 User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt            DateTime @default(now()) @map("created_at")
+  updatedAt            DateTime @updatedAt @map("updated_at")
+
+  @@map("notification_settings")
+}
+
 enum TokenType {
   EMAIL_VERIFY
   PASSWORD_RESET
@@ -242,4 +270,14 @@ enum Priority {
   URGENT
 
   @@map("priorities")
+}
+
+enum NotificationType {
+  ENABLE_TWO_FACTOR
+  PROJECT_INVITATION
+  TASK_ASSIGNED
+  TASK_OVERDUE
+  TASK_COMMENT
+
+  @@map("notification_types")
 }
