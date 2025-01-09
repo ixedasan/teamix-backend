@@ -1,9 +1,13 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
 import { PrismaService } from '@/src/core/prisma/prisma.service'
+import { NotificationService } from '../../notification/notification.service'
 
 @Injectable()
 export class TaskAssigneeService {
-	public constructor(private readonly prismaService: PrismaService) {}
+	public constructor(
+		private readonly prismaService: PrismaService,
+		private readonly notificationService: NotificationService
+	) {}
 
 	public async getTaskAssignees(taskId: string) {
 		const taskAssignees = await this.prismaService.taskAssignee.findMany({
@@ -33,6 +37,9 @@ export class TaskAssigneeService {
 		const user = await this.prismaService.user.findUnique({
 			where: {
 				id: userId
+			},
+			include: {
+				notificationSettings: true
 			}
 		})
 
@@ -46,6 +53,13 @@ export class TaskAssigneeService {
 				userId
 			}
 		})
+
+		if (user.notificationSettings.siteNotification) {
+			await this.notificationService.createTaskAssignedNotification(
+				userId,
+				task.title
+			)
+		}
 
 		return true
 	}

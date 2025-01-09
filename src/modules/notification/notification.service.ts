@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common'
-import { TokenType, type User } from '@/prisma/generated'
+import { NotificationType, TokenType, type User } from '@/prisma/generated'
 import { PrismaService } from '@/src/core/prisma/prisma.service'
 import { generateToken } from '@/src/shared/utils/generate-token.util'
 import { type ChangeNotificationSettingsInput } from './inputs/change-notification-settings.input'
@@ -40,6 +40,74 @@ export class NotificationService {
 		})
 
 		return notifications
+	}
+
+	async createEnableTwoFactorNotification(userId: string) {
+		const notification = await this.prismaService.notification.create({
+			data: {
+				message: `<b className='font-medium'>Account Security</b>
+        <p>We recommend enabling two-factor authentication to increase the security of your account.</p>`,
+				type: NotificationType.ENABLE_TWO_FACTOR,
+				user: {
+					connect: {
+						id: userId
+					}
+				}
+			}
+		})
+		return notification
+	}
+
+	async createProjectInvitationNotification(
+		userId: string,
+		projectName: string
+	) {
+		const notification = await this.prismaService.notification.create({
+			data: {
+				message: `<b className='font-medium'>Invitation to the project</b>
+        <p>You are invited to join the project "${projectName}".</p>
+				<p>Check your e-mail to accept the invitation.</p>`,
+				type: NotificationType.PROJECT_INVITATION,
+				user: {
+					connect: {
+						id: userId
+					}
+				}
+			}
+		})
+		return notification
+	}
+
+	async createTaskAssignedNotification(userId: string, taskTitle: string) {
+		const notification = await this.prismaService.notification.create({
+			data: {
+				message: `<b className='font-medium'>New task</b>
+        <p>You've been assigned a task "${taskTitle}".</p>`,
+				type: NotificationType.TASK_ASSIGNED,
+				user: {
+					connect: {
+						id: userId
+					}
+				}
+			}
+		})
+		return notification
+	}
+
+	async createTaskOverdueNotification(userId: string, taskTitle: string) {
+		const notification = await this.prismaService.notification.create({
+			data: {
+				message: `<b className='font-medium'>The task is expiring</b>
+        <p>The deadline for the task “${taskTitle}” is approaching.</p>`,
+				type: NotificationType.TASK_OVERDUE,
+				user: {
+					connect: {
+						id: userId
+					}
+				}
+			}
+		})
+		return notification
 	}
 
 	public async changeSettings(
