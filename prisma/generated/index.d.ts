@@ -91,6 +91,7 @@ export namespace $Enums {
   export const TokenType: {
   EMAIL_VERIFY: 'EMAIL_VERIFY',
   PASSWORD_RESET: 'PASSWORD_RESET',
+  TELEGRAM_AUTH: 'TELEGRAM_AUTH',
   INVITATION: 'INVITATION'
 };
 

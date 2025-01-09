@@ -239,6 +239,7 @@ model NotificationSettings {
 enum TokenType {
   EMAIL_VERIFY
   PASSWORD_RESET
+  TELEGRAM_AUTH
   INVITATION
 
   @@map("token_types")

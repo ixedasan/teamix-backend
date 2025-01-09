@@ -291,6 +291,7 @@ exports.Prisma.JsonNullValueFilter = {
 exports.TokenType = exports.$Enums.TokenType = {
   EMAIL_VERIFY: 'EMAIL_VERIFY',
   PASSWORD_RESET: 'PASSWORD_RESET',
+  TELEGRAM_AUTH: 'TELEGRAM_AUTH',
   INVITATION: 'INVITATION'
 };
 
