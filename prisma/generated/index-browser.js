@@ -162,6 +162,7 @@ exports.Prisma.ProjectScalarFieldEnum = {
   name: 'name',
   cover: 'cover',
   description: 'description',
+  plan: 'plan',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -299,6 +300,12 @@ exports.Role = exports.$Enums.Role = {
   ADMIN: 'ADMIN',
   MEMBER: 'MEMBER',
   VIEWER: 'VIEWER'
+};
+
+exports.ProjectPlan = exports.$Enums.ProjectPlan = {
+  FREE: 'FREE',
+  PRO: 'PRO',
+  ENTERPRISE: 'ENTERPRISE'
 };
 
 exports.TaskStatus = exports.$Enums.TaskStatus = {

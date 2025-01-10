@@ -74,6 +74,7 @@ model Project {
   cover       String?
   description String?
   tokens      Token[]
+  plan        ProjectPlan @default(FREE)
   members     Member[]
   tasks       Task[]
   labels      TaskLabel[]
@@ -251,6 +252,14 @@ enum Role {
   VIEWER
 
   @@map("roles")
+}
+
+enum ProjectPlan {
+  FREE
+  PRO
+  ENTERPRISE
+
+  @@map("project_plans")
 }
 
 enum TaskStatus {

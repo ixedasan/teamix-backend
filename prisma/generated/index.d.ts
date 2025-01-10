@@ -107,6 +107,15 @@ export const Role: {
 export type Role = (typeof Role)[keyof typeof Role]
 
 
+export const ProjectPlan: {
+  FREE: 'FREE',
+  PRO: 'PRO',
+  ENTERPRISE: 'ENTERPRISE'
+};
+
+export type ProjectPlan = (typeof ProjectPlan)[keyof typeof ProjectPlan]
+
+
 export const TaskStatus: {
   BACKLOG: 'BACKLOG',
   TODO: 'TODO',
@@ -148,6 +157,10 @@ export const TokenType: typeof $Enums.TokenType
 export type Role = $Enums.Role
 
 export const Role: typeof $Enums.Role
+
+export type ProjectPlan = $Enums.ProjectPlan
+
+export const ProjectPlan: typeof $Enums.ProjectPlan
 
 export type TaskStatus = $Enums.TaskStatus
 
@@ -5540,6 +5553,7 @@ export namespace Prisma {
     name: string | null
     cover: string | null
     description: string | null
+    plan: $Enums.ProjectPlan | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -5549,6 +5563,7 @@ export namespace Prisma {
     name: string | null
     cover: string | null
     description: string | null
+    plan: $Enums.ProjectPlan | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -5558,6 +5573,7 @@ export namespace Prisma {
     name: number
     cover: number
     description: number
+    plan: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -5569,6 +5585,7 @@ export namespace Prisma {
     name?: true
     cover?: true
     description?: true
+    plan?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -5578,6 +5595,7 @@ export namespace Prisma {
     name?: true
     cover?: true
     description?: true
+    plan?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -5587,6 +5605,7 @@ export namespace Prisma {
     name?: true
     cover?: true
     description?: true
+    plan?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -5669,6 +5688,7 @@ export namespace Prisma {
     name: string
     cover: string | null
     description: string | null
+    plan: $Enums.ProjectPlan
     createdAt: Date
     updatedAt: Date
     _count: ProjectCountAggregateOutputType | null
@@ -5695,6 +5715,7 @@ export namespace Prisma {
     name?: boolean
     cover?: boolean
     description?: boolean
+    plan?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     tokens?: boolean | Project$tokensArgs<ExtArgs>
@@ -5710,6 +5731,7 @@ export namespace Prisma {
     name?: boolean
     cover?: boolean
     description?: boolean
+    plan?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["project"]>
@@ -5719,6 +5741,7 @@ export namespace Prisma {
     name?: boolean
     cover?: boolean
     description?: boolean
+    plan?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
@@ -5747,6 +5770,7 @@ export namespace Prisma {
       name: string
       cover: string | null
       description: string | null
+      plan: $Enums.ProjectPlan
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["project"]>
@@ -6151,6 +6175,7 @@ export namespace Prisma {
     readonly name: FieldRef<"Project", 'String'>
     readonly cover: FieldRef<"Project", 'String'>
     readonly description: FieldRef<"Project", 'String'>
+    readonly plan: FieldRef<"Project", 'ProjectPlan'>
     readonly createdAt: FieldRef<"Project", 'DateTime'>
     readonly updatedAt: FieldRef<"Project", 'DateTime'>
   }
@@ -16400,6 +16425,7 @@ export namespace Prisma {
     name: 'name',
     cover: 'cover',
     description: 'description',
+    plan: 'plan',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -16654,6 +16680,20 @@ export namespace Prisma {
    * Reference to a field of type 'Role[]'
    */
   export type ListEnumRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Role[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'ProjectPlan'
+   */
+  export type EnumProjectPlanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ProjectPlan'>
+    
+
+
+  /**
+   * Reference to a field of type 'ProjectPlan[]'
+   */
+  export type ListEnumProjectPlanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ProjectPlan[]'>
     
 
 
@@ -17002,6 +17042,7 @@ export namespace Prisma {
     name?: StringFilter<"Project"> | string
     cover?: StringNullableFilter<"Project"> | string | null
     description?: StringNullableFilter<"Project"> | string | null
+    plan?: EnumProjectPlanFilter<"Project"> | $Enums.ProjectPlan
     createdAt?: DateTimeFilter<"Project"> | Date | string
     updatedAt?: DateTimeFilter<"Project"> | Date | string
     tokens?: TokenListRelationFilter
@@ -17016,6 +17057,7 @@ export namespace Prisma {
     name?: SortOrder
     cover?: SortOrderInput | SortOrder
     description?: SortOrderInput | SortOrder
+    plan?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     tokens?: TokenOrderByRelationAggregateInput
@@ -17033,6 +17075,7 @@ export namespace Prisma {
     name?: StringFilter<"Project"> | string
     cover?: StringNullableFilter<"Project"> | string | null
     description?: StringNullableFilter<"Project"> | string | null
+    plan?: EnumProjectPlanFilter<"Project"> | $Enums.ProjectPlan
     createdAt?: DateTimeFilter<"Project"> | Date | string
     updatedAt?: DateTimeFilter<"Project"> | Date | string
     tokens?: TokenListRelationFilter
@@ -17047,6 +17090,7 @@ export namespace Prisma {
     name?: SortOrder
     cover?: SortOrderInput | SortOrder
     description?: SortOrderInput | SortOrder
+    plan?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: ProjectCountOrderByAggregateInput
@@ -17062,6 +17106,7 @@ export namespace Prisma {
     name?: StringWithAggregatesFilter<"Project"> | string
     cover?: StringNullableWithAggregatesFilter<"Project"> | string | null
     description?: StringNullableWithAggregatesFilter<"Project"> | string | null
+    plan?: EnumProjectPlanWithAggregatesFilter<"Project"> | $Enums.ProjectPlan
     createdAt?: DateTimeWithAggregatesFilter<"Project"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Project"> | Date | string
   }
@@ -18049,6 +18094,7 @@ export namespace Prisma {
     name: string
     cover?: string | null
     description?: string | null
+    plan?: $Enums.ProjectPlan
     createdAt?: Date | string
     updatedAt?: Date | string
     tokens?: TokenCreateNestedManyWithoutProjectInput
@@ -18063,6 +18109,7 @@ export namespace Prisma {
     name: string
     cover?: string | null
     description?: string | null
+    plan?: $Enums.ProjectPlan
     createdAt?: Date | string
     updatedAt?: Date | string
     tokens?: TokenUncheckedCreateNestedManyWithoutProjectInput
@@ -18077,6 +18124,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     cover?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    plan?: EnumProjectPlanFieldUpdateOperationsInput | $Enums.ProjectPlan
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tokens?: TokenUpdateManyWithoutProjectNestedInput
@@ -18091,6 +18139,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     cover?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    plan?: EnumProjectPlanFieldUpdateOperationsInput | $Enums.ProjectPlan
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tokens?: TokenUncheckedUpdateManyWithoutProjectNestedInput
@@ -18105,6 +18154,7 @@ export namespace Prisma {
     name: string
     cover?: string | null
     description?: string | null
+    plan?: $Enums.ProjectPlan
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -18114,6 +18164,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     cover?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    plan?: EnumProjectPlanFieldUpdateOperationsInput | $Enums.ProjectPlan
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -18123,6 +18174,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     cover?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    plan?: EnumProjectPlanFieldUpdateOperationsInput | $Enums.ProjectPlan
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -19204,6 +19256,13 @@ export namespace Prisma {
     _max?: NestedEnumRoleNullableFilter<$PrismaModel>
   }
 
+  export type EnumProjectPlanFilter<$PrismaModel = never> = {
+    equals?: $Enums.ProjectPlan | EnumProjectPlanFieldRefInput<$PrismaModel>
+    in?: $Enums.ProjectPlan[] | ListEnumProjectPlanFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ProjectPlan[] | ListEnumProjectPlanFieldRefInput<$PrismaModel>
+    not?: NestedEnumProjectPlanFilter<$PrismaModel> | $Enums.ProjectPlan
+  }
+
   export type TaskLabelListRelationFilter = {
     every?: TaskLabelWhereInput
     some?: TaskLabelWhereInput
@@ -19229,6 +19288,7 @@ export namespace Prisma {
     name?: SortOrder
     cover?: SortOrder
     description?: SortOrder
+    plan?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -19238,6 +19298,7 @@ export namespace Prisma {
     name?: SortOrder
     cover?: SortOrder
     description?: SortOrder
+    plan?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -19247,8 +19308,19 @@ export namespace Prisma {
     name?: SortOrder
     cover?: SortOrder
     description?: SortOrder
+    plan?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+  }
+
+  export type EnumProjectPlanWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ProjectPlan | EnumProjectPlanFieldRefInput<$PrismaModel>
+    in?: $Enums.ProjectPlan[] | ListEnumProjectPlanFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ProjectPlan[] | ListEnumProjectPlanFieldRefInput<$PrismaModel>
+    not?: NestedEnumProjectPlanWithAggregatesFilter<$PrismaModel> | $Enums.ProjectPlan
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumProjectPlanFilter<$PrismaModel>
+    _max?: NestedEnumProjectPlanFilter<$PrismaModel>
   }
 
   export type EnumRoleFilter<$PrismaModel = never> = {
@@ -20202,6 +20274,10 @@ export namespace Prisma {
     connect?: DocumentWhereUniqueInput | DocumentWhereUniqueInput[]
   }
 
+  export type EnumProjectPlanFieldUpdateOperationsInput = {
+    set?: $Enums.ProjectPlan
+  }
+
   export type TokenUpdateManyWithoutProjectNestedInput = {
     create?: XOR<TokenCreateWithoutProjectInput, TokenUncheckedCreateWithoutProjectInput> | TokenCreateWithoutProjectInput[] | TokenUncheckedCreateWithoutProjectInput[]
     connectOrCreate?: TokenCreateOrConnectWithoutProjectInput | TokenCreateOrConnectWithoutProjectInput[]
@@ -20987,6 +21063,23 @@ export namespace Prisma {
     _max?: NestedEnumRoleNullableFilter<$PrismaModel>
   }
 
+  export type NestedEnumProjectPlanFilter<$PrismaModel = never> = {
+    equals?: $Enums.ProjectPlan | EnumProjectPlanFieldRefInput<$PrismaModel>
+    in?: $Enums.ProjectPlan[] | ListEnumProjectPlanFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ProjectPlan[] | ListEnumProjectPlanFieldRefInput<$PrismaModel>
+    not?: NestedEnumProjectPlanFilter<$PrismaModel> | $Enums.ProjectPlan
+  }
+
+  export type NestedEnumProjectPlanWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ProjectPlan | EnumProjectPlanFieldRefInput<$PrismaModel>
+    in?: $Enums.ProjectPlan[] | ListEnumProjectPlanFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ProjectPlan[] | ListEnumProjectPlanFieldRefInput<$PrismaModel>
+    not?: NestedEnumProjectPlanWithAggregatesFilter<$PrismaModel> | $Enums.ProjectPlan
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumProjectPlanFilter<$PrismaModel>
+    _max?: NestedEnumProjectPlanFilter<$PrismaModel>
+  }
+
   export type NestedEnumRoleFilter<$PrismaModel = never> = {
     equals?: $Enums.Role | EnumRoleFieldRefInput<$PrismaModel>
     in?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
@@ -21738,6 +21831,7 @@ export namespace Prisma {
     name: string
     cover?: string | null
     description?: string | null
+    plan?: $Enums.ProjectPlan
     createdAt?: Date | string
     updatedAt?: Date | string
     members?: MemberCreateNestedManyWithoutProjectInput
@@ -21751,6 +21845,7 @@ export namespace Prisma {
     name: string
     cover?: string | null
     description?: string | null
+    plan?: $Enums.ProjectPlan
     createdAt?: Date | string
     updatedAt?: Date | string
     members?: MemberUncheckedCreateNestedManyWithoutProjectInput
@@ -21839,6 +21934,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     cover?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    plan?: EnumProjectPlanFieldUpdateOperationsInput | $Enums.ProjectPlan
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     members?: MemberUpdateManyWithoutProjectNestedInput
@@ -21852,6 +21948,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     cover?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    plan?: EnumProjectPlanFieldUpdateOperationsInput | $Enums.ProjectPlan
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     members?: MemberUncheckedUpdateManyWithoutProjectNestedInput
@@ -22182,6 +22279,7 @@ export namespace Prisma {
     name: string
     cover?: string | null
     description?: string | null
+    plan?: $Enums.ProjectPlan
     createdAt?: Date | string
     updatedAt?: Date | string
     tokens?: TokenCreateNestedManyWithoutProjectInput
@@ -22195,6 +22293,7 @@ export namespace Prisma {
     name: string
     cover?: string | null
     description?: string | null
+    plan?: $Enums.ProjectPlan
     createdAt?: Date | string
     updatedAt?: Date | string
     tokens?: TokenUncheckedCreateNestedManyWithoutProjectInput
@@ -22283,6 +22382,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     cover?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    plan?: EnumProjectPlanFieldUpdateOperationsInput | $Enums.ProjectPlan
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tokens?: TokenUpdateManyWithoutProjectNestedInput
@@ -22296,6 +22396,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     cover?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    plan?: EnumProjectPlanFieldUpdateOperationsInput | $Enums.ProjectPlan
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tokens?: TokenUncheckedUpdateManyWithoutProjectNestedInput
@@ -22491,6 +22592,7 @@ export namespace Prisma {
     name: string
     cover?: string | null
     description?: string | null
+    plan?: $Enums.ProjectPlan
     createdAt?: Date | string
     updatedAt?: Date | string
     tokens?: TokenCreateNestedManyWithoutProjectInput
@@ -22504,6 +22606,7 @@ export namespace Prisma {
     name: string
     cover?: string | null
     description?: string | null
+    plan?: $Enums.ProjectPlan
     createdAt?: Date | string
     updatedAt?: Date | string
     tokens?: TokenUncheckedCreateNestedManyWithoutProjectInput
@@ -22698,6 +22801,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     cover?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    plan?: EnumProjectPlanFieldUpdateOperationsInput | $Enums.ProjectPlan
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tokens?: TokenUpdateManyWithoutProjectNestedInput
@@ -22711,6 +22815,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     cover?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    plan?: EnumProjectPlanFieldUpdateOperationsInput | $Enums.ProjectPlan
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tokens?: TokenUncheckedUpdateManyWithoutProjectNestedInput
@@ -22924,6 +23029,7 @@ export namespace Prisma {
     name: string
     cover?: string | null
     description?: string | null
+    plan?: $Enums.ProjectPlan
     createdAt?: Date | string
     updatedAt?: Date | string
     tokens?: TokenCreateNestedManyWithoutProjectInput
@@ -22937,6 +23043,7 @@ export namespace Prisma {
     name: string
     cover?: string | null
     description?: string | null
+    plan?: $Enums.ProjectPlan
     createdAt?: Date | string
     updatedAt?: Date | string
     tokens?: TokenUncheckedCreateNestedManyWithoutProjectInput
@@ -23007,6 +23114,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     cover?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    plan?: EnumProjectPlanFieldUpdateOperationsInput | $Enums.ProjectPlan
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tokens?: TokenUpdateManyWithoutProjectNestedInput
@@ -23020,6 +23128,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     cover?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    plan?: EnumProjectPlanFieldUpdateOperationsInput | $Enums.ProjectPlan
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tokens?: TokenUncheckedUpdateManyWithoutProjectNestedInput
@@ -23425,6 +23534,7 @@ export namespace Prisma {
     name: string
     cover?: string | null
     description?: string | null
+    plan?: $Enums.ProjectPlan
     createdAt?: Date | string
     updatedAt?: Date | string
     tokens?: TokenCreateNestedManyWithoutProjectInput
@@ -23438,6 +23548,7 @@ export namespace Prisma {
     name: string
     cover?: string | null
     description?: string | null
+    plan?: $Enums.ProjectPlan
     createdAt?: Date | string
     updatedAt?: Date | string
     tokens?: TokenUncheckedCreateNestedManyWithoutProjectInput
@@ -23467,6 +23578,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     cover?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    plan?: EnumProjectPlanFieldUpdateOperationsInput | $Enums.ProjectPlan
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tokens?: TokenUpdateManyWithoutProjectNestedInput
@@ -23480,6 +23592,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     cover?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    plan?: EnumProjectPlanFieldUpdateOperationsInput | $Enums.ProjectPlan
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tokens?: TokenUncheckedUpdateManyWithoutProjectNestedInput
