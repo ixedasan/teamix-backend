@@ -94,11 +94,11 @@ export class TelegramService extends Telegraf {
 		const tasksByProject = this.groupTasksByProject(user.assignedTasks)
 
 		if (Object.keys(tasksByProject).length === 0) {
-			return await ctx.reply('No tasks assigned', BUTTONS.taskControls)
+			await ctx.reply('No tasks assigned', BUTTONS.taskControls)
+		} else {
+			const message = this.formatProjectTasks(tasksByProject)
+			await ctx.reply(message, BUTTONS.taskControls)
 		}
-
-		const message = this.formatProjectTasks(tasksByProject)
-		await ctx.reply(message, BUTTONS.taskControls)
 	}
 
 	@Action('tasks_overdue')
@@ -115,12 +115,12 @@ export class TelegramService extends Telegraf {
 		})
 
 		if (!overdueTasks.length) {
-			return await ctx.reply('No overdue tasks', BUTTONS.taskControls)
+			await ctx.reply('No overdue tasks', BUTTONS.taskControls)
+		} else {
+			const tasksByProject = this.groupTasksByProject(overdueTasks)
+			const message = this.formatProjectTasks(tasksByProject)
+			await ctx.reply('⚠️ Overdue Tasks:\n\n' + message, BUTTONS.taskControls)
 		}
-
-		const tasksByProject = this.groupTasksByProject(overdueTasks)
-		const message = this.formatProjectTasks(tasksByProject)
-		await ctx.reply('⚠️ Overdue Tasks:\n\n' + message, BUTTONS.taskControls)
 	}
 
 	@Action('tasks_in_progress')
@@ -137,12 +137,15 @@ export class TelegramService extends Telegraf {
 		})
 
 		if (!inProgressTasks.length) {
-			return await ctx.reply('No tasks in progress', BUTTONS.taskControls)
+			await ctx.reply('No tasks in progress', BUTTONS.taskControls)
+		} else {
+			const tasksByProject = this.groupTasksByProject(inProgressTasks)
+			const message = this.formatProjectTasks(tasksByProject)
+			await ctx.reply(
+				'🔄 In Progress Tasks:\n\n' + message,
+				BUTTONS.taskControls
+			)
 		}
-
-		const tasksByProject = this.groupTasksByProject(inProgressTasks)
-		const message = this.formatProjectTasks(tasksByProject)
-		await ctx.reply('🔄 In Progress Tasks:\n\n' + message, BUTTONS.taskControls)
 	}
 
 	@Action('tasks_completed')
@@ -159,12 +162,12 @@ export class TelegramService extends Telegraf {
 		})
 
 		if (!completedTasks.length) {
-			return await ctx.reply('No completed tasks', BUTTONS.taskControls)
+			await ctx.reply('No completed tasks', BUTTONS.taskControls)
+		} else {
+			const tasksByProject = this.groupTasksByProject(completedTasks)
+			const message = this.formatProjectTasks(tasksByProject)
+			await ctx.reply('✅ Completed Tasks:\n\n' + message, BUTTONS.taskControls)
 		}
-
-		const tasksByProject = this.groupTasksByProject(completedTasks)
-		const message = this.formatProjectTasks(tasksByProject)
-		await ctx.reply('✅ Completed Tasks:\n\n' + message, BUTTONS.taskControls)
 	}
 
 	private async getTaskStats(userId: string) {
