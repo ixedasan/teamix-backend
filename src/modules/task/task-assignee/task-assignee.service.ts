@@ -1,12 +1,14 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
 import { PrismaService } from '@/src/core/prisma/prisma.service'
+import { TelegramService } from '../../libs/telegram/telegram.service'
 import { NotificationService } from '../../notification/notification.service'
 
 @Injectable()
 export class TaskAssigneeService {
 	public constructor(
 		private readonly prismaService: PrismaService,
-		private readonly notificationService: NotificationService
+		private readonly notificationService: NotificationService,
+		private readonly telegramService: TelegramService
 	) {}
 
 	public async getTaskAssignees(taskId: string) {
@@ -27,6 +29,11 @@ export class TaskAssigneeService {
 		const task = await this.prismaService.task.findUnique({
 			where: {
 				id: taskId
+			},
+			include: {
+				project: {
+					select: { name: true }
+				}
 			}
 		})
 
@@ -58,6 +65,14 @@ export class TaskAssigneeService {
 			await this.notificationService.createTaskAssignedNotification(
 				userId,
 				task.title
+			)
+		}
+
+		if (user.notificationSettings.telegramNotification && user.telegramId) {
+			await this.telegramService.sendTaskAssigned(
+				user.telegramId,
+				task.title,
+				task.project.name
 			)
 		}
 

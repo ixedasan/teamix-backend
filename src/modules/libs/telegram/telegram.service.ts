@@ -4,6 +4,7 @@ import { Action, Command, Ctx, Start, Update } from 'nestjs-telegraf'
 import { Context, Telegraf } from 'telegraf'
 import { TaskStatus, TokenType } from '@/prisma/generated'
 import { PrismaService } from '@/src/core/prisma/prisma.service'
+import { SessionMetadata } from '@/src/shared/types/session-metadata.types'
 import { BUTTONS } from './telegram.buttons'
 import { MESSAGES } from './telegram.messages'
 
@@ -168,6 +169,57 @@ export class TelegramService extends Telegraf {
 			const message = this.formatProjectTasks(tasksByProject)
 			await ctx.reply('✅ Completed Tasks:\n\n' + message, BUTTONS.taskControls)
 		}
+	}
+
+	public async sendPasswordResetToken(
+		chatId: string,
+		token: string,
+		metadata: SessionMetadata
+	) {
+		await this.telegram.sendMessage(
+			chatId,
+			MESSAGES.resetPassword(token, metadata),
+			{ parse_mode: 'HTML' }
+		)
+	}
+
+	public async sendProjectInvitation(
+		chatId: string,
+		projectName: string,
+		projectRole: string,
+		token: string
+	) {
+		await this.telegram.sendMessage(
+			chatId,
+			MESSAGES.projectInvitation(projectName, projectRole, token),
+			{ parse_mode: 'HTML' }
+		)
+	}
+
+	public async sendTaskAssigned(
+		chatId: string,
+		taskTitle: string,
+		projectName: string
+	) {
+		await this.telegram.sendMessage(
+			chatId,
+			MESSAGES.taskAssigned(taskTitle, projectName),
+			{ parse_mode: 'HTML' }
+		)
+	}
+
+	public async sendTaskUnassigned(
+		chatId: string,
+		taskTitle: string,
+		projectName: string,
+		dueDate: Date,
+		priority: string
+	) {
+		await this.telegram.sendMessage(
+			chatId,
+			MESSAGES.taskOverdue(taskTitle, projectName, dueDate, priority),
+			{ parse_mode: 'HTML' }
+		)
 	}
 
 	private async getTaskStats(userId: string) {

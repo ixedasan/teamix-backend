@@ -1,4 +1,5 @@
 import type { User } from '@/prisma/generated'
+import { SessionMetadata } from '@/src/shared/types/session-metadata.types'
 
 interface TaskStats {
 	total: number
@@ -81,16 +82,70 @@ The requested task couldn't be found. It may have been:
 • Unassigned from you
 `,
 
-	notificationSettings: (settings: any) => `
-<b>🔔 Notification Settings</b>
+	resetPassword: (token: string, metadata: SessionMetadata) =>
+		`<b>🔒 Password reset</b>
 
-Current Configuration:
-• Task Assignments: ${settings.taskNotifications ? '✅' : '❌'}
-• Due Date Reminders: ${settings.dueDateNotifications ? '✅' : '❌'}
-• Comments: ${settings.commentNotifications ? '✅' : '❌'}
-• Project Updates: ${settings.projectNotifications ? '✅' : '❌'}
+		You have requested a password reset for your account on the <b>TEAMIX</b> platform.
 
-Use the buttons below to adjust your notification preferences.
+		To create a new password, please click on the following link:
+		<b><a href="https://teamix.app/account/recovery/${token}">Reset password</a></b>
+
+		📅 <b>Date of request:</b> ${new Date().toLocaleDateString()} in ${new Date().toLocaleTimeString()}
+
+		🖥️ <b>Request information:</b>
+
+		🌍 <b>Location:</b> ${metadata.location.country}, ${metadata.location.city}
+		📱 <b>OS</b> ${metadata.device.os}
+		🌐 <b>Browser:</b> ${metadata.device.browser}
+		💻 <b>IP address:</b> ${metadata.ip}
+
+		If you did not make this request, just ignore this message.
+
+		Thank you for using <b>TEAMIX</b>! 🚀`,
+
+	projectInvitation: (
+		projectName: string,
+		projectRole: string,
+		token: string
+	) => `
+		<b>🎯 Project Invitation</b>
+
+		You've been invited to join a project.
+
+		• Project: ${projectName}
+		• Role: ${projectRole}
+
+		In order to accept the invitation, please click on the following link:
+		<b><a href="https://teamix.app//project/join?token=${token}">Accept invitation</a></b>
+
+		If you don't want to accept the invitation, please ignore this message.
+
+		Thank you for using <b>TEAMIX</b>! 🚀
+`,
+
+	taskAssigned: (taskTitle: string, projectName: string) => `\
+		<b>📋 New Task Assignment</b>
+
+		You've been assigned a new task:
+		• Task: ${taskTitle}
+		• Project: ${projectName}
+`,
+
+	taskOverdue: (
+		taskTitle: string,
+		projectName: string,
+		dueDate: Date,
+		priority: string
+	) => `
+		<b>⚠️ Task Overdue Alert</b>
+
+		The following task is overdue:
+		• Task: ${taskTitle}
+		• Project: ${projectName}
+		• Due Date: ${dueDate}
+		${priority ? `• Priority: ${priority}` : ''}
+
+		Please update the task status or request an extension.
 `,
 
 	errorMessage: `
