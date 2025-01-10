@@ -8,6 +8,8 @@ import { v4 as uuidv4 } from 'uuid'
 import { Role, TokenType, type Project, type User } from '@/prisma/generated'
 import { PrismaService } from '@/src/core/prisma/prisma.service'
 import { MailService } from '../../libs/mail/mail.service'
+import { TelegramService } from '../../libs/telegram/telegram.service'
+import { NotificationService } from '../../notification/notification.service'
 import { ChangeRoleInput } from './inputs/change-role.input'
 import { InviteMemberInput } from './inputs/invite-member.input'
 
@@ -15,7 +17,9 @@ import { InviteMemberInput } from './inputs/invite-member.input'
 export class MemberService {
 	public constructor(
 		private readonly prismaService: PrismaService,
-		private readonly mailService: MailService
+		private readonly mailService: MailService,
+		private readonly notificationService: NotificationService,
+		private readonly telegramService: TelegramService
 	) {}
 
 	public async getProjectMembers(projectId: string) {
@@ -54,6 +58,35 @@ export class MemberService {
 			project.name,
 			inviteToken.token
 		)
+
+		const user = await this.prismaService.user.findFirst({
+			where: {
+				email
+			},
+			include: {
+				notificationSettings: true
+			}
+		})
+
+		if (user.notificationSettings.siteNotification) {
+			await this.notificationService.createProjectInvitationNotification(
+				user.id,
+				project.name
+			)
+		}
+
+		if (
+			user.notificationSettings.telegramNotification &&
+			user.telegramId &&
+			inviteToken
+		) {
+			await this.telegramService.sendProjectInvitation(
+				user.telegramId,
+				project.name,
+				inviteToken.role,
+				inviteToken.token
+			)
+		}
 
 		return true
 	}

@@ -125,6 +125,7 @@ exports.Prisma.UserScalarFieldEnum = {
   displayName: 'displayName',
   avatar: 'avatar',
   bio: 'bio',
+  telegramId: 'telegramId',
   isVerified: 'isVerified',
   isEmailVerified: 'isEmailVerified',
   isTotpEnabled: 'isTotpEnabled',
@@ -243,6 +244,25 @@ exports.Prisma.DocumentScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.NotificationScalarFieldEnum = {
+  id: 'id',
+  message: 'message',
+  type: 'type',
+  isRead: 'isRead',
+  userId: 'userId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.NotificationSettingsScalarFieldEnum = {
+  id: 'id',
+  siteNotification: 'siteNotification',
+  telegramNotification: 'telegramNotification',
+  userId: 'userId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -271,6 +291,7 @@ exports.Prisma.JsonNullValueFilter = {
 exports.TokenType = exports.$Enums.TokenType = {
   EMAIL_VERIFY: 'EMAIL_VERIFY',
   PASSWORD_RESET: 'PASSWORD_RESET',
+  TELEGRAM_AUTH: 'TELEGRAM_AUTH',
   INVITATION: 'INVITATION'
 };
 
@@ -296,6 +317,14 @@ exports.Priority = exports.$Enums.Priority = {
   URGENT: 'URGENT'
 };
 
+exports.NotificationType = exports.$Enums.NotificationType = {
+  ENABLE_TWO_FACTOR: 'ENABLE_TWO_FACTOR',
+  PROJECT_INVITATION: 'PROJECT_INVITATION',
+  TASK_ASSIGNED: 'TASK_ASSIGNED',
+  TASK_OVERDUE: 'TASK_OVERDUE',
+  TASK_COMMENT: 'TASK_COMMENT'
+};
+
 exports.Prisma.ModelName = {
   User: 'User',
   SocialLink: 'SocialLink',
@@ -308,7 +337,9 @@ exports.Prisma.ModelName = {
   Attachment: 'Attachment',
   Link: 'Link',
   Comment: 'Comment',
-  Document: 'Document'
+  Document: 'Document',
+  Notification: 'Notification',
+  NotificationSettings: 'NotificationSettings'
 };
 
 /**
