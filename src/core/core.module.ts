@@ -16,12 +16,14 @@ import { TelegramModule } from '../modules/libs/telegram/telegram.module'
 import { NotificationModule } from '../modules/notification/notification.module'
 import { MemberModule } from '../modules/project/member/member.module'
 import { ProjectCoreModule } from '../modules/project/project-core/project-core.module'
+import { ProjectPlanModule } from '../modules/project/project-plan/project-plan.module'
 import { AttachmentModule } from '../modules/task/attachment/attachment.module'
 import { CommentModule } from '../modules/task/comment/comment.module'
 import { TaskAssigneeModule } from '../modules/task/task-assignee/task-assignee.module'
 import { TaskLabelsModule } from '../modules/task/task-labels/task-labels.module'
 import { TaskLinkModule } from '../modules/task/task-link/task-link.module'
 import { TaskModule } from '../modules/task/task/task.module'
+import { WebhookModule } from '../modules/webhook/webhook.module'
 import { ProjectMiddleware } from '../shared/middlewares/project.middleware'
 import { getGraphQLConfig } from './config/graphql.config'
 import { getStripeConfig } from './config/stripe.config'
@@ -57,8 +59,10 @@ import { RedisModule } from './redis/redis.module'
 		TotpModule,
 		TelegramModule,
 		StripeModule,
+		WebhookModule,
 		NotificationModule,
 		ProjectCoreModule,
+		ProjectPlanModule,
 		MemberModule,
 		TaskModule,
 		TaskAssigneeModule,

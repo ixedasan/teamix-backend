@@ -1,7 +1,10 @@
-import { Field, ID, ObjectType } from '@nestjs/graphql'
-import type { Project } from '@/prisma/generated'
+import { Field, ID, ObjectType, registerEnumType } from '@nestjs/graphql'
+import { ProjectPlan, type Project } from '@/prisma/generated'
 import { MemberModel } from '../../member/models/member.model'
 
+registerEnumType(ProjectPlan, {
+	name: 'ProjectStatus'
+})
 @ObjectType()
 export class ProjectModel implements Project {
 	@Field(() => ID)
@@ -18,6 +21,9 @@ export class ProjectModel implements Project {
 
 	@Field(() => [MemberModel])
 	public members: MemberModel[]
+
+	@Field(() => ProjectPlan)
+	public plan: ProjectPlan
 
 	@Field(() => Date)
 	public createdAt: Date

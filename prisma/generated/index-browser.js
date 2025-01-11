@@ -167,6 +167,17 @@ exports.Prisma.ProjectScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.ProjectSubscriptionScalarFieldEnum = {
+  id: 'id',
+  projectId: 'projectId',
+  stripeSubscriptionId: 'stripeSubscriptionId',
+  stripeCustomerId: 'stripeCustomerId',
+  status: 'status',
+  expiresAt: 'expiresAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.MemberScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
@@ -308,6 +319,13 @@ exports.ProjectPlan = exports.$Enums.ProjectPlan = {
   ENTERPRISE: 'ENTERPRISE'
 };
 
+exports.TransactionStatus = exports.$Enums.TransactionStatus = {
+  PENDING: 'PENDING',
+  SUCCESS: 'SUCCESS',
+  FAILED: 'FAILED',
+  EXPIRED: 'EXPIRED'
+};
+
 exports.TaskStatus = exports.$Enums.TaskStatus = {
   BACKLOG: 'BACKLOG',
   TODO: 'TODO',
@@ -337,6 +355,7 @@ exports.Prisma.ModelName = {
   SocialLink: 'SocialLink',
   Token: 'Token',
   Project: 'Project',
+  ProjectSubscription: 'ProjectSubscription',
   Member: 'Member',
   Task: 'Task',
   TaskAssignee: 'TaskAssignee',

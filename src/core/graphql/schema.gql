@@ -131,6 +131,10 @@ input LoginInput {
   pin: String
 }
 
+type MakePaymentModel {
+  url: String!
+}
+
 type MemberModel {
   createdAt: DateTime!
   id: ID!
@@ -174,6 +178,7 @@ type Mutation {
   inviteProjectMember(data: InviteMemberInput!): Boolean!
   loginUser(data: LoginInput!): AuthModel!
   logoutUser: Boolean!
+  makePayment: MakePaymentModel!
   newPassword(data: NewPasswordInput!): Boolean!
   removeLabelFromTask(labelId: String!, taskId: String!): Boolean!
   removeProfileAvatar: Boolean!
@@ -249,7 +254,14 @@ type ProjectModel {
   id: ID!
   members: [MemberModel!]!
   name: String!
+  plan: ProjectStatus!
   updatedAt: DateTime!
+}
+
+enum ProjectStatus {
+  ENTERPRISE
+  FREE
+  PRO
 }
 
 type Query {

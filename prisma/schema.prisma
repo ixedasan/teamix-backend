@@ -69,20 +69,36 @@ model Token {
 }
 
 model Project {
-  id          String      @id @default(uuid())
-  name        String
-  cover       String?
-  description String?
-  tokens      Token[]
-  plan        ProjectPlan @default(FREE)
-  members     Member[]
-  tasks       Task[]
-  labels      TaskLabel[]
-  documents   Document[]
-  createdAt   DateTime    @default(now()) @map("created_at")
-  updatedAt   DateTime    @updatedAt @map("updated_at")
+  id                  String                @id @default(uuid())
+  name                String
+  cover               String?
+  description         String?
+  tokens              Token[]
+  plan                ProjectPlan           @default(FREE)
+  projectSubscription ProjectSubscription[]
+  members             Member[]
+  tasks               Task[]
+  labels              TaskLabel[]
+  documents           Document[]
+  createdAt           DateTime              @default(now()) @map("created_at")
+  updatedAt           DateTime              @updatedAt @map("updated_at")
 
   @@map("projects")
+}
+
+model ProjectSubscription {
+  id                   String            @id @default(uuid())
+  projectId            String
+  project              Project           @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  stripeSubscriptionId String?           @map("stripe_subscription_id")
+  stripeCustomerId     String?           @map("stripe_customer_id")
+  status               TransactionStatus @default(PENDING)
+  expiresAt            DateTime?         @map("expires_at")
+  createdAt            DateTime          @default(now()) @map("created_at")
+  updatedAt            DateTime          @updatedAt @map("updated_at")
+
+  @@index([projectId])
+  @@map("project_subscriptions")
 }
 
 model Member {
@@ -290,4 +306,13 @@ enum NotificationType {
   TASK_COMMENT
 
   @@map("notification_types")
+}
+
+enum TransactionStatus {
+  PENDING
+  SUCCESS
+  FAILED
+  EXPIRED
+
+  @@map("transaction_statuses")
 }
