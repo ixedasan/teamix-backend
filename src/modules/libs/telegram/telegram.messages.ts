@@ -147,6 +147,9 @@ The requested task couldn't be found. It may have been:
 
 		Please update the task status or request an extension.
 `,
+	enableTwoFactor:
+		`🔐 Ensure your safety!\n\n` +
+		`Enable two-factor authentication in the <a href="https://teamix.app/dashboard/settings">account settings</a>.`,
 
 	errorMessage: `
 <b>⚠️ Something went wrong</b>

@@ -34,6 +34,11 @@ export type Token = $Result.DefaultSelection<Prisma.$TokenPayload>
  */
 export type Project = $Result.DefaultSelection<Prisma.$ProjectPayload>
 /**
+ * Model ProjectSubscription
+ * 
+ */
+export type ProjectSubscription = $Result.DefaultSelection<Prisma.$ProjectSubscriptionPayload>
+/**
  * Model Member
  * 
  */
@@ -107,6 +112,15 @@ export const Role: {
 export type Role = (typeof Role)[keyof typeof Role]
 
 
+export const ProjectPlan: {
+  FREE: 'FREE',
+  PRO: 'PRO',
+  ENTERPRISE: 'ENTERPRISE'
+};
+
+export type ProjectPlan = (typeof ProjectPlan)[keyof typeof ProjectPlan]
+
+
 export const TaskStatus: {
   BACKLOG: 'BACKLOG',
   TODO: 'TODO',
@@ -139,6 +153,16 @@ export const NotificationType: {
 
 export type NotificationType = (typeof NotificationType)[keyof typeof NotificationType]
 
+
+export const TransactionStatus: {
+  PENDING: 'PENDING',
+  SUCCESS: 'SUCCESS',
+  FAILED: 'FAILED',
+  EXPIRED: 'EXPIRED'
+};
+
+export type TransactionStatus = (typeof TransactionStatus)[keyof typeof TransactionStatus]
+
 }
 
 export type TokenType = $Enums.TokenType
@@ -148,6 +172,10 @@ export const TokenType: typeof $Enums.TokenType
 export type Role = $Enums.Role
 
 export const Role: typeof $Enums.Role
+
+export type ProjectPlan = $Enums.ProjectPlan
+
+export const ProjectPlan: typeof $Enums.ProjectPlan
 
 export type TaskStatus = $Enums.TaskStatus
 
@@ -160,6 +188,10 @@ export const Priority: typeof $Enums.Priority
 export type NotificationType = $Enums.NotificationType
 
 export const NotificationType: typeof $Enums.NotificationType
+
+export type TransactionStatus = $Enums.TransactionStatus
+
+export const TransactionStatus: typeof $Enums.TransactionStatus
 
 /**
  * ##  Prisma Client ʲˢ
@@ -323,6 +355,16 @@ export class PrismaClient<
     * ```
     */
   get project(): Prisma.ProjectDelegate<ExtArgs>;
+
+  /**
+   * `prisma.projectSubscription`: Exposes CRUD operations for the **ProjectSubscription** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ProjectSubscriptions
+    * const projectSubscriptions = await prisma.projectSubscription.findMany()
+    * ```
+    */
+  get projectSubscription(): Prisma.ProjectSubscriptionDelegate<ExtArgs>;
 
   /**
    * `prisma.member`: Exposes CRUD operations for the **Member** model.
@@ -867,6 +909,7 @@ export namespace Prisma {
     SocialLink: 'SocialLink',
     Token: 'Token',
     Project: 'Project',
+    ProjectSubscription: 'ProjectSubscription',
     Member: 'Member',
     Task: 'Task',
     TaskAssignee: 'TaskAssignee',
@@ -892,7 +935,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, ClientOptions = {}> = {
     meta: {
-      modelProps: "user" | "socialLink" | "token" | "project" | "member" | "task" | "taskAssignee" | "taskLabel" | "attachment" | "link" | "comment" | "document" | "notification" | "notificationSettings"
+      modelProps: "user" | "socialLink" | "token" | "project" | "projectSubscription" | "member" | "task" | "taskAssignee" | "taskLabel" | "attachment" | "link" | "comment" | "document" | "notification" | "notificationSettings"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1173,6 +1216,76 @@ export namespace Prisma {
           count: {
             args: Prisma.ProjectCountArgs<ExtArgs>
             result: $Utils.Optional<ProjectCountAggregateOutputType> | number
+          }
+        }
+      }
+      ProjectSubscription: {
+        payload: Prisma.$ProjectSubscriptionPayload<ExtArgs>
+        fields: Prisma.ProjectSubscriptionFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ProjectSubscriptionFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectSubscriptionPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ProjectSubscriptionFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectSubscriptionPayload>
+          }
+          findFirst: {
+            args: Prisma.ProjectSubscriptionFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectSubscriptionPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ProjectSubscriptionFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectSubscriptionPayload>
+          }
+          findMany: {
+            args: Prisma.ProjectSubscriptionFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectSubscriptionPayload>[]
+          }
+          create: {
+            args: Prisma.ProjectSubscriptionCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectSubscriptionPayload>
+          }
+          createMany: {
+            args: Prisma.ProjectSubscriptionCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ProjectSubscriptionCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectSubscriptionPayload>[]
+          }
+          delete: {
+            args: Prisma.ProjectSubscriptionDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectSubscriptionPayload>
+          }
+          update: {
+            args: Prisma.ProjectSubscriptionUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectSubscriptionPayload>
+          }
+          deleteMany: {
+            args: Prisma.ProjectSubscriptionDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ProjectSubscriptionUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.ProjectSubscriptionUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectSubscriptionPayload>
+          }
+          aggregate: {
+            args: Prisma.ProjectSubscriptionAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateProjectSubscription>
+          }
+          groupBy: {
+            args: Prisma.ProjectSubscriptionGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ProjectSubscriptionGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ProjectSubscriptionCountArgs<ExtArgs>
+            result: $Utils.Optional<ProjectSubscriptionCountAggregateOutputType> | number
           }
         }
       }
@@ -2123,6 +2236,7 @@ export namespace Prisma {
 
   export type ProjectCountOutputType = {
     tokens: number
+    projectSubscription: number
     members: number
     tasks: number
     labels: number
@@ -2131,6 +2245,7 @@ export namespace Prisma {
 
   export type ProjectCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tokens?: boolean | ProjectCountOutputTypeCountTokensArgs
+    projectSubscription?: boolean | ProjectCountOutputTypeCountProjectSubscriptionArgs
     members?: boolean | ProjectCountOutputTypeCountMembersArgs
     tasks?: boolean | ProjectCountOutputTypeCountTasksArgs
     labels?: boolean | ProjectCountOutputTypeCountLabelsArgs
@@ -2153,6 +2268,13 @@ export namespace Prisma {
    */
   export type ProjectCountOutputTypeCountTokensArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: TokenWhereInput
+  }
+
+  /**
+   * ProjectCountOutputType without action
+   */
+  export type ProjectCountOutputTypeCountProjectSubscriptionArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ProjectSubscriptionWhereInput
   }
 
   /**
@@ -5540,6 +5662,7 @@ export namespace Prisma {
     name: string | null
     cover: string | null
     description: string | null
+    plan: $Enums.ProjectPlan | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -5549,6 +5672,7 @@ export namespace Prisma {
     name: string | null
     cover: string | null
     description: string | null
+    plan: $Enums.ProjectPlan | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -5558,6 +5682,7 @@ export namespace Prisma {
     name: number
     cover: number
     description: number
+    plan: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -5569,6 +5694,7 @@ export namespace Prisma {
     name?: true
     cover?: true
     description?: true
+    plan?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -5578,6 +5704,7 @@ export namespace Prisma {
     name?: true
     cover?: true
     description?: true
+    plan?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -5587,6 +5714,7 @@ export namespace Prisma {
     name?: true
     cover?: true
     description?: true
+    plan?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -5669,6 +5797,7 @@ export namespace Prisma {
     name: string
     cover: string | null
     description: string | null
+    plan: $Enums.ProjectPlan
     createdAt: Date
     updatedAt: Date
     _count: ProjectCountAggregateOutputType | null
@@ -5695,9 +5824,11 @@ export namespace Prisma {
     name?: boolean
     cover?: boolean
     description?: boolean
+    plan?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     tokens?: boolean | Project$tokensArgs<ExtArgs>
+    projectSubscription?: boolean | Project$projectSubscriptionArgs<ExtArgs>
     members?: boolean | Project$membersArgs<ExtArgs>
     tasks?: boolean | Project$tasksArgs<ExtArgs>
     labels?: boolean | Project$labelsArgs<ExtArgs>
@@ -5710,6 +5841,7 @@ export namespace Prisma {
     name?: boolean
     cover?: boolean
     description?: boolean
+    plan?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["project"]>
@@ -5719,12 +5851,14 @@ export namespace Prisma {
     name?: boolean
     cover?: boolean
     description?: boolean
+    plan?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
   export type ProjectInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tokens?: boolean | Project$tokensArgs<ExtArgs>
+    projectSubscription?: boolean | Project$projectSubscriptionArgs<ExtArgs>
     members?: boolean | Project$membersArgs<ExtArgs>
     tasks?: boolean | Project$tasksArgs<ExtArgs>
     labels?: boolean | Project$labelsArgs<ExtArgs>
@@ -5737,6 +5871,7 @@ export namespace Prisma {
     name: "Project"
     objects: {
       tokens: Prisma.$TokenPayload<ExtArgs>[]
+      projectSubscription: Prisma.$ProjectSubscriptionPayload<ExtArgs>[]
       members: Prisma.$MemberPayload<ExtArgs>[]
       tasks: Prisma.$TaskPayload<ExtArgs>[]
       labels: Prisma.$TaskLabelPayload<ExtArgs>[]
@@ -5747,6 +5882,7 @@ export namespace Prisma {
       name: string
       cover: string | null
       description: string | null
+      plan: $Enums.ProjectPlan
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["project"]>
@@ -6114,6 +6250,7 @@ export namespace Prisma {
   export interface Prisma__ProjectClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     tokens<T extends Project$tokensArgs<ExtArgs> = {}>(args?: Subset<T, Project$tokensArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TokenPayload<ExtArgs>, T, "findMany"> | Null>
+    projectSubscription<T extends Project$projectSubscriptionArgs<ExtArgs> = {}>(args?: Subset<T, Project$projectSubscriptionArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProjectSubscriptionPayload<ExtArgs>, T, "findMany"> | Null>
     members<T extends Project$membersArgs<ExtArgs> = {}>(args?: Subset<T, Project$membersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MemberPayload<ExtArgs>, T, "findMany"> | Null>
     tasks<T extends Project$tasksArgs<ExtArgs> = {}>(args?: Subset<T, Project$tasksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TaskPayload<ExtArgs>, T, "findMany"> | Null>
     labels<T extends Project$labelsArgs<ExtArgs> = {}>(args?: Subset<T, Project$labelsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TaskLabelPayload<ExtArgs>, T, "findMany"> | Null>
@@ -6151,6 +6288,7 @@ export namespace Prisma {
     readonly name: FieldRef<"Project", 'String'>
     readonly cover: FieldRef<"Project", 'String'>
     readonly description: FieldRef<"Project", 'String'>
+    readonly plan: FieldRef<"Project", 'ProjectPlan'>
     readonly createdAt: FieldRef<"Project", 'DateTime'>
     readonly updatedAt: FieldRef<"Project", 'DateTime'>
   }
@@ -6487,6 +6625,26 @@ export namespace Prisma {
   }
 
   /**
+   * Project.projectSubscription
+   */
+  export type Project$projectSubscriptionArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectSubscription
+     */
+    select?: ProjectSubscriptionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectSubscriptionInclude<ExtArgs> | null
+    where?: ProjectSubscriptionWhereInput
+    orderBy?: ProjectSubscriptionOrderByWithRelationInput | ProjectSubscriptionOrderByWithRelationInput[]
+    cursor?: ProjectSubscriptionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ProjectSubscriptionScalarFieldEnum | ProjectSubscriptionScalarFieldEnum[]
+  }
+
+  /**
    * Project.members
    */
   export type Project$membersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -6578,6 +6736,975 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: ProjectInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model ProjectSubscription
+   */
+
+  export type AggregateProjectSubscription = {
+    _count: ProjectSubscriptionCountAggregateOutputType | null
+    _min: ProjectSubscriptionMinAggregateOutputType | null
+    _max: ProjectSubscriptionMaxAggregateOutputType | null
+  }
+
+  export type ProjectSubscriptionMinAggregateOutputType = {
+    id: string | null
+    projectId: string | null
+    stripeSubscriptionId: string | null
+    stripeCustomerId: string | null
+    status: $Enums.TransactionStatus | null
+    expiresAt: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ProjectSubscriptionMaxAggregateOutputType = {
+    id: string | null
+    projectId: string | null
+    stripeSubscriptionId: string | null
+    stripeCustomerId: string | null
+    status: $Enums.TransactionStatus | null
+    expiresAt: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ProjectSubscriptionCountAggregateOutputType = {
+    id: number
+    projectId: number
+    stripeSubscriptionId: number
+    stripeCustomerId: number
+    status: number
+    expiresAt: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type ProjectSubscriptionMinAggregateInputType = {
+    id?: true
+    projectId?: true
+    stripeSubscriptionId?: true
+    stripeCustomerId?: true
+    status?: true
+    expiresAt?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ProjectSubscriptionMaxAggregateInputType = {
+    id?: true
+    projectId?: true
+    stripeSubscriptionId?: true
+    stripeCustomerId?: true
+    status?: true
+    expiresAt?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ProjectSubscriptionCountAggregateInputType = {
+    id?: true
+    projectId?: true
+    stripeSubscriptionId?: true
+    stripeCustomerId?: true
+    status?: true
+    expiresAt?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type ProjectSubscriptionAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ProjectSubscription to aggregate.
+     */
+    where?: ProjectSubscriptionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ProjectSubscriptions to fetch.
+     */
+    orderBy?: ProjectSubscriptionOrderByWithRelationInput | ProjectSubscriptionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ProjectSubscriptionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ProjectSubscriptions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ProjectSubscriptions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ProjectSubscriptions
+    **/
+    _count?: true | ProjectSubscriptionCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ProjectSubscriptionMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ProjectSubscriptionMaxAggregateInputType
+  }
+
+  export type GetProjectSubscriptionAggregateType<T extends ProjectSubscriptionAggregateArgs> = {
+        [P in keyof T & keyof AggregateProjectSubscription]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateProjectSubscription[P]>
+      : GetScalarType<T[P], AggregateProjectSubscription[P]>
+  }
+
+
+
+
+  export type ProjectSubscriptionGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ProjectSubscriptionWhereInput
+    orderBy?: ProjectSubscriptionOrderByWithAggregationInput | ProjectSubscriptionOrderByWithAggregationInput[]
+    by: ProjectSubscriptionScalarFieldEnum[] | ProjectSubscriptionScalarFieldEnum
+    having?: ProjectSubscriptionScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ProjectSubscriptionCountAggregateInputType | true
+    _min?: ProjectSubscriptionMinAggregateInputType
+    _max?: ProjectSubscriptionMaxAggregateInputType
+  }
+
+  export type ProjectSubscriptionGroupByOutputType = {
+    id: string
+    projectId: string
+    stripeSubscriptionId: string | null
+    stripeCustomerId: string | null
+    status: $Enums.TransactionStatus
+    expiresAt: Date | null
+    createdAt: Date
+    updatedAt: Date
+    _count: ProjectSubscriptionCountAggregateOutputType | null
+    _min: ProjectSubscriptionMinAggregateOutputType | null
+    _max: ProjectSubscriptionMaxAggregateOutputType | null
+  }
+
+  type GetProjectSubscriptionGroupByPayload<T extends ProjectSubscriptionGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ProjectSubscriptionGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ProjectSubscriptionGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ProjectSubscriptionGroupByOutputType[P]>
+            : GetScalarType<T[P], ProjectSubscriptionGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ProjectSubscriptionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    projectId?: boolean
+    stripeSubscriptionId?: boolean
+    stripeCustomerId?: boolean
+    status?: boolean
+    expiresAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    project?: boolean | ProjectDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["projectSubscription"]>
+
+  export type ProjectSubscriptionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    projectId?: boolean
+    stripeSubscriptionId?: boolean
+    stripeCustomerId?: boolean
+    status?: boolean
+    expiresAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    project?: boolean | ProjectDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["projectSubscription"]>
+
+  export type ProjectSubscriptionSelectScalar = {
+    id?: boolean
+    projectId?: boolean
+    stripeSubscriptionId?: boolean
+    stripeCustomerId?: boolean
+    status?: boolean
+    expiresAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type ProjectSubscriptionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    project?: boolean | ProjectDefaultArgs<ExtArgs>
+  }
+  export type ProjectSubscriptionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    project?: boolean | ProjectDefaultArgs<ExtArgs>
+  }
+
+  export type $ProjectSubscriptionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ProjectSubscription"
+    objects: {
+      project: Prisma.$ProjectPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      projectId: string
+      stripeSubscriptionId: string | null
+      stripeCustomerId: string | null
+      status: $Enums.TransactionStatus
+      expiresAt: Date | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["projectSubscription"]>
+    composites: {}
+  }
+
+  type ProjectSubscriptionGetPayload<S extends boolean | null | undefined | ProjectSubscriptionDefaultArgs> = $Result.GetResult<Prisma.$ProjectSubscriptionPayload, S>
+
+  type ProjectSubscriptionCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<ProjectSubscriptionFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: ProjectSubscriptionCountAggregateInputType | true
+    }
+
+  export interface ProjectSubscriptionDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ProjectSubscription'], meta: { name: 'ProjectSubscription' } }
+    /**
+     * Find zero or one ProjectSubscription that matches the filter.
+     * @param {ProjectSubscriptionFindUniqueArgs} args - Arguments to find a ProjectSubscription
+     * @example
+     * // Get one ProjectSubscription
+     * const projectSubscription = await prisma.projectSubscription.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ProjectSubscriptionFindUniqueArgs>(args: SelectSubset<T, ProjectSubscriptionFindUniqueArgs<ExtArgs>>): Prisma__ProjectSubscriptionClient<$Result.GetResult<Prisma.$ProjectSubscriptionPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one ProjectSubscription that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {ProjectSubscriptionFindUniqueOrThrowArgs} args - Arguments to find a ProjectSubscription
+     * @example
+     * // Get one ProjectSubscription
+     * const projectSubscription = await prisma.projectSubscription.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ProjectSubscriptionFindUniqueOrThrowArgs>(args: SelectSubset<T, ProjectSubscriptionFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ProjectSubscriptionClient<$Result.GetResult<Prisma.$ProjectSubscriptionPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first ProjectSubscription that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProjectSubscriptionFindFirstArgs} args - Arguments to find a ProjectSubscription
+     * @example
+     * // Get one ProjectSubscription
+     * const projectSubscription = await prisma.projectSubscription.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ProjectSubscriptionFindFirstArgs>(args?: SelectSubset<T, ProjectSubscriptionFindFirstArgs<ExtArgs>>): Prisma__ProjectSubscriptionClient<$Result.GetResult<Prisma.$ProjectSubscriptionPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first ProjectSubscription that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProjectSubscriptionFindFirstOrThrowArgs} args - Arguments to find a ProjectSubscription
+     * @example
+     * // Get one ProjectSubscription
+     * const projectSubscription = await prisma.projectSubscription.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ProjectSubscriptionFindFirstOrThrowArgs>(args?: SelectSubset<T, ProjectSubscriptionFindFirstOrThrowArgs<ExtArgs>>): Prisma__ProjectSubscriptionClient<$Result.GetResult<Prisma.$ProjectSubscriptionPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more ProjectSubscriptions that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProjectSubscriptionFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ProjectSubscriptions
+     * const projectSubscriptions = await prisma.projectSubscription.findMany()
+     * 
+     * // Get first 10 ProjectSubscriptions
+     * const projectSubscriptions = await prisma.projectSubscription.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const projectSubscriptionWithIdOnly = await prisma.projectSubscription.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ProjectSubscriptionFindManyArgs>(args?: SelectSubset<T, ProjectSubscriptionFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProjectSubscriptionPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a ProjectSubscription.
+     * @param {ProjectSubscriptionCreateArgs} args - Arguments to create a ProjectSubscription.
+     * @example
+     * // Create one ProjectSubscription
+     * const ProjectSubscription = await prisma.projectSubscription.create({
+     *   data: {
+     *     // ... data to create a ProjectSubscription
+     *   }
+     * })
+     * 
+     */
+    create<T extends ProjectSubscriptionCreateArgs>(args: SelectSubset<T, ProjectSubscriptionCreateArgs<ExtArgs>>): Prisma__ProjectSubscriptionClient<$Result.GetResult<Prisma.$ProjectSubscriptionPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many ProjectSubscriptions.
+     * @param {ProjectSubscriptionCreateManyArgs} args - Arguments to create many ProjectSubscriptions.
+     * @example
+     * // Create many ProjectSubscriptions
+     * const projectSubscription = await prisma.projectSubscription.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ProjectSubscriptionCreateManyArgs>(args?: SelectSubset<T, ProjectSubscriptionCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ProjectSubscriptions and returns the data saved in the database.
+     * @param {ProjectSubscriptionCreateManyAndReturnArgs} args - Arguments to create many ProjectSubscriptions.
+     * @example
+     * // Create many ProjectSubscriptions
+     * const projectSubscription = await prisma.projectSubscription.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ProjectSubscriptions and only return the `id`
+     * const projectSubscriptionWithIdOnly = await prisma.projectSubscription.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ProjectSubscriptionCreateManyAndReturnArgs>(args?: SelectSubset<T, ProjectSubscriptionCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProjectSubscriptionPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a ProjectSubscription.
+     * @param {ProjectSubscriptionDeleteArgs} args - Arguments to delete one ProjectSubscription.
+     * @example
+     * // Delete one ProjectSubscription
+     * const ProjectSubscription = await prisma.projectSubscription.delete({
+     *   where: {
+     *     // ... filter to delete one ProjectSubscription
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ProjectSubscriptionDeleteArgs>(args: SelectSubset<T, ProjectSubscriptionDeleteArgs<ExtArgs>>): Prisma__ProjectSubscriptionClient<$Result.GetResult<Prisma.$ProjectSubscriptionPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one ProjectSubscription.
+     * @param {ProjectSubscriptionUpdateArgs} args - Arguments to update one ProjectSubscription.
+     * @example
+     * // Update one ProjectSubscription
+     * const projectSubscription = await prisma.projectSubscription.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ProjectSubscriptionUpdateArgs>(args: SelectSubset<T, ProjectSubscriptionUpdateArgs<ExtArgs>>): Prisma__ProjectSubscriptionClient<$Result.GetResult<Prisma.$ProjectSubscriptionPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more ProjectSubscriptions.
+     * @param {ProjectSubscriptionDeleteManyArgs} args - Arguments to filter ProjectSubscriptions to delete.
+     * @example
+     * // Delete a few ProjectSubscriptions
+     * const { count } = await prisma.projectSubscription.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ProjectSubscriptionDeleteManyArgs>(args?: SelectSubset<T, ProjectSubscriptionDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ProjectSubscriptions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProjectSubscriptionUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ProjectSubscriptions
+     * const projectSubscription = await prisma.projectSubscription.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ProjectSubscriptionUpdateManyArgs>(args: SelectSubset<T, ProjectSubscriptionUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one ProjectSubscription.
+     * @param {ProjectSubscriptionUpsertArgs} args - Arguments to update or create a ProjectSubscription.
+     * @example
+     * // Update or create a ProjectSubscription
+     * const projectSubscription = await prisma.projectSubscription.upsert({
+     *   create: {
+     *     // ... data to create a ProjectSubscription
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ProjectSubscription we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ProjectSubscriptionUpsertArgs>(args: SelectSubset<T, ProjectSubscriptionUpsertArgs<ExtArgs>>): Prisma__ProjectSubscriptionClient<$Result.GetResult<Prisma.$ProjectSubscriptionPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of ProjectSubscriptions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProjectSubscriptionCountArgs} args - Arguments to filter ProjectSubscriptions to count.
+     * @example
+     * // Count the number of ProjectSubscriptions
+     * const count = await prisma.projectSubscription.count({
+     *   where: {
+     *     // ... the filter for the ProjectSubscriptions we want to count
+     *   }
+     * })
+    **/
+    count<T extends ProjectSubscriptionCountArgs>(
+      args?: Subset<T, ProjectSubscriptionCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ProjectSubscriptionCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ProjectSubscription.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProjectSubscriptionAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ProjectSubscriptionAggregateArgs>(args: Subset<T, ProjectSubscriptionAggregateArgs>): Prisma.PrismaPromise<GetProjectSubscriptionAggregateType<T>>
+
+    /**
+     * Group by ProjectSubscription.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProjectSubscriptionGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ProjectSubscriptionGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ProjectSubscriptionGroupByArgs['orderBy'] }
+        : { orderBy?: ProjectSubscriptionGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ProjectSubscriptionGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetProjectSubscriptionGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ProjectSubscription model
+   */
+  readonly fields: ProjectSubscriptionFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ProjectSubscription.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ProjectSubscriptionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    project<T extends ProjectDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ProjectDefaultArgs<ExtArgs>>): Prisma__ProjectClient<$Result.GetResult<Prisma.$ProjectPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ProjectSubscription model
+   */ 
+  interface ProjectSubscriptionFieldRefs {
+    readonly id: FieldRef<"ProjectSubscription", 'String'>
+    readonly projectId: FieldRef<"ProjectSubscription", 'String'>
+    readonly stripeSubscriptionId: FieldRef<"ProjectSubscription", 'String'>
+    readonly stripeCustomerId: FieldRef<"ProjectSubscription", 'String'>
+    readonly status: FieldRef<"ProjectSubscription", 'TransactionStatus'>
+    readonly expiresAt: FieldRef<"ProjectSubscription", 'DateTime'>
+    readonly createdAt: FieldRef<"ProjectSubscription", 'DateTime'>
+    readonly updatedAt: FieldRef<"ProjectSubscription", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ProjectSubscription findUnique
+   */
+  export type ProjectSubscriptionFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectSubscription
+     */
+    select?: ProjectSubscriptionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectSubscriptionInclude<ExtArgs> | null
+    /**
+     * Filter, which ProjectSubscription to fetch.
+     */
+    where: ProjectSubscriptionWhereUniqueInput
+  }
+
+  /**
+   * ProjectSubscription findUniqueOrThrow
+   */
+  export type ProjectSubscriptionFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectSubscription
+     */
+    select?: ProjectSubscriptionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectSubscriptionInclude<ExtArgs> | null
+    /**
+     * Filter, which ProjectSubscription to fetch.
+     */
+    where: ProjectSubscriptionWhereUniqueInput
+  }
+
+  /**
+   * ProjectSubscription findFirst
+   */
+  export type ProjectSubscriptionFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectSubscription
+     */
+    select?: ProjectSubscriptionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectSubscriptionInclude<ExtArgs> | null
+    /**
+     * Filter, which ProjectSubscription to fetch.
+     */
+    where?: ProjectSubscriptionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ProjectSubscriptions to fetch.
+     */
+    orderBy?: ProjectSubscriptionOrderByWithRelationInput | ProjectSubscriptionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ProjectSubscriptions.
+     */
+    cursor?: ProjectSubscriptionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ProjectSubscriptions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ProjectSubscriptions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ProjectSubscriptions.
+     */
+    distinct?: ProjectSubscriptionScalarFieldEnum | ProjectSubscriptionScalarFieldEnum[]
+  }
+
+  /**
+   * ProjectSubscription findFirstOrThrow
+   */
+  export type ProjectSubscriptionFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectSubscription
+     */
+    select?: ProjectSubscriptionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectSubscriptionInclude<ExtArgs> | null
+    /**
+     * Filter, which ProjectSubscription to fetch.
+     */
+    where?: ProjectSubscriptionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ProjectSubscriptions to fetch.
+     */
+    orderBy?: ProjectSubscriptionOrderByWithRelationInput | ProjectSubscriptionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ProjectSubscriptions.
+     */
+    cursor?: ProjectSubscriptionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ProjectSubscriptions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ProjectSubscriptions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ProjectSubscriptions.
+     */
+    distinct?: ProjectSubscriptionScalarFieldEnum | ProjectSubscriptionScalarFieldEnum[]
+  }
+
+  /**
+   * ProjectSubscription findMany
+   */
+  export type ProjectSubscriptionFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectSubscription
+     */
+    select?: ProjectSubscriptionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectSubscriptionInclude<ExtArgs> | null
+    /**
+     * Filter, which ProjectSubscriptions to fetch.
+     */
+    where?: ProjectSubscriptionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ProjectSubscriptions to fetch.
+     */
+    orderBy?: ProjectSubscriptionOrderByWithRelationInput | ProjectSubscriptionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ProjectSubscriptions.
+     */
+    cursor?: ProjectSubscriptionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ProjectSubscriptions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ProjectSubscriptions.
+     */
+    skip?: number
+    distinct?: ProjectSubscriptionScalarFieldEnum | ProjectSubscriptionScalarFieldEnum[]
+  }
+
+  /**
+   * ProjectSubscription create
+   */
+  export type ProjectSubscriptionCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectSubscription
+     */
+    select?: ProjectSubscriptionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectSubscriptionInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ProjectSubscription.
+     */
+    data: XOR<ProjectSubscriptionCreateInput, ProjectSubscriptionUncheckedCreateInput>
+  }
+
+  /**
+   * ProjectSubscription createMany
+   */
+  export type ProjectSubscriptionCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ProjectSubscriptions.
+     */
+    data: ProjectSubscriptionCreateManyInput | ProjectSubscriptionCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ProjectSubscription createManyAndReturn
+   */
+  export type ProjectSubscriptionCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectSubscription
+     */
+    select?: ProjectSubscriptionSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many ProjectSubscriptions.
+     */
+    data: ProjectSubscriptionCreateManyInput | ProjectSubscriptionCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectSubscriptionIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ProjectSubscription update
+   */
+  export type ProjectSubscriptionUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectSubscription
+     */
+    select?: ProjectSubscriptionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectSubscriptionInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ProjectSubscription.
+     */
+    data: XOR<ProjectSubscriptionUpdateInput, ProjectSubscriptionUncheckedUpdateInput>
+    /**
+     * Choose, which ProjectSubscription to update.
+     */
+    where: ProjectSubscriptionWhereUniqueInput
+  }
+
+  /**
+   * ProjectSubscription updateMany
+   */
+  export type ProjectSubscriptionUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ProjectSubscriptions.
+     */
+    data: XOR<ProjectSubscriptionUpdateManyMutationInput, ProjectSubscriptionUncheckedUpdateManyInput>
+    /**
+     * Filter which ProjectSubscriptions to update
+     */
+    where?: ProjectSubscriptionWhereInput
+  }
+
+  /**
+   * ProjectSubscription upsert
+   */
+  export type ProjectSubscriptionUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectSubscription
+     */
+    select?: ProjectSubscriptionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectSubscriptionInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ProjectSubscription to update in case it exists.
+     */
+    where: ProjectSubscriptionWhereUniqueInput
+    /**
+     * In case the ProjectSubscription found by the `where` argument doesn't exist, create a new ProjectSubscription with this data.
+     */
+    create: XOR<ProjectSubscriptionCreateInput, ProjectSubscriptionUncheckedCreateInput>
+    /**
+     * In case the ProjectSubscription was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ProjectSubscriptionUpdateInput, ProjectSubscriptionUncheckedUpdateInput>
+  }
+
+  /**
+   * ProjectSubscription delete
+   */
+  export type ProjectSubscriptionDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectSubscription
+     */
+    select?: ProjectSubscriptionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectSubscriptionInclude<ExtArgs> | null
+    /**
+     * Filter which ProjectSubscription to delete.
+     */
+    where: ProjectSubscriptionWhereUniqueInput
+  }
+
+  /**
+   * ProjectSubscription deleteMany
+   */
+  export type ProjectSubscriptionDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ProjectSubscriptions to delete
+     */
+    where?: ProjectSubscriptionWhereInput
+  }
+
+  /**
+   * ProjectSubscription without action
+   */
+  export type ProjectSubscriptionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectSubscription
+     */
+    select?: ProjectSubscriptionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectSubscriptionInclude<ExtArgs> | null
   }
 
 
@@ -16400,11 +17527,26 @@ export namespace Prisma {
     name: 'name',
     cover: 'cover',
     description: 'description',
+    plan: 'plan',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
 
   export type ProjectScalarFieldEnum = (typeof ProjectScalarFieldEnum)[keyof typeof ProjectScalarFieldEnum]
+
+
+  export const ProjectSubscriptionScalarFieldEnum: {
+    id: 'id',
+    projectId: 'projectId',
+    stripeSubscriptionId: 'stripeSubscriptionId',
+    stripeCustomerId: 'stripeCustomerId',
+    status: 'status',
+    expiresAt: 'expiresAt',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type ProjectSubscriptionScalarFieldEnum = (typeof ProjectSubscriptionScalarFieldEnum)[keyof typeof ProjectSubscriptionScalarFieldEnum]
 
 
   export const MemberScalarFieldEnum: {
@@ -16654,6 +17796,34 @@ export namespace Prisma {
    * Reference to a field of type 'Role[]'
    */
   export type ListEnumRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Role[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'ProjectPlan'
+   */
+  export type EnumProjectPlanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ProjectPlan'>
+    
+
+
+  /**
+   * Reference to a field of type 'ProjectPlan[]'
+   */
+  export type ListEnumProjectPlanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ProjectPlan[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'TransactionStatus'
+   */
+  export type EnumTransactionStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TransactionStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'TransactionStatus[]'
+   */
+  export type ListEnumTransactionStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TransactionStatus[]'>
     
 
 
@@ -17002,9 +18172,11 @@ export namespace Prisma {
     name?: StringFilter<"Project"> | string
     cover?: StringNullableFilter<"Project"> | string | null
     description?: StringNullableFilter<"Project"> | string | null
+    plan?: EnumProjectPlanFilter<"Project"> | $Enums.ProjectPlan
     createdAt?: DateTimeFilter<"Project"> | Date | string
     updatedAt?: DateTimeFilter<"Project"> | Date | string
     tokens?: TokenListRelationFilter
+    projectSubscription?: ProjectSubscriptionListRelationFilter
     members?: MemberListRelationFilter
     tasks?: TaskListRelationFilter
     labels?: TaskLabelListRelationFilter
@@ -17016,9 +18188,11 @@ export namespace Prisma {
     name?: SortOrder
     cover?: SortOrderInput | SortOrder
     description?: SortOrderInput | SortOrder
+    plan?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     tokens?: TokenOrderByRelationAggregateInput
+    projectSubscription?: ProjectSubscriptionOrderByRelationAggregateInput
     members?: MemberOrderByRelationAggregateInput
     tasks?: TaskOrderByRelationAggregateInput
     labels?: TaskLabelOrderByRelationAggregateInput
@@ -17033,9 +18207,11 @@ export namespace Prisma {
     name?: StringFilter<"Project"> | string
     cover?: StringNullableFilter<"Project"> | string | null
     description?: StringNullableFilter<"Project"> | string | null
+    plan?: EnumProjectPlanFilter<"Project"> | $Enums.ProjectPlan
     createdAt?: DateTimeFilter<"Project"> | Date | string
     updatedAt?: DateTimeFilter<"Project"> | Date | string
     tokens?: TokenListRelationFilter
+    projectSubscription?: ProjectSubscriptionListRelationFilter
     members?: MemberListRelationFilter
     tasks?: TaskListRelationFilter
     labels?: TaskLabelListRelationFilter
@@ -17047,6 +18223,7 @@ export namespace Prisma {
     name?: SortOrder
     cover?: SortOrderInput | SortOrder
     description?: SortOrderInput | SortOrder
+    plan?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: ProjectCountOrderByAggregateInput
@@ -17062,8 +18239,79 @@ export namespace Prisma {
     name?: StringWithAggregatesFilter<"Project"> | string
     cover?: StringNullableWithAggregatesFilter<"Project"> | string | null
     description?: StringNullableWithAggregatesFilter<"Project"> | string | null
+    plan?: EnumProjectPlanWithAggregatesFilter<"Project"> | $Enums.ProjectPlan
     createdAt?: DateTimeWithAggregatesFilter<"Project"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Project"> | Date | string
+  }
+
+  export type ProjectSubscriptionWhereInput = {
+    AND?: ProjectSubscriptionWhereInput | ProjectSubscriptionWhereInput[]
+    OR?: ProjectSubscriptionWhereInput[]
+    NOT?: ProjectSubscriptionWhereInput | ProjectSubscriptionWhereInput[]
+    id?: StringFilter<"ProjectSubscription"> | string
+    projectId?: StringFilter<"ProjectSubscription"> | string
+    stripeSubscriptionId?: StringNullableFilter<"ProjectSubscription"> | string | null
+    stripeCustomerId?: StringNullableFilter<"ProjectSubscription"> | string | null
+    status?: EnumTransactionStatusFilter<"ProjectSubscription"> | $Enums.TransactionStatus
+    expiresAt?: DateTimeNullableFilter<"ProjectSubscription"> | Date | string | null
+    createdAt?: DateTimeFilter<"ProjectSubscription"> | Date | string
+    updatedAt?: DateTimeFilter<"ProjectSubscription"> | Date | string
+    project?: XOR<ProjectScalarRelationFilter, ProjectWhereInput>
+  }
+
+  export type ProjectSubscriptionOrderByWithRelationInput = {
+    id?: SortOrder
+    projectId?: SortOrder
+    stripeSubscriptionId?: SortOrderInput | SortOrder
+    stripeCustomerId?: SortOrderInput | SortOrder
+    status?: SortOrder
+    expiresAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    project?: ProjectOrderByWithRelationInput
+  }
+
+  export type ProjectSubscriptionWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: ProjectSubscriptionWhereInput | ProjectSubscriptionWhereInput[]
+    OR?: ProjectSubscriptionWhereInput[]
+    NOT?: ProjectSubscriptionWhereInput | ProjectSubscriptionWhereInput[]
+    projectId?: StringFilter<"ProjectSubscription"> | string
+    stripeSubscriptionId?: StringNullableFilter<"ProjectSubscription"> | string | null
+    stripeCustomerId?: StringNullableFilter<"ProjectSubscription"> | string | null
+    status?: EnumTransactionStatusFilter<"ProjectSubscription"> | $Enums.TransactionStatus
+    expiresAt?: DateTimeNullableFilter<"ProjectSubscription"> | Date | string | null
+    createdAt?: DateTimeFilter<"ProjectSubscription"> | Date | string
+    updatedAt?: DateTimeFilter<"ProjectSubscription"> | Date | string
+    project?: XOR<ProjectScalarRelationFilter, ProjectWhereInput>
+  }, "id">
+
+  export type ProjectSubscriptionOrderByWithAggregationInput = {
+    id?: SortOrder
+    projectId?: SortOrder
+    stripeSubscriptionId?: SortOrderInput | SortOrder
+    stripeCustomerId?: SortOrderInput | SortOrder
+    status?: SortOrder
+    expiresAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: ProjectSubscriptionCountOrderByAggregateInput
+    _max?: ProjectSubscriptionMaxOrderByAggregateInput
+    _min?: ProjectSubscriptionMinOrderByAggregateInput
+  }
+
+  export type ProjectSubscriptionScalarWhereWithAggregatesInput = {
+    AND?: ProjectSubscriptionScalarWhereWithAggregatesInput | ProjectSubscriptionScalarWhereWithAggregatesInput[]
+    OR?: ProjectSubscriptionScalarWhereWithAggregatesInput[]
+    NOT?: ProjectSubscriptionScalarWhereWithAggregatesInput | ProjectSubscriptionScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ProjectSubscription"> | string
+    projectId?: StringWithAggregatesFilter<"ProjectSubscription"> | string
+    stripeSubscriptionId?: StringNullableWithAggregatesFilter<"ProjectSubscription"> | string | null
+    stripeCustomerId?: StringNullableWithAggregatesFilter<"ProjectSubscription"> | string | null
+    status?: EnumTransactionStatusWithAggregatesFilter<"ProjectSubscription"> | $Enums.TransactionStatus
+    expiresAt?: DateTimeNullableWithAggregatesFilter<"ProjectSubscription"> | Date | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"ProjectSubscription"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"ProjectSubscription"> | Date | string
   }
 
   export type MemberWhereInput = {
@@ -18049,9 +19297,11 @@ export namespace Prisma {
     name: string
     cover?: string | null
     description?: string | null
+    plan?: $Enums.ProjectPlan
     createdAt?: Date | string
     updatedAt?: Date | string
     tokens?: TokenCreateNestedManyWithoutProjectInput
+    projectSubscription?: ProjectSubscriptionCreateNestedManyWithoutProjectInput
     members?: MemberCreateNestedManyWithoutProjectInput
     tasks?: TaskCreateNestedManyWithoutProjectInput
     labels?: TaskLabelCreateNestedManyWithoutProjectInput
@@ -18063,9 +19313,11 @@ export namespace Prisma {
     name: string
     cover?: string | null
     description?: string | null
+    plan?: $Enums.ProjectPlan
     createdAt?: Date | string
     updatedAt?: Date | string
     tokens?: TokenUncheckedCreateNestedManyWithoutProjectInput
+    projectSubscription?: ProjectSubscriptionUncheckedCreateNestedManyWithoutProjectInput
     members?: MemberUncheckedCreateNestedManyWithoutProjectInput
     tasks?: TaskUncheckedCreateNestedManyWithoutProjectInput
     labels?: TaskLabelUncheckedCreateNestedManyWithoutProjectInput
@@ -18077,9 +19329,11 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     cover?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    plan?: EnumProjectPlanFieldUpdateOperationsInput | $Enums.ProjectPlan
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tokens?: TokenUpdateManyWithoutProjectNestedInput
+    projectSubscription?: ProjectSubscriptionUpdateManyWithoutProjectNestedInput
     members?: MemberUpdateManyWithoutProjectNestedInput
     tasks?: TaskUpdateManyWithoutProjectNestedInput
     labels?: TaskLabelUpdateManyWithoutProjectNestedInput
@@ -18091,9 +19345,11 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     cover?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    plan?: EnumProjectPlanFieldUpdateOperationsInput | $Enums.ProjectPlan
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tokens?: TokenUncheckedUpdateManyWithoutProjectNestedInput
+    projectSubscription?: ProjectSubscriptionUncheckedUpdateManyWithoutProjectNestedInput
     members?: MemberUncheckedUpdateManyWithoutProjectNestedInput
     tasks?: TaskUncheckedUpdateManyWithoutProjectNestedInput
     labels?: TaskLabelUncheckedUpdateManyWithoutProjectNestedInput
@@ -18105,6 +19361,7 @@ export namespace Prisma {
     name: string
     cover?: string | null
     description?: string | null
+    plan?: $Enums.ProjectPlan
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -18114,6 +19371,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     cover?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    plan?: EnumProjectPlanFieldUpdateOperationsInput | $Enums.ProjectPlan
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -18123,6 +19381,83 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     cover?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    plan?: EnumProjectPlanFieldUpdateOperationsInput | $Enums.ProjectPlan
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ProjectSubscriptionCreateInput = {
+    id?: string
+    stripeSubscriptionId?: string | null
+    stripeCustomerId?: string | null
+    status?: $Enums.TransactionStatus
+    expiresAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    project: ProjectCreateNestedOneWithoutProjectSubscriptionInput
+  }
+
+  export type ProjectSubscriptionUncheckedCreateInput = {
+    id?: string
+    projectId: string
+    stripeSubscriptionId?: string | null
+    stripeCustomerId?: string | null
+    status?: $Enums.TransactionStatus
+    expiresAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ProjectSubscriptionUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    stripeSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumTransactionStatusFieldUpdateOperationsInput | $Enums.TransactionStatus
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    project?: ProjectUpdateOneRequiredWithoutProjectSubscriptionNestedInput
+  }
+
+  export type ProjectSubscriptionUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    projectId?: StringFieldUpdateOperationsInput | string
+    stripeSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumTransactionStatusFieldUpdateOperationsInput | $Enums.TransactionStatus
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ProjectSubscriptionCreateManyInput = {
+    id?: string
+    projectId: string
+    stripeSubscriptionId?: string | null
+    stripeCustomerId?: string | null
+    status?: $Enums.TransactionStatus
+    expiresAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ProjectSubscriptionUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    stripeSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumTransactionStatusFieldUpdateOperationsInput | $Enums.TransactionStatus
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ProjectSubscriptionUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    projectId?: StringFieldUpdateOperationsInput | string
+    stripeSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumTransactionStatusFieldUpdateOperationsInput | $Enums.TransactionStatus
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -19204,6 +20539,19 @@ export namespace Prisma {
     _max?: NestedEnumRoleNullableFilter<$PrismaModel>
   }
 
+  export type EnumProjectPlanFilter<$PrismaModel = never> = {
+    equals?: $Enums.ProjectPlan | EnumProjectPlanFieldRefInput<$PrismaModel>
+    in?: $Enums.ProjectPlan[] | ListEnumProjectPlanFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ProjectPlan[] | ListEnumProjectPlanFieldRefInput<$PrismaModel>
+    not?: NestedEnumProjectPlanFilter<$PrismaModel> | $Enums.ProjectPlan
+  }
+
+  export type ProjectSubscriptionListRelationFilter = {
+    every?: ProjectSubscriptionWhereInput
+    some?: ProjectSubscriptionWhereInput
+    none?: ProjectSubscriptionWhereInput
+  }
+
   export type TaskLabelListRelationFilter = {
     every?: TaskLabelWhereInput
     some?: TaskLabelWhereInput
@@ -19214,6 +20562,10 @@ export namespace Prisma {
     every?: DocumentWhereInput
     some?: DocumentWhereInput
     none?: DocumentWhereInput
+  }
+
+  export type ProjectSubscriptionOrderByRelationAggregateInput = {
+    _count?: SortOrder
   }
 
   export type TaskLabelOrderByRelationAggregateInput = {
@@ -19229,6 +20581,7 @@ export namespace Prisma {
     name?: SortOrder
     cover?: SortOrder
     description?: SortOrder
+    plan?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -19238,6 +20591,7 @@ export namespace Prisma {
     name?: SortOrder
     cover?: SortOrder
     description?: SortOrder
+    plan?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -19247,8 +20601,99 @@ export namespace Prisma {
     name?: SortOrder
     cover?: SortOrder
     description?: SortOrder
+    plan?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+  }
+
+  export type EnumProjectPlanWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ProjectPlan | EnumProjectPlanFieldRefInput<$PrismaModel>
+    in?: $Enums.ProjectPlan[] | ListEnumProjectPlanFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ProjectPlan[] | ListEnumProjectPlanFieldRefInput<$PrismaModel>
+    not?: NestedEnumProjectPlanWithAggregatesFilter<$PrismaModel> | $Enums.ProjectPlan
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumProjectPlanFilter<$PrismaModel>
+    _max?: NestedEnumProjectPlanFilter<$PrismaModel>
+  }
+
+  export type EnumTransactionStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.TransactionStatus | EnumTransactionStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.TransactionStatus[] | ListEnumTransactionStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.TransactionStatus[] | ListEnumTransactionStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumTransactionStatusFilter<$PrismaModel> | $Enums.TransactionStatus
+  }
+
+  export type DateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
+  export type ProjectScalarRelationFilter = {
+    is?: ProjectWhereInput
+    isNot?: ProjectWhereInput
+  }
+
+  export type ProjectSubscriptionCountOrderByAggregateInput = {
+    id?: SortOrder
+    projectId?: SortOrder
+    stripeSubscriptionId?: SortOrder
+    stripeCustomerId?: SortOrder
+    status?: SortOrder
+    expiresAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ProjectSubscriptionMaxOrderByAggregateInput = {
+    id?: SortOrder
+    projectId?: SortOrder
+    stripeSubscriptionId?: SortOrder
+    stripeCustomerId?: SortOrder
+    status?: SortOrder
+    expiresAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ProjectSubscriptionMinOrderByAggregateInput = {
+    id?: SortOrder
+    projectId?: SortOrder
+    stripeSubscriptionId?: SortOrder
+    stripeCustomerId?: SortOrder
+    status?: SortOrder
+    expiresAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type EnumTransactionStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.TransactionStatus | EnumTransactionStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.TransactionStatus[] | ListEnumTransactionStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.TransactionStatus[] | ListEnumTransactionStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumTransactionStatusWithAggregatesFilter<$PrismaModel> | $Enums.TransactionStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumTransactionStatusFilter<$PrismaModel>
+    _max?: NestedEnumTransactionStatusFilter<$PrismaModel>
+  }
+
+  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type EnumRoleFilter<$PrismaModel = never> = {
@@ -19256,11 +20701,6 @@ export namespace Prisma {
     in?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
     notIn?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
     not?: NestedEnumRoleFilter<$PrismaModel> | $Enums.Role
-  }
-
-  export type ProjectScalarRelationFilter = {
-    is?: ProjectWhereInput
-    isNot?: ProjectWhereInput
   }
 
   export type MemberUserIdProjectIdCompoundUniqueInput = {
@@ -19317,17 +20757,6 @@ export namespace Prisma {
     in?: $Enums.Priority[] | ListEnumPriorityFieldRefInput<$PrismaModel> | null
     notIn?: $Enums.Priority[] | ListEnumPriorityFieldRefInput<$PrismaModel> | null
     not?: NestedEnumPriorityNullableFilter<$PrismaModel> | $Enums.Priority | null
-  }
-
-  export type DateTimeNullableFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
   }
 
   export type AttachmentListRelationFilter = {
@@ -19410,20 +20839,6 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedEnumPriorityNullableFilter<$PrismaModel>
     _max?: NestedEnumPriorityNullableFilter<$PrismaModel>
-  }
-
-  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedDateTimeNullableFilter<$PrismaModel>
-    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type TaskScalarRelationFilter = {
@@ -20139,6 +21554,13 @@ export namespace Prisma {
     connect?: TokenWhereUniqueInput | TokenWhereUniqueInput[]
   }
 
+  export type ProjectSubscriptionCreateNestedManyWithoutProjectInput = {
+    create?: XOR<ProjectSubscriptionCreateWithoutProjectInput, ProjectSubscriptionUncheckedCreateWithoutProjectInput> | ProjectSubscriptionCreateWithoutProjectInput[] | ProjectSubscriptionUncheckedCreateWithoutProjectInput[]
+    connectOrCreate?: ProjectSubscriptionCreateOrConnectWithoutProjectInput | ProjectSubscriptionCreateOrConnectWithoutProjectInput[]
+    createMany?: ProjectSubscriptionCreateManyProjectInputEnvelope
+    connect?: ProjectSubscriptionWhereUniqueInput | ProjectSubscriptionWhereUniqueInput[]
+  }
+
   export type MemberCreateNestedManyWithoutProjectInput = {
     create?: XOR<MemberCreateWithoutProjectInput, MemberUncheckedCreateWithoutProjectInput> | MemberCreateWithoutProjectInput[] | MemberUncheckedCreateWithoutProjectInput[]
     connectOrCreate?: MemberCreateOrConnectWithoutProjectInput | MemberCreateOrConnectWithoutProjectInput[]
@@ -20174,6 +21596,13 @@ export namespace Prisma {
     connect?: TokenWhereUniqueInput | TokenWhereUniqueInput[]
   }
 
+  export type ProjectSubscriptionUncheckedCreateNestedManyWithoutProjectInput = {
+    create?: XOR<ProjectSubscriptionCreateWithoutProjectInput, ProjectSubscriptionUncheckedCreateWithoutProjectInput> | ProjectSubscriptionCreateWithoutProjectInput[] | ProjectSubscriptionUncheckedCreateWithoutProjectInput[]
+    connectOrCreate?: ProjectSubscriptionCreateOrConnectWithoutProjectInput | ProjectSubscriptionCreateOrConnectWithoutProjectInput[]
+    createMany?: ProjectSubscriptionCreateManyProjectInputEnvelope
+    connect?: ProjectSubscriptionWhereUniqueInput | ProjectSubscriptionWhereUniqueInput[]
+  }
+
   export type MemberUncheckedCreateNestedManyWithoutProjectInput = {
     create?: XOR<MemberCreateWithoutProjectInput, MemberUncheckedCreateWithoutProjectInput> | MemberCreateWithoutProjectInput[] | MemberUncheckedCreateWithoutProjectInput[]
     connectOrCreate?: MemberCreateOrConnectWithoutProjectInput | MemberCreateOrConnectWithoutProjectInput[]
@@ -20202,6 +21631,10 @@ export namespace Prisma {
     connect?: DocumentWhereUniqueInput | DocumentWhereUniqueInput[]
   }
 
+  export type EnumProjectPlanFieldUpdateOperationsInput = {
+    set?: $Enums.ProjectPlan
+  }
+
   export type TokenUpdateManyWithoutProjectNestedInput = {
     create?: XOR<TokenCreateWithoutProjectInput, TokenUncheckedCreateWithoutProjectInput> | TokenCreateWithoutProjectInput[] | TokenUncheckedCreateWithoutProjectInput[]
     connectOrCreate?: TokenCreateOrConnectWithoutProjectInput | TokenCreateOrConnectWithoutProjectInput[]
@@ -20214,6 +21647,20 @@ export namespace Prisma {
     update?: TokenUpdateWithWhereUniqueWithoutProjectInput | TokenUpdateWithWhereUniqueWithoutProjectInput[]
     updateMany?: TokenUpdateManyWithWhereWithoutProjectInput | TokenUpdateManyWithWhereWithoutProjectInput[]
     deleteMany?: TokenScalarWhereInput | TokenScalarWhereInput[]
+  }
+
+  export type ProjectSubscriptionUpdateManyWithoutProjectNestedInput = {
+    create?: XOR<ProjectSubscriptionCreateWithoutProjectInput, ProjectSubscriptionUncheckedCreateWithoutProjectInput> | ProjectSubscriptionCreateWithoutProjectInput[] | ProjectSubscriptionUncheckedCreateWithoutProjectInput[]
+    connectOrCreate?: ProjectSubscriptionCreateOrConnectWithoutProjectInput | ProjectSubscriptionCreateOrConnectWithoutProjectInput[]
+    upsert?: ProjectSubscriptionUpsertWithWhereUniqueWithoutProjectInput | ProjectSubscriptionUpsertWithWhereUniqueWithoutProjectInput[]
+    createMany?: ProjectSubscriptionCreateManyProjectInputEnvelope
+    set?: ProjectSubscriptionWhereUniqueInput | ProjectSubscriptionWhereUniqueInput[]
+    disconnect?: ProjectSubscriptionWhereUniqueInput | ProjectSubscriptionWhereUniqueInput[]
+    delete?: ProjectSubscriptionWhereUniqueInput | ProjectSubscriptionWhereUniqueInput[]
+    connect?: ProjectSubscriptionWhereUniqueInput | ProjectSubscriptionWhereUniqueInput[]
+    update?: ProjectSubscriptionUpdateWithWhereUniqueWithoutProjectInput | ProjectSubscriptionUpdateWithWhereUniqueWithoutProjectInput[]
+    updateMany?: ProjectSubscriptionUpdateManyWithWhereWithoutProjectInput | ProjectSubscriptionUpdateManyWithWhereWithoutProjectInput[]
+    deleteMany?: ProjectSubscriptionScalarWhereInput | ProjectSubscriptionScalarWhereInput[]
   }
 
   export type MemberUpdateManyWithoutProjectNestedInput = {
@@ -20286,6 +21733,20 @@ export namespace Prisma {
     deleteMany?: TokenScalarWhereInput | TokenScalarWhereInput[]
   }
 
+  export type ProjectSubscriptionUncheckedUpdateManyWithoutProjectNestedInput = {
+    create?: XOR<ProjectSubscriptionCreateWithoutProjectInput, ProjectSubscriptionUncheckedCreateWithoutProjectInput> | ProjectSubscriptionCreateWithoutProjectInput[] | ProjectSubscriptionUncheckedCreateWithoutProjectInput[]
+    connectOrCreate?: ProjectSubscriptionCreateOrConnectWithoutProjectInput | ProjectSubscriptionCreateOrConnectWithoutProjectInput[]
+    upsert?: ProjectSubscriptionUpsertWithWhereUniqueWithoutProjectInput | ProjectSubscriptionUpsertWithWhereUniqueWithoutProjectInput[]
+    createMany?: ProjectSubscriptionCreateManyProjectInputEnvelope
+    set?: ProjectSubscriptionWhereUniqueInput | ProjectSubscriptionWhereUniqueInput[]
+    disconnect?: ProjectSubscriptionWhereUniqueInput | ProjectSubscriptionWhereUniqueInput[]
+    delete?: ProjectSubscriptionWhereUniqueInput | ProjectSubscriptionWhereUniqueInput[]
+    connect?: ProjectSubscriptionWhereUniqueInput | ProjectSubscriptionWhereUniqueInput[]
+    update?: ProjectSubscriptionUpdateWithWhereUniqueWithoutProjectInput | ProjectSubscriptionUpdateWithWhereUniqueWithoutProjectInput[]
+    updateMany?: ProjectSubscriptionUpdateManyWithWhereWithoutProjectInput | ProjectSubscriptionUpdateManyWithWhereWithoutProjectInput[]
+    deleteMany?: ProjectSubscriptionScalarWhereInput | ProjectSubscriptionScalarWhereInput[]
+  }
+
   export type MemberUncheckedUpdateManyWithoutProjectNestedInput = {
     create?: XOR<MemberCreateWithoutProjectInput, MemberUncheckedCreateWithoutProjectInput> | MemberCreateWithoutProjectInput[] | MemberUncheckedCreateWithoutProjectInput[]
     connectOrCreate?: MemberCreateOrConnectWithoutProjectInput | MemberCreateOrConnectWithoutProjectInput[]
@@ -20340,6 +21801,28 @@ export namespace Prisma {
     update?: DocumentUpdateWithWhereUniqueWithoutProjectInput | DocumentUpdateWithWhereUniqueWithoutProjectInput[]
     updateMany?: DocumentUpdateManyWithWhereWithoutProjectInput | DocumentUpdateManyWithWhereWithoutProjectInput[]
     deleteMany?: DocumentScalarWhereInput | DocumentScalarWhereInput[]
+  }
+
+  export type ProjectCreateNestedOneWithoutProjectSubscriptionInput = {
+    create?: XOR<ProjectCreateWithoutProjectSubscriptionInput, ProjectUncheckedCreateWithoutProjectSubscriptionInput>
+    connectOrCreate?: ProjectCreateOrConnectWithoutProjectSubscriptionInput
+    connect?: ProjectWhereUniqueInput
+  }
+
+  export type EnumTransactionStatusFieldUpdateOperationsInput = {
+    set?: $Enums.TransactionStatus
+  }
+
+  export type NullableDateTimeFieldUpdateOperationsInput = {
+    set?: Date | string | null
+  }
+
+  export type ProjectUpdateOneRequiredWithoutProjectSubscriptionNestedInput = {
+    create?: XOR<ProjectCreateWithoutProjectSubscriptionInput, ProjectUncheckedCreateWithoutProjectSubscriptionInput>
+    connectOrCreate?: ProjectCreateOrConnectWithoutProjectSubscriptionInput
+    upsert?: ProjectUpsertWithoutProjectSubscriptionInput
+    connect?: ProjectWhereUniqueInput
+    update?: XOR<XOR<ProjectUpdateToOneWithWhereWithoutProjectSubscriptionInput, ProjectUpdateWithoutProjectSubscriptionInput>, ProjectUncheckedUpdateWithoutProjectSubscriptionInput>
   }
 
   export type UserCreateNestedOneWithoutMembershipsInput = {
@@ -20460,10 +21943,6 @@ export namespace Prisma {
 
   export type NullableEnumPriorityFieldUpdateOperationsInput = {
     set?: $Enums.Priority | null
-  }
-
-  export type NullableDateTimeFieldUpdateOperationsInput = {
-    set?: Date | string | null
   }
 
   export type TaskLabelUpdateManyWithoutTasksNestedInput = {
@@ -20987,6 +22466,65 @@ export namespace Prisma {
     _max?: NestedEnumRoleNullableFilter<$PrismaModel>
   }
 
+  export type NestedEnumProjectPlanFilter<$PrismaModel = never> = {
+    equals?: $Enums.ProjectPlan | EnumProjectPlanFieldRefInput<$PrismaModel>
+    in?: $Enums.ProjectPlan[] | ListEnumProjectPlanFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ProjectPlan[] | ListEnumProjectPlanFieldRefInput<$PrismaModel>
+    not?: NestedEnumProjectPlanFilter<$PrismaModel> | $Enums.ProjectPlan
+  }
+
+  export type NestedEnumProjectPlanWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ProjectPlan | EnumProjectPlanFieldRefInput<$PrismaModel>
+    in?: $Enums.ProjectPlan[] | ListEnumProjectPlanFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ProjectPlan[] | ListEnumProjectPlanFieldRefInput<$PrismaModel>
+    not?: NestedEnumProjectPlanWithAggregatesFilter<$PrismaModel> | $Enums.ProjectPlan
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumProjectPlanFilter<$PrismaModel>
+    _max?: NestedEnumProjectPlanFilter<$PrismaModel>
+  }
+
+  export type NestedEnumTransactionStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.TransactionStatus | EnumTransactionStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.TransactionStatus[] | ListEnumTransactionStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.TransactionStatus[] | ListEnumTransactionStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumTransactionStatusFilter<$PrismaModel> | $Enums.TransactionStatus
+  }
+
+  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
+  export type NestedEnumTransactionStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.TransactionStatus | EnumTransactionStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.TransactionStatus[] | ListEnumTransactionStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.TransactionStatus[] | ListEnumTransactionStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumTransactionStatusWithAggregatesFilter<$PrismaModel> | $Enums.TransactionStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumTransactionStatusFilter<$PrismaModel>
+    _max?: NestedEnumTransactionStatusFilter<$PrismaModel>
+  }
+
+  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
   export type NestedEnumRoleFilter<$PrismaModel = never> = {
     equals?: $Enums.Role | EnumRoleFieldRefInput<$PrismaModel>
     in?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
@@ -21018,17 +22556,6 @@ export namespace Prisma {
     not?: NestedEnumPriorityNullableFilter<$PrismaModel> | $Enums.Priority | null
   }
 
-  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
-  }
-
   export type NestedEnumTaskStatusWithAggregatesFilter<$PrismaModel = never> = {
     equals?: $Enums.TaskStatus | EnumTaskStatusFieldRefInput<$PrismaModel>
     in?: $Enums.TaskStatus[] | ListEnumTaskStatusFieldRefInput<$PrismaModel>
@@ -21047,20 +22574,6 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedEnumPriorityNullableFilter<$PrismaModel>
     _max?: NestedEnumPriorityNullableFilter<$PrismaModel>
-  }
-
-  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedDateTimeNullableFilter<$PrismaModel>
-    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
   export type NestedJsonNullableFilter<$PrismaModel = never> = 
     | PatchUndefined<
@@ -21738,8 +23251,10 @@ export namespace Prisma {
     name: string
     cover?: string | null
     description?: string | null
+    plan?: $Enums.ProjectPlan
     createdAt?: Date | string
     updatedAt?: Date | string
+    projectSubscription?: ProjectSubscriptionCreateNestedManyWithoutProjectInput
     members?: MemberCreateNestedManyWithoutProjectInput
     tasks?: TaskCreateNestedManyWithoutProjectInput
     labels?: TaskLabelCreateNestedManyWithoutProjectInput
@@ -21751,8 +23266,10 @@ export namespace Prisma {
     name: string
     cover?: string | null
     description?: string | null
+    plan?: $Enums.ProjectPlan
     createdAt?: Date | string
     updatedAt?: Date | string
+    projectSubscription?: ProjectSubscriptionUncheckedCreateNestedManyWithoutProjectInput
     members?: MemberUncheckedCreateNestedManyWithoutProjectInput
     tasks?: TaskUncheckedCreateNestedManyWithoutProjectInput
     labels?: TaskLabelUncheckedCreateNestedManyWithoutProjectInput
@@ -21839,8 +23356,10 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     cover?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    plan?: EnumProjectPlanFieldUpdateOperationsInput | $Enums.ProjectPlan
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    projectSubscription?: ProjectSubscriptionUpdateManyWithoutProjectNestedInput
     members?: MemberUpdateManyWithoutProjectNestedInput
     tasks?: TaskUpdateManyWithoutProjectNestedInput
     labels?: TaskLabelUpdateManyWithoutProjectNestedInput
@@ -21852,8 +23371,10 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     cover?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    plan?: EnumProjectPlanFieldUpdateOperationsInput | $Enums.ProjectPlan
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    projectSubscription?: ProjectSubscriptionUncheckedUpdateManyWithoutProjectNestedInput
     members?: MemberUncheckedUpdateManyWithoutProjectNestedInput
     tasks?: TaskUncheckedUpdateManyWithoutProjectNestedInput
     labels?: TaskLabelUncheckedUpdateManyWithoutProjectNestedInput
@@ -21891,6 +23412,36 @@ export namespace Prisma {
 
   export type TokenCreateManyProjectInputEnvelope = {
     data: TokenCreateManyProjectInput | TokenCreateManyProjectInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ProjectSubscriptionCreateWithoutProjectInput = {
+    id?: string
+    stripeSubscriptionId?: string | null
+    stripeCustomerId?: string | null
+    status?: $Enums.TransactionStatus
+    expiresAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ProjectSubscriptionUncheckedCreateWithoutProjectInput = {
+    id?: string
+    stripeSubscriptionId?: string | null
+    stripeCustomerId?: string | null
+    status?: $Enums.TransactionStatus
+    expiresAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ProjectSubscriptionCreateOrConnectWithoutProjectInput = {
+    where: ProjectSubscriptionWhereUniqueInput
+    create: XOR<ProjectSubscriptionCreateWithoutProjectInput, ProjectSubscriptionUncheckedCreateWithoutProjectInput>
+  }
+
+  export type ProjectSubscriptionCreateManyProjectInputEnvelope = {
+    data: ProjectSubscriptionCreateManyProjectInput | ProjectSubscriptionCreateManyProjectInput[]
     skipDuplicates?: boolean
   }
 
@@ -22036,6 +23587,36 @@ export namespace Prisma {
     data: XOR<TokenUpdateManyMutationInput, TokenUncheckedUpdateManyWithoutProjectInput>
   }
 
+  export type ProjectSubscriptionUpsertWithWhereUniqueWithoutProjectInput = {
+    where: ProjectSubscriptionWhereUniqueInput
+    update: XOR<ProjectSubscriptionUpdateWithoutProjectInput, ProjectSubscriptionUncheckedUpdateWithoutProjectInput>
+    create: XOR<ProjectSubscriptionCreateWithoutProjectInput, ProjectSubscriptionUncheckedCreateWithoutProjectInput>
+  }
+
+  export type ProjectSubscriptionUpdateWithWhereUniqueWithoutProjectInput = {
+    where: ProjectSubscriptionWhereUniqueInput
+    data: XOR<ProjectSubscriptionUpdateWithoutProjectInput, ProjectSubscriptionUncheckedUpdateWithoutProjectInput>
+  }
+
+  export type ProjectSubscriptionUpdateManyWithWhereWithoutProjectInput = {
+    where: ProjectSubscriptionScalarWhereInput
+    data: XOR<ProjectSubscriptionUpdateManyMutationInput, ProjectSubscriptionUncheckedUpdateManyWithoutProjectInput>
+  }
+
+  export type ProjectSubscriptionScalarWhereInput = {
+    AND?: ProjectSubscriptionScalarWhereInput | ProjectSubscriptionScalarWhereInput[]
+    OR?: ProjectSubscriptionScalarWhereInput[]
+    NOT?: ProjectSubscriptionScalarWhereInput | ProjectSubscriptionScalarWhereInput[]
+    id?: StringFilter<"ProjectSubscription"> | string
+    projectId?: StringFilter<"ProjectSubscription"> | string
+    stripeSubscriptionId?: StringNullableFilter<"ProjectSubscription"> | string | null
+    stripeCustomerId?: StringNullableFilter<"ProjectSubscription"> | string | null
+    status?: EnumTransactionStatusFilter<"ProjectSubscription"> | $Enums.TransactionStatus
+    expiresAt?: DateTimeNullableFilter<"ProjectSubscription"> | Date | string | null
+    createdAt?: DateTimeFilter<"ProjectSubscription"> | Date | string
+    updatedAt?: DateTimeFilter<"ProjectSubscription"> | Date | string
+  }
+
   export type MemberUpsertWithWhereUniqueWithoutProjectInput = {
     where: MemberWhereUniqueInput
     update: XOR<MemberUpdateWithoutProjectInput, MemberUncheckedUpdateWithoutProjectInput>
@@ -22124,6 +23705,82 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Document"> | Date | string
   }
 
+  export type ProjectCreateWithoutProjectSubscriptionInput = {
+    id?: string
+    name: string
+    cover?: string | null
+    description?: string | null
+    plan?: $Enums.ProjectPlan
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tokens?: TokenCreateNestedManyWithoutProjectInput
+    members?: MemberCreateNestedManyWithoutProjectInput
+    tasks?: TaskCreateNestedManyWithoutProjectInput
+    labels?: TaskLabelCreateNestedManyWithoutProjectInput
+    documents?: DocumentCreateNestedManyWithoutProjectInput
+  }
+
+  export type ProjectUncheckedCreateWithoutProjectSubscriptionInput = {
+    id?: string
+    name: string
+    cover?: string | null
+    description?: string | null
+    plan?: $Enums.ProjectPlan
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tokens?: TokenUncheckedCreateNestedManyWithoutProjectInput
+    members?: MemberUncheckedCreateNestedManyWithoutProjectInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutProjectInput
+    labels?: TaskLabelUncheckedCreateNestedManyWithoutProjectInput
+    documents?: DocumentUncheckedCreateNestedManyWithoutProjectInput
+  }
+
+  export type ProjectCreateOrConnectWithoutProjectSubscriptionInput = {
+    where: ProjectWhereUniqueInput
+    create: XOR<ProjectCreateWithoutProjectSubscriptionInput, ProjectUncheckedCreateWithoutProjectSubscriptionInput>
+  }
+
+  export type ProjectUpsertWithoutProjectSubscriptionInput = {
+    update: XOR<ProjectUpdateWithoutProjectSubscriptionInput, ProjectUncheckedUpdateWithoutProjectSubscriptionInput>
+    create: XOR<ProjectCreateWithoutProjectSubscriptionInput, ProjectUncheckedCreateWithoutProjectSubscriptionInput>
+    where?: ProjectWhereInput
+  }
+
+  export type ProjectUpdateToOneWithWhereWithoutProjectSubscriptionInput = {
+    where?: ProjectWhereInput
+    data: XOR<ProjectUpdateWithoutProjectSubscriptionInput, ProjectUncheckedUpdateWithoutProjectSubscriptionInput>
+  }
+
+  export type ProjectUpdateWithoutProjectSubscriptionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    cover?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    plan?: EnumProjectPlanFieldUpdateOperationsInput | $Enums.ProjectPlan
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tokens?: TokenUpdateManyWithoutProjectNestedInput
+    members?: MemberUpdateManyWithoutProjectNestedInput
+    tasks?: TaskUpdateManyWithoutProjectNestedInput
+    labels?: TaskLabelUpdateManyWithoutProjectNestedInput
+    documents?: DocumentUpdateManyWithoutProjectNestedInput
+  }
+
+  export type ProjectUncheckedUpdateWithoutProjectSubscriptionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    cover?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    plan?: EnumProjectPlanFieldUpdateOperationsInput | $Enums.ProjectPlan
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tokens?: TokenUncheckedUpdateManyWithoutProjectNestedInput
+    members?: MemberUncheckedUpdateManyWithoutProjectNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutProjectNestedInput
+    labels?: TaskLabelUncheckedUpdateManyWithoutProjectNestedInput
+    documents?: DocumentUncheckedUpdateManyWithoutProjectNestedInput
+  }
+
   export type UserCreateWithoutMembershipsInput = {
     id?: string
     email: string
@@ -22182,9 +23839,11 @@ export namespace Prisma {
     name: string
     cover?: string | null
     description?: string | null
+    plan?: $Enums.ProjectPlan
     createdAt?: Date | string
     updatedAt?: Date | string
     tokens?: TokenCreateNestedManyWithoutProjectInput
+    projectSubscription?: ProjectSubscriptionCreateNestedManyWithoutProjectInput
     tasks?: TaskCreateNestedManyWithoutProjectInput
     labels?: TaskLabelCreateNestedManyWithoutProjectInput
     documents?: DocumentCreateNestedManyWithoutProjectInput
@@ -22195,9 +23854,11 @@ export namespace Prisma {
     name: string
     cover?: string | null
     description?: string | null
+    plan?: $Enums.ProjectPlan
     createdAt?: Date | string
     updatedAt?: Date | string
     tokens?: TokenUncheckedCreateNestedManyWithoutProjectInput
+    projectSubscription?: ProjectSubscriptionUncheckedCreateNestedManyWithoutProjectInput
     tasks?: TaskUncheckedCreateNestedManyWithoutProjectInput
     labels?: TaskLabelUncheckedCreateNestedManyWithoutProjectInput
     documents?: DocumentUncheckedCreateNestedManyWithoutProjectInput
@@ -22283,9 +23944,11 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     cover?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    plan?: EnumProjectPlanFieldUpdateOperationsInput | $Enums.ProjectPlan
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tokens?: TokenUpdateManyWithoutProjectNestedInput
+    projectSubscription?: ProjectSubscriptionUpdateManyWithoutProjectNestedInput
     tasks?: TaskUpdateManyWithoutProjectNestedInput
     labels?: TaskLabelUpdateManyWithoutProjectNestedInput
     documents?: DocumentUpdateManyWithoutProjectNestedInput
@@ -22296,9 +23959,11 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     cover?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    plan?: EnumProjectPlanFieldUpdateOperationsInput | $Enums.ProjectPlan
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tokens?: TokenUncheckedUpdateManyWithoutProjectNestedInput
+    projectSubscription?: ProjectSubscriptionUncheckedUpdateManyWithoutProjectNestedInput
     tasks?: TaskUncheckedUpdateManyWithoutProjectNestedInput
     labels?: TaskLabelUncheckedUpdateManyWithoutProjectNestedInput
     documents?: DocumentUncheckedUpdateManyWithoutProjectNestedInput
@@ -22491,9 +24156,11 @@ export namespace Prisma {
     name: string
     cover?: string | null
     description?: string | null
+    plan?: $Enums.ProjectPlan
     createdAt?: Date | string
     updatedAt?: Date | string
     tokens?: TokenCreateNestedManyWithoutProjectInput
+    projectSubscription?: ProjectSubscriptionCreateNestedManyWithoutProjectInput
     members?: MemberCreateNestedManyWithoutProjectInput
     labels?: TaskLabelCreateNestedManyWithoutProjectInput
     documents?: DocumentCreateNestedManyWithoutProjectInput
@@ -22504,9 +24171,11 @@ export namespace Prisma {
     name: string
     cover?: string | null
     description?: string | null
+    plan?: $Enums.ProjectPlan
     createdAt?: Date | string
     updatedAt?: Date | string
     tokens?: TokenUncheckedCreateNestedManyWithoutProjectInput
+    projectSubscription?: ProjectSubscriptionUncheckedCreateNestedManyWithoutProjectInput
     members?: MemberUncheckedCreateNestedManyWithoutProjectInput
     labels?: TaskLabelUncheckedCreateNestedManyWithoutProjectInput
     documents?: DocumentUncheckedCreateNestedManyWithoutProjectInput
@@ -22698,9 +24367,11 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     cover?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    plan?: EnumProjectPlanFieldUpdateOperationsInput | $Enums.ProjectPlan
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tokens?: TokenUpdateManyWithoutProjectNestedInput
+    projectSubscription?: ProjectSubscriptionUpdateManyWithoutProjectNestedInput
     members?: MemberUpdateManyWithoutProjectNestedInput
     labels?: TaskLabelUpdateManyWithoutProjectNestedInput
     documents?: DocumentUpdateManyWithoutProjectNestedInput
@@ -22711,9 +24382,11 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     cover?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    plan?: EnumProjectPlanFieldUpdateOperationsInput | $Enums.ProjectPlan
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tokens?: TokenUncheckedUpdateManyWithoutProjectNestedInput
+    projectSubscription?: ProjectSubscriptionUncheckedUpdateManyWithoutProjectNestedInput
     members?: MemberUncheckedUpdateManyWithoutProjectNestedInput
     labels?: TaskLabelUncheckedUpdateManyWithoutProjectNestedInput
     documents?: DocumentUncheckedUpdateManyWithoutProjectNestedInput
@@ -22924,9 +24597,11 @@ export namespace Prisma {
     name: string
     cover?: string | null
     description?: string | null
+    plan?: $Enums.ProjectPlan
     createdAt?: Date | string
     updatedAt?: Date | string
     tokens?: TokenCreateNestedManyWithoutProjectInput
+    projectSubscription?: ProjectSubscriptionCreateNestedManyWithoutProjectInput
     members?: MemberCreateNestedManyWithoutProjectInput
     tasks?: TaskCreateNestedManyWithoutProjectInput
     documents?: DocumentCreateNestedManyWithoutProjectInput
@@ -22937,9 +24612,11 @@ export namespace Prisma {
     name: string
     cover?: string | null
     description?: string | null
+    plan?: $Enums.ProjectPlan
     createdAt?: Date | string
     updatedAt?: Date | string
     tokens?: TokenUncheckedCreateNestedManyWithoutProjectInput
+    projectSubscription?: ProjectSubscriptionUncheckedCreateNestedManyWithoutProjectInput
     members?: MemberUncheckedCreateNestedManyWithoutProjectInput
     tasks?: TaskUncheckedCreateNestedManyWithoutProjectInput
     documents?: DocumentUncheckedCreateNestedManyWithoutProjectInput
@@ -23007,9 +24684,11 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     cover?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    plan?: EnumProjectPlanFieldUpdateOperationsInput | $Enums.ProjectPlan
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tokens?: TokenUpdateManyWithoutProjectNestedInput
+    projectSubscription?: ProjectSubscriptionUpdateManyWithoutProjectNestedInput
     members?: MemberUpdateManyWithoutProjectNestedInput
     tasks?: TaskUpdateManyWithoutProjectNestedInput
     documents?: DocumentUpdateManyWithoutProjectNestedInput
@@ -23020,9 +24699,11 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     cover?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    plan?: EnumProjectPlanFieldUpdateOperationsInput | $Enums.ProjectPlan
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tokens?: TokenUncheckedUpdateManyWithoutProjectNestedInput
+    projectSubscription?: ProjectSubscriptionUncheckedUpdateManyWithoutProjectNestedInput
     members?: MemberUncheckedUpdateManyWithoutProjectNestedInput
     tasks?: TaskUncheckedUpdateManyWithoutProjectNestedInput
     documents?: DocumentUncheckedUpdateManyWithoutProjectNestedInput
@@ -23425,9 +25106,11 @@ export namespace Prisma {
     name: string
     cover?: string | null
     description?: string | null
+    plan?: $Enums.ProjectPlan
     createdAt?: Date | string
     updatedAt?: Date | string
     tokens?: TokenCreateNestedManyWithoutProjectInput
+    projectSubscription?: ProjectSubscriptionCreateNestedManyWithoutProjectInput
     members?: MemberCreateNestedManyWithoutProjectInput
     tasks?: TaskCreateNestedManyWithoutProjectInput
     labels?: TaskLabelCreateNestedManyWithoutProjectInput
@@ -23438,9 +25121,11 @@ export namespace Prisma {
     name: string
     cover?: string | null
     description?: string | null
+    plan?: $Enums.ProjectPlan
     createdAt?: Date | string
     updatedAt?: Date | string
     tokens?: TokenUncheckedCreateNestedManyWithoutProjectInput
+    projectSubscription?: ProjectSubscriptionUncheckedCreateNestedManyWithoutProjectInput
     members?: MemberUncheckedCreateNestedManyWithoutProjectInput
     tasks?: TaskUncheckedCreateNestedManyWithoutProjectInput
     labels?: TaskLabelUncheckedCreateNestedManyWithoutProjectInput
@@ -23467,9 +25152,11 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     cover?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    plan?: EnumProjectPlanFieldUpdateOperationsInput | $Enums.ProjectPlan
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tokens?: TokenUpdateManyWithoutProjectNestedInput
+    projectSubscription?: ProjectSubscriptionUpdateManyWithoutProjectNestedInput
     members?: MemberUpdateManyWithoutProjectNestedInput
     tasks?: TaskUpdateManyWithoutProjectNestedInput
     labels?: TaskLabelUpdateManyWithoutProjectNestedInput
@@ -23480,9 +25167,11 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     cover?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    plan?: EnumProjectPlanFieldUpdateOperationsInput | $Enums.ProjectPlan
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tokens?: TokenUncheckedUpdateManyWithoutProjectNestedInput
+    projectSubscription?: ProjectSubscriptionUncheckedUpdateManyWithoutProjectNestedInput
     members?: MemberUncheckedUpdateManyWithoutProjectNestedInput
     tasks?: TaskUncheckedUpdateManyWithoutProjectNestedInput
     labels?: TaskLabelUncheckedUpdateManyWithoutProjectNestedInput
@@ -23998,6 +25687,16 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type ProjectSubscriptionCreateManyProjectInput = {
+    id?: string
+    stripeSubscriptionId?: string | null
+    stripeCustomerId?: string | null
+    status?: $Enums.TransactionStatus
+    expiresAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type MemberCreateManyProjectInput = {
     id?: string
     userId: string
@@ -24067,6 +25766,36 @@ export namespace Prisma {
     userId?: NullableStringFieldUpdateOperationsInput | string | null
     role?: NullableEnumRoleFieldUpdateOperationsInput | $Enums.Role | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ProjectSubscriptionUpdateWithoutProjectInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    stripeSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumTransactionStatusFieldUpdateOperationsInput | $Enums.TransactionStatus
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ProjectSubscriptionUncheckedUpdateWithoutProjectInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    stripeSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumTransactionStatusFieldUpdateOperationsInput | $Enums.TransactionStatus
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ProjectSubscriptionUncheckedUpdateManyWithoutProjectInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    stripeSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumTransactionStatusFieldUpdateOperationsInput | $Enums.TransactionStatus
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
