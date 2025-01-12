@@ -29,6 +29,7 @@ import { getGraphQLConfig } from './config/graphql.config'
 import { getStripeConfig } from './config/stripe.config'
 import { PrismaModule } from './prisma/prisma.module'
 import { RedisModule } from './redis/redis.module'
+import { CronModule } from "../modules/cron/cron.module"
 
 @Module({
 	imports: [
@@ -61,6 +62,7 @@ import { RedisModule } from './redis/redis.module'
 		StripeModule,
 		WebhookModule,
 		NotificationModule,
+		CronModule,
 		ProjectCoreModule,
 		ProjectPlanModule,
 		MemberModule,

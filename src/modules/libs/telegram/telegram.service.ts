@@ -208,7 +208,7 @@ export class TelegramService extends Telegraf {
 		)
 	}
 
-	public async sendTaskUnassigned(
+	public async sendTaskOverdue(
 		chatId: string,
 		taskTitle: string,
 		projectName: string,
@@ -220,6 +220,12 @@ export class TelegramService extends Telegraf {
 			MESSAGES.taskOverdue(taskTitle, projectName, dueDate, priority),
 			{ parse_mode: 'HTML' }
 		)
+	}
+
+	public async sendEnableTwoFactor(chatId: string) {
+		await this.telegram.sendMessage(chatId, MESSAGES.enableTwoFactor, {
+			parse_mode: 'HTML'
+		})
 	}
 
 	private async getTaskStats(userId: string) {
