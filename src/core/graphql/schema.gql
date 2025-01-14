@@ -196,7 +196,7 @@ type Mutation {
   updateTask(input: TaskInput!, taskId: String!): TaskModel!
   updateTaskLink(input: TaskLinkInput!, linkId: String!): Boolean!
   uploadTaskAttachment(file: Upload!, taskId: String!): Boolean!
-  verifyAccaunt(data: VerificationInput!): UserModel!
+  verifyAccaunt(data: VerificationInput!): AuthModel!
 }
 
 input NewPasswordInput {
