@@ -1,6 +1,6 @@
-import { UseGuards } from '@nestjs/common'
+import { Inject, UseGuards } from '@nestjs/common'
 import { Args, Mutation, Query, Resolver, Subscription } from '@nestjs/graphql'
-import { PubSub } from 'graphql-subscriptions'
+import { RedisPubSub } from 'graphql-redis-subscriptions'
 import { Role } from '@/prisma/generated'
 import { Authorized } from '@/src/shared/decorators/authorized.decorator'
 import { RolesAccess } from '@/src/shared/decorators/role-access.decorator'
@@ -12,11 +12,10 @@ import { CommentModel } from './models/comment.model'
 
 @Resolver('Comment')
 export class CommentResolver {
-	private readonly pubSub: PubSub
-
-	public constructor(private readonly commentService: CommentService) {
-		this.pubSub = new PubSub()
-	}
+	public constructor(
+		@Inject('PUB_SUB') private readonly pubSub: RedisPubSub,
+		private readonly commentService: CommentService
+	) {}
 
 	@UseGuards(GqlAuthGuard, ProjectGuard)
 	@Query(() => [CommentModel], { name: 'findCommentsByTask' })

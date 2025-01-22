@@ -1,6 +1,6 @@
-import { UseGuards } from '@nestjs/common'
+import { Inject, UseGuards } from '@nestjs/common'
 import { Args, Mutation, Query, Resolver, Subscription } from '@nestjs/graphql'
-import { PubSub } from 'graphql-subscriptions'
+import { RedisPubSub } from 'graphql-redis-subscriptions'
 import { Role } from '@/prisma/generated'
 import { CurrentProject } from '@/src/shared/decorators/current-project.decorator'
 import { RolesAccess } from '@/src/shared/decorators/role-access.decorator'
@@ -13,11 +13,10 @@ import { DocumentModel } from './models/document.model'
 
 @Resolver('Document')
 export class DocumentResolver {
-	private readonly pubSub: PubSub
-
-	public constructor(private readonly documentService: DocumentService) {
-		this.pubSub = new PubSub()
-	}
+	public constructor(
+		@Inject('PUB_SUB') private readonly pubSub: RedisPubSub,
+		private readonly documentService: DocumentService
+	) {}
 
 	@UseGuards(GqlAuthGuard, ProjectGuard)
 	@Query(() => [DocumentModel], { name: 'findDocumentsByProject' })

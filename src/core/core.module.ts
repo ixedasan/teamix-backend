@@ -8,8 +8,10 @@ import { ProfileModule } from '../modules/auth/profile/profile.module'
 import { SessionModule } from '../modules/auth/session/session.module'
 import { TotpModule } from '../modules/auth/totp/totp.module'
 import { VerificationModule } from '../modules/auth/verification/verification.module'
+import { CronModule } from '../modules/cron/cron.module'
 import { DocumentModule } from '../modules/document/document.module'
 import { MailModule } from '../modules/libs/mail/mail.module'
+import { PubSubModule } from '../modules/libs/pubsub/pubsub.module'
 import { StorageModule } from '../modules/libs/storage/storage.module'
 import { StripeModule } from '../modules/libs/stripe/stripe.module'
 import { TelegramModule } from '../modules/libs/telegram/telegram.module'
@@ -29,7 +31,6 @@ import { getGraphQLConfig } from './config/graphql.config'
 import { getStripeConfig } from './config/stripe.config'
 import { PrismaModule } from './prisma/prisma.module'
 import { RedisModule } from './redis/redis.module'
-import { CronModule } from "../modules/cron/cron.module"
 
 @Module({
 	imports: [
@@ -52,6 +53,7 @@ import { CronModule } from "../modules/cron/cron.module"
 		RedisModule,
 		MailModule,
 		StorageModule,
+		PubSubModule,
 		AccountModule,
 		SessionModule,
 		ProfileModule,
