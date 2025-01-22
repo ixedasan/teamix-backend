@@ -19,6 +19,12 @@ import { ProjectCoreService } from './project-core.service'
 export class ProjectCoreResolver {
 	public constructor(private readonly projectCoreService: ProjectCoreService) {}
 
+	@UseGuards(GqlAuthGuard, ProjectGuard)
+	@Query(() => ProjectModel, { name: 'findProjectById' })
+	public async getProjectById(@CurrentProject('id') id: string) {
+		return this.projectCoreService.getProjectById(id)
+	}
+
 	@Authorization()
 	@Query(() => [ProjectModel], { name: 'getAllUserProjects' })
 	public async getUserProjects(@Authorized() user: User) {
@@ -35,7 +41,7 @@ export class ProjectCoreResolver {
 	}
 
 	@Authorization()
-	@Mutation(() => Boolean, { name: 'createProject' })
+	@Mutation(() => ProjectModel, { name: 'createProject' })
 	public async createProject(
 		@Authorized() user: User,
 		@Args('data') input: ProjectInput
@@ -45,7 +51,7 @@ export class ProjectCoreResolver {
 
 	@UseGuards(GqlAuthGuard, ProjectGuard)
 	@RolesAccess(Role.ADMIN)
-	@Mutation(() => Boolean, { name: 'updateProjectInfo' })
+	@Mutation(() => Boolean, { name: 'changeProjectInfo' })
 	public async updateProject(
 		@CurrentProject() project: Project,
 		@Args('data') input: ProjectInput

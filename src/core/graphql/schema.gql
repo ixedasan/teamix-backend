@@ -110,7 +110,7 @@ input EnableTotpInput {
 
 input InviteMemberInput {
   email: String!
-  role: String!
+  role: Role!
 }
 
 """
@@ -138,9 +138,11 @@ type MakePaymentModel {
 type MemberModel {
   createdAt: DateTime!
   id: ID!
+  project: ProjectModel!
   projectId: ID!
-  role: String!
+  role: Role!
   updatedAt: DateTime!
+  user: UserModel!
   userId: ID!
 }
 
@@ -156,10 +158,11 @@ type Mutation {
   changeProfileAvatar(avatar: Upload!): Boolean!
   changeProfileInfo(data: ChangeProfileInfoInput!): Boolean!
   changeProjectCover(cover: Upload!): Boolean!
+  changeProjectInfo(data: ProjectInput!): Boolean!
   changeTaskStatus(input: ChangeStatusInput!): TaskModel!
   clearSessionCookie: Boolean!
   createDocument(data: CreateDocumentInput!): Boolean!
-  createProject(data: ProjectInput!): Boolean!
+  createProject(data: ProjectInput!): ProjectModel!
   createSocialLink(data: SocialLinkInput!): Boolean!
   createTask(input: TaskInput!): TaskModel!
   createTaskLabel(input: CreateLabelInput!): Boolean!
@@ -191,7 +194,6 @@ type Mutation {
   sendComment(input: SendCommentInput!): CommentModel!
   setCurrentProject(projectId: String!): Boolean!
   unassignTask(taskId: String!, userId: String!): Boolean!
-  updateProjectInfo(data: ProjectInput!): Boolean!
   updateSocialLink(data: SocialLinkInput!, id: String!): Boolean!
   updateTask(input: TaskInput!, taskId: String!): TaskModel!
   updateTaskLink(input: TaskLinkInput!, linkId: String!): Boolean!
@@ -244,6 +246,7 @@ enum Priority {
 
 input ProjectInput {
   description: String
+  icon: String
   name: String!
 }
 
@@ -251,7 +254,9 @@ type ProjectModel {
   cover: String
   createdAt: DateTime!
   description: String
+  icon: String
   id: ID!
+  labels: [TaskLabelModel!]!
   members: [MemberModel!]!
   name: String!
   plan: ProjectStatus!
@@ -273,6 +278,7 @@ type Query {
   findNotificationsByUser: [NotificationModel!]!
   findNotificationsUnreadCount: Float!
   findProfile: UserModel!
+  findProjectById: ProjectModel!
   findProjectMembers: [MemberModel!]!
   findSessionsByUser: [SessionModel!]!
   findSocialLinks: [SocialLinksModel!]!
@@ -288,6 +294,13 @@ type Query {
 
 input ResetPasswordInput {
   email: String!
+}
+
+"""User role in project"""
+enum Role {
+  ADMIN
+  MEMBER
+  VIEWER
 }
 
 input SendCommentInput {

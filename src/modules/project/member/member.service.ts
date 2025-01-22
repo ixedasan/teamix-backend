@@ -28,7 +28,8 @@ export class MemberService {
 				projectId
 			},
 			include: {
-				user: true
+				user: true,
+				project: true
 			}
 		})
 

@@ -5661,6 +5661,7 @@ export namespace Prisma {
     id: string | null
     name: string | null
     cover: string | null
+    icon: string | null
     description: string | null
     plan: $Enums.ProjectPlan | null
     createdAt: Date | null
@@ -5671,6 +5672,7 @@ export namespace Prisma {
     id: string | null
     name: string | null
     cover: string | null
+    icon: string | null
     description: string | null
     plan: $Enums.ProjectPlan | null
     createdAt: Date | null
@@ -5681,6 +5683,7 @@ export namespace Prisma {
     id: number
     name: number
     cover: number
+    icon: number
     description: number
     plan: number
     createdAt: number
@@ -5693,6 +5696,7 @@ export namespace Prisma {
     id?: true
     name?: true
     cover?: true
+    icon?: true
     description?: true
     plan?: true
     createdAt?: true
@@ -5703,6 +5707,7 @@ export namespace Prisma {
     id?: true
     name?: true
     cover?: true
+    icon?: true
     description?: true
     plan?: true
     createdAt?: true
@@ -5713,6 +5718,7 @@ export namespace Prisma {
     id?: true
     name?: true
     cover?: true
+    icon?: true
     description?: true
     plan?: true
     createdAt?: true
@@ -5796,6 +5802,7 @@ export namespace Prisma {
     id: string
     name: string
     cover: string | null
+    icon: string | null
     description: string | null
     plan: $Enums.ProjectPlan
     createdAt: Date
@@ -5823,6 +5830,7 @@ export namespace Prisma {
     id?: boolean
     name?: boolean
     cover?: boolean
+    icon?: boolean
     description?: boolean
     plan?: boolean
     createdAt?: boolean
@@ -5840,6 +5848,7 @@ export namespace Prisma {
     id?: boolean
     name?: boolean
     cover?: boolean
+    icon?: boolean
     description?: boolean
     plan?: boolean
     createdAt?: boolean
@@ -5850,6 +5859,7 @@ export namespace Prisma {
     id?: boolean
     name?: boolean
     cover?: boolean
+    icon?: boolean
     description?: boolean
     plan?: boolean
     createdAt?: boolean
@@ -5881,6 +5891,7 @@ export namespace Prisma {
       id: string
       name: string
       cover: string | null
+      icon: string | null
       description: string | null
       plan: $Enums.ProjectPlan
       createdAt: Date
@@ -6287,6 +6298,7 @@ export namespace Prisma {
     readonly id: FieldRef<"Project", 'String'>
     readonly name: FieldRef<"Project", 'String'>
     readonly cover: FieldRef<"Project", 'String'>
+    readonly icon: FieldRef<"Project", 'String'>
     readonly description: FieldRef<"Project", 'String'>
     readonly plan: FieldRef<"Project", 'ProjectPlan'>
     readonly createdAt: FieldRef<"Project", 'DateTime'>
@@ -17526,6 +17538,7 @@ export namespace Prisma {
     id: 'id',
     name: 'name',
     cover: 'cover',
+    icon: 'icon',
     description: 'description',
     plan: 'plan',
     createdAt: 'createdAt',
@@ -18171,6 +18184,7 @@ export namespace Prisma {
     id?: StringFilter<"Project"> | string
     name?: StringFilter<"Project"> | string
     cover?: StringNullableFilter<"Project"> | string | null
+    icon?: StringNullableFilter<"Project"> | string | null
     description?: StringNullableFilter<"Project"> | string | null
     plan?: EnumProjectPlanFilter<"Project"> | $Enums.ProjectPlan
     createdAt?: DateTimeFilter<"Project"> | Date | string
@@ -18187,6 +18201,7 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     cover?: SortOrderInput | SortOrder
+    icon?: SortOrderInput | SortOrder
     description?: SortOrderInput | SortOrder
     plan?: SortOrder
     createdAt?: SortOrder
@@ -18206,6 +18221,7 @@ export namespace Prisma {
     NOT?: ProjectWhereInput | ProjectWhereInput[]
     name?: StringFilter<"Project"> | string
     cover?: StringNullableFilter<"Project"> | string | null
+    icon?: StringNullableFilter<"Project"> | string | null
     description?: StringNullableFilter<"Project"> | string | null
     plan?: EnumProjectPlanFilter<"Project"> | $Enums.ProjectPlan
     createdAt?: DateTimeFilter<"Project"> | Date | string
@@ -18222,6 +18238,7 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     cover?: SortOrderInput | SortOrder
+    icon?: SortOrderInput | SortOrder
     description?: SortOrderInput | SortOrder
     plan?: SortOrder
     createdAt?: SortOrder
@@ -18238,6 +18255,7 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"Project"> | string
     name?: StringWithAggregatesFilter<"Project"> | string
     cover?: StringNullableWithAggregatesFilter<"Project"> | string | null
+    icon?: StringNullableWithAggregatesFilter<"Project"> | string | null
     description?: StringNullableWithAggregatesFilter<"Project"> | string | null
     plan?: EnumProjectPlanWithAggregatesFilter<"Project"> | $Enums.ProjectPlan
     createdAt?: DateTimeWithAggregatesFilter<"Project"> | Date | string
@@ -19296,6 +19314,7 @@ export namespace Prisma {
     id?: string
     name: string
     cover?: string | null
+    icon?: string | null
     description?: string | null
     plan?: $Enums.ProjectPlan
     createdAt?: Date | string
@@ -19312,6 +19331,7 @@ export namespace Prisma {
     id?: string
     name: string
     cover?: string | null
+    icon?: string | null
     description?: string | null
     plan?: $Enums.ProjectPlan
     createdAt?: Date | string
@@ -19328,6 +19348,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     cover?: NullableStringFieldUpdateOperationsInput | string | null
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     plan?: EnumProjectPlanFieldUpdateOperationsInput | $Enums.ProjectPlan
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -19344,6 +19365,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     cover?: NullableStringFieldUpdateOperationsInput | string | null
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     plan?: EnumProjectPlanFieldUpdateOperationsInput | $Enums.ProjectPlan
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -19360,6 +19382,7 @@ export namespace Prisma {
     id?: string
     name: string
     cover?: string | null
+    icon?: string | null
     description?: string | null
     plan?: $Enums.ProjectPlan
     createdAt?: Date | string
@@ -19370,6 +19393,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     cover?: NullableStringFieldUpdateOperationsInput | string | null
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     plan?: EnumProjectPlanFieldUpdateOperationsInput | $Enums.ProjectPlan
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -19380,6 +19404,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     cover?: NullableStringFieldUpdateOperationsInput | string | null
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     plan?: EnumProjectPlanFieldUpdateOperationsInput | $Enums.ProjectPlan
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -20580,6 +20605,7 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     cover?: SortOrder
+    icon?: SortOrder
     description?: SortOrder
     plan?: SortOrder
     createdAt?: SortOrder
@@ -20590,6 +20616,7 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     cover?: SortOrder
+    icon?: SortOrder
     description?: SortOrder
     plan?: SortOrder
     createdAt?: SortOrder
@@ -20600,6 +20627,7 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     cover?: SortOrder
+    icon?: SortOrder
     description?: SortOrder
     plan?: SortOrder
     createdAt?: SortOrder
@@ -23250,6 +23278,7 @@ export namespace Prisma {
     id?: string
     name: string
     cover?: string | null
+    icon?: string | null
     description?: string | null
     plan?: $Enums.ProjectPlan
     createdAt?: Date | string
@@ -23265,6 +23294,7 @@ export namespace Prisma {
     id?: string
     name: string
     cover?: string | null
+    icon?: string | null
     description?: string | null
     plan?: $Enums.ProjectPlan
     createdAt?: Date | string
@@ -23355,6 +23385,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     cover?: NullableStringFieldUpdateOperationsInput | string | null
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     plan?: EnumProjectPlanFieldUpdateOperationsInput | $Enums.ProjectPlan
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -23370,6 +23401,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     cover?: NullableStringFieldUpdateOperationsInput | string | null
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     plan?: EnumProjectPlanFieldUpdateOperationsInput | $Enums.ProjectPlan
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -23709,6 +23741,7 @@ export namespace Prisma {
     id?: string
     name: string
     cover?: string | null
+    icon?: string | null
     description?: string | null
     plan?: $Enums.ProjectPlan
     createdAt?: Date | string
@@ -23724,6 +23757,7 @@ export namespace Prisma {
     id?: string
     name: string
     cover?: string | null
+    icon?: string | null
     description?: string | null
     plan?: $Enums.ProjectPlan
     createdAt?: Date | string
@@ -23755,6 +23789,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     cover?: NullableStringFieldUpdateOperationsInput | string | null
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     plan?: EnumProjectPlanFieldUpdateOperationsInput | $Enums.ProjectPlan
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -23770,6 +23805,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     cover?: NullableStringFieldUpdateOperationsInput | string | null
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     plan?: EnumProjectPlanFieldUpdateOperationsInput | $Enums.ProjectPlan
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -23838,6 +23874,7 @@ export namespace Prisma {
     id?: string
     name: string
     cover?: string | null
+    icon?: string | null
     description?: string | null
     plan?: $Enums.ProjectPlan
     createdAt?: Date | string
@@ -23853,6 +23890,7 @@ export namespace Prisma {
     id?: string
     name: string
     cover?: string | null
+    icon?: string | null
     description?: string | null
     plan?: $Enums.ProjectPlan
     createdAt?: Date | string
@@ -23943,6 +23981,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     cover?: NullableStringFieldUpdateOperationsInput | string | null
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     plan?: EnumProjectPlanFieldUpdateOperationsInput | $Enums.ProjectPlan
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -23958,6 +23997,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     cover?: NullableStringFieldUpdateOperationsInput | string | null
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     plan?: EnumProjectPlanFieldUpdateOperationsInput | $Enums.ProjectPlan
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -24155,6 +24195,7 @@ export namespace Prisma {
     id?: string
     name: string
     cover?: string | null
+    icon?: string | null
     description?: string | null
     plan?: $Enums.ProjectPlan
     createdAt?: Date | string
@@ -24170,6 +24211,7 @@ export namespace Prisma {
     id?: string
     name: string
     cover?: string | null
+    icon?: string | null
     description?: string | null
     plan?: $Enums.ProjectPlan
     createdAt?: Date | string
@@ -24366,6 +24408,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     cover?: NullableStringFieldUpdateOperationsInput | string | null
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     plan?: EnumProjectPlanFieldUpdateOperationsInput | $Enums.ProjectPlan
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -24381,6 +24424,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     cover?: NullableStringFieldUpdateOperationsInput | string | null
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     plan?: EnumProjectPlanFieldUpdateOperationsInput | $Enums.ProjectPlan
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -24596,6 +24640,7 @@ export namespace Prisma {
     id?: string
     name: string
     cover?: string | null
+    icon?: string | null
     description?: string | null
     plan?: $Enums.ProjectPlan
     createdAt?: Date | string
@@ -24611,6 +24656,7 @@ export namespace Prisma {
     id?: string
     name: string
     cover?: string | null
+    icon?: string | null
     description?: string | null
     plan?: $Enums.ProjectPlan
     createdAt?: Date | string
@@ -24683,6 +24729,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     cover?: NullableStringFieldUpdateOperationsInput | string | null
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     plan?: EnumProjectPlanFieldUpdateOperationsInput | $Enums.ProjectPlan
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -24698,6 +24745,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     cover?: NullableStringFieldUpdateOperationsInput | string | null
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     plan?: EnumProjectPlanFieldUpdateOperationsInput | $Enums.ProjectPlan
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -25105,6 +25153,7 @@ export namespace Prisma {
     id?: string
     name: string
     cover?: string | null
+    icon?: string | null
     description?: string | null
     plan?: $Enums.ProjectPlan
     createdAt?: Date | string
@@ -25120,6 +25169,7 @@ export namespace Prisma {
     id?: string
     name: string
     cover?: string | null
+    icon?: string | null
     description?: string | null
     plan?: $Enums.ProjectPlan
     createdAt?: Date | string
@@ -25151,6 +25201,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     cover?: NullableStringFieldUpdateOperationsInput | string | null
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     plan?: EnumProjectPlanFieldUpdateOperationsInput | $Enums.ProjectPlan
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -25166,6 +25217,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     cover?: NullableStringFieldUpdateOperationsInput | string | null
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     plan?: EnumProjectPlanFieldUpdateOperationsInput | $Enums.ProjectPlan
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string

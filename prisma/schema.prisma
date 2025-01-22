@@ -72,6 +72,7 @@ model Project {
   id                  String                @id @default(uuid())
   name                String
   cover               String?
+  icon                String?
   description         String?
   tokens              Token[]
   plan                ProjectPlan           @default(FREE)
@@ -244,7 +245,7 @@ model Notification {
 model NotificationSettings {
   id                   String   @id @default(uuid())
   siteNotification     Boolean  @default(true) @map("site_notification")
-  telegramNotification Boolean  @default(true) @map("telegram_notification")
+  telegramNotification Boolean  @default(false) @map("telegram_notification")
   userId               String   @unique @map("user_id")
   user                 User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   createdAt            DateTime @default(now()) @map("created_at")

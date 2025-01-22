@@ -24,7 +24,9 @@ export class AccountService {
 				id
 			},
 			include: {
-				socialLinks: true
+				socialLinks: true,
+				notificationSettings: true,
+				notifications: true
 			}
 		})
 
