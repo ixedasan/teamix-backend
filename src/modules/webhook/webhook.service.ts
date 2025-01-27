@@ -27,7 +27,8 @@ export class WebhookService {
 					stripeSubscriptionId: session.id
 				},
 				data: {
-					status: TransactionStatus.SUCCESS
+					status: TransactionStatus.SUCCESS,
+					expiresAt
 				}
 			})
 

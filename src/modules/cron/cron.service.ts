@@ -1,6 +1,11 @@
 import { Injectable } from '@nestjs/common'
 import { Cron, CronExpression } from '@nestjs/schedule'
-import { NotificationType, TaskStatus } from '@/prisma/generated'
+import {
+	NotificationType,
+	ProjectPlan,
+	TaskStatus,
+	TransactionStatus
+} from '@/prisma/generated'
 import { PrismaService } from '@/src/core/prisma/prisma.service'
 import { TelegramService } from '../libs/telegram/telegram.service'
 import { NotificationService } from '../notification/notification.service'
@@ -133,5 +138,59 @@ export class CronService {
 				}
 			}
 		}
+	}
+
+	@Cron(CronExpression.EVERY_6_HOURS)
+	public async checkExpiredPlans() {
+		const currentDate = new Date()
+
+		const expiredSubscriptions =
+			await this.prismaService.projectSubscription.findMany({
+				where: {
+					AND: [
+						{
+							expiresAt: {
+								lt: currentDate
+							}
+						},
+						{
+							project: {
+								plan: {
+									not: ProjectPlan.FREE
+								}
+							}
+						}
+					]
+				},
+				select: {
+					id: true,
+					projectId: true
+				}
+			})
+
+		if (expiredSubscriptions.length === 0) return
+
+		await this.prismaService.$transaction([
+			this.prismaService.project.updateMany({
+				where: {
+					id: {
+						in: expiredSubscriptions.map(sub => sub.projectId)
+					}
+				},
+				data: {
+					plan: ProjectPlan.FREE
+				}
+			}),
+			this.prismaService.projectSubscription.updateMany({
+				where: {
+					id: {
+						in: expiredSubscriptions.map(sub => sub.id)
+					}
+				},
+				data: {
+					status: TransactionStatus.EXPIRED
+				}
+			})
+		])
 	}
 }

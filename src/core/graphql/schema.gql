@@ -259,11 +259,11 @@ type ProjectModel {
   labels: [TaskLabelModel!]!
   members: [MemberModel!]!
   name: String!
-  plan: ProjectStatus!
+  plan: ProjectPlan!
   updatedAt: DateTime!
 }
 
-enum ProjectStatus {
+enum ProjectPlan {
   ENTERPRISE
   FREE
   PRO
@@ -345,7 +345,9 @@ type SocialLinksModel {
 type Subscription {
   commentAdded(taskId: String!): CommentModel!
   documentUpdated(projectId: String!): DocumentModel!
+  taskAdded(projectId: String!): TaskModel!
   taskChanged(projectId: String!): TaskModel!
+  taskDeleted(projectId: String!): TaskModel!
 }
 
 type TaskAssigneeModel {

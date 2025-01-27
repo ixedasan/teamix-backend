@@ -1,11 +1,16 @@
 import { Field, ID, ObjectType, registerEnumType } from '@nestjs/graphql'
-import { ProjectPlan, type Project } from '@/prisma/generated'
+import { ProjectPlan, TaskStatus, type Project } from '@/prisma/generated'
 import { TaskLabelModel } from '@/src/modules/task/task-labels/models/task-labels.model'
 import { MemberModel } from '../../member/models/member.model'
 
 registerEnumType(ProjectPlan, {
-	name: 'ProjectStatus'
+	name: 'ProjectPlan'
 })
+
+registerEnumType(TaskStatus, {
+	name: 'TaskStatus'
+})
+
 @ObjectType()
 export class ProjectModel implements Project {
 	@Field(() => ID)

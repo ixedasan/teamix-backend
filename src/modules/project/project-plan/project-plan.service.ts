@@ -15,7 +15,12 @@ export class ProjectPlanService {
 	public async makePayment(user: User, project: Project) {
 		const existPlan = await this.prismaService.projectSubscription.findFirst({
 			where: {
-				projectId: project.id
+				AND: {
+					projectId: project.id,
+					expiresAt: {
+						gte: new Date()
+					}
+				}
 			}
 		})
 
