@@ -54,6 +54,7 @@ input ChangeRoleInput {
 }
 
 input ChangeStatusInput {
+  position: Float
   status: TaskStatus
   taskId: ID!
 }
@@ -365,6 +366,7 @@ input TaskInput {
   description: String
   dueDate: DateTime
   labelsIds: [ID!]
+  position: Float
   priority: Priority!
   startDate: DateTime
   status: TaskStatus!
@@ -405,6 +407,7 @@ type TaskModel {
   id: ID!
   labels: [TaskLabelModel!]!
   links: [TaskLinkModel!]!
+  position: Float!
   priority: Priority!
   project: ProjectModel!
   projectId: ID!

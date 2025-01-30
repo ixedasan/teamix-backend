@@ -32,6 +32,9 @@ export class TaskModel implements Task {
 	@Field(() => Priority)
 	public priority: Priority
 
+	@Field(() => Number)
+	public position: number
+
 	@Field(() => Date, { nullable: true })
 	public startDate: Date
 

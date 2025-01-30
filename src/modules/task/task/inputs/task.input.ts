@@ -2,6 +2,7 @@ import { Field, ID, InputType, registerEnumType } from '@nestjs/graphql'
 import {
 	IsEnum,
 	IsNotEmpty,
+	IsNumber,
 	IsOptional,
 	IsString,
 	IsUUID,
@@ -39,6 +40,11 @@ export class TaskInput {
 	@IsEnum(Priority)
 	@IsNotEmpty()
 	public priority: Priority
+
+	@Field(() => Number, { nullable: true })
+	@IsNumber()
+	@IsOptional()
+	public position?: number
 
 	@Field(() => [ID], { nullable: true })
 	@IsUUID('4', { each: true })

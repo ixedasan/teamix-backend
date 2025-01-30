@@ -124,6 +124,7 @@ model Task {
   description String?
   status      TaskStatus
   priority    Priority?
+  position    Int            @default(1)
   labels      TaskLabel[]
   startDate   DateTime?      @map("start_date")
   dueDate     DateTime?      @map("due_date")

@@ -1,5 +1,5 @@
 import { Field, ID, InputType, registerEnumType } from '@nestjs/graphql'
-import { IsEnum, IsNotEmpty, IsUUID } from 'class-validator'
+import { IsEnum, IsNotEmpty, IsOptional, IsUUID, Min } from 'class-validator'
 import { TaskStatus } from '@/prisma/generated'
 
 registerEnumType(TaskStatus, {
@@ -16,4 +16,9 @@ export class ChangeStatusInput {
 	@Field(() => TaskStatus, { nullable: true })
 	@IsEnum(TaskStatus)
 	public status: TaskStatus
+
+	@Field(() => Number, { nullable: true })
+	@IsOptional()
+	@Min(0)
+	public position: number
 }
