@@ -93,7 +93,7 @@ export class TaskResolver {
 	}
 
 	private async publishTaskAdded(task: Task) {
-		await this.pubSub.publish(EVENTS.TASK_CHANGED, { taskChanged: task })
+		await this.pubSub.publish(EVENTS.TASK_ADDED, { taskAdded: task })
 	}
 
 	@Subscription(() => TaskModel, {

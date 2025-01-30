@@ -58,8 +58,15 @@ export class TaskService {
 				}
 			},
 			include: {
-				project: true,
-				createdBy: true
+				createdBy: true,
+				assignees: {
+					include: {
+						user: true
+					}
+				},
+				comments: true,
+				labels: true,
+				links: true
 			}
 		})
 
@@ -84,8 +91,15 @@ export class TaskService {
 			},
 			data: { ...input },
 			include: {
-				project: true,
-				createdBy: true
+				createdBy: true,
+				assignees: {
+					include: {
+						user: true
+					}
+				},
+				comments: true,
+				labels: true,
+				links: true
 			}
 		})
 
@@ -106,6 +120,17 @@ export class TaskService {
 		const deletedTask = await this.prismaServie.task.delete({
 			where: {
 				id: taskId
+			},
+			include: {
+				createdBy: true,
+				assignees: {
+					include: {
+						user: true
+					}
+				},
+				comments: true,
+				labels: true,
+				links: true
 			}
 		})
 
@@ -121,6 +146,17 @@ export class TaskService {
 			},
 			data: {
 				status
+			},
+			include: {
+				createdBy: true,
+				assignees: {
+					include: {
+						user: true
+					}
+				},
+				comments: true,
+				labels: true,
+				links: true
 			}
 		})
 
