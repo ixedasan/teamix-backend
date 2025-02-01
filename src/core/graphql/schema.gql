@@ -196,7 +196,7 @@ type Mutation {
   setCurrentProject(projectId: String!): Boolean!
   unassignTask(taskId: String!, userId: String!): Boolean!
   updateSocialLink(data: SocialLinkInput!, id: String!): Boolean!
-  updateTask(input: TaskInput!, taskId: String!): TaskModel!
+  updateTask(input: UpdateTaskInput!, taskId: String!): TaskModel!
   updateTaskLink(input: TaskLinkInput!, linkId: String!): Boolean!
   uploadTaskAttachment(file: Upload!, taskId: String!): Boolean!
   verifyAccaunt(data: VerificationInput!): AuthModel!
@@ -428,6 +428,18 @@ enum TaskStatus {
 type TotpModel {
   qrCodeUrl: String!
   secret: String!
+}
+
+input UpdateTaskInput {
+  assigneeId: ID
+  description: String
+  dueDate: DateTime
+  labelsIds: [ID!]
+  position: Float
+  priority: Priority
+  startDate: DateTime
+  status: TaskStatus
+  title: String
 }
 
 """The `Upload` scalar type represents a file upload."""

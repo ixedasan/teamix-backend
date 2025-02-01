@@ -7,6 +7,7 @@ import { type Project, type User } from '@/prisma/generated'
 import { PrismaService } from '@/src/core/prisma/prisma.service'
 import type { ChangeStatusInput } from './inputs/change-status.input'
 import type { TaskInput } from './inputs/task.input'
+import { UpdateTaskInput } from './inputs/update-task.input'
 
 @Injectable()
 export class TaskService {
@@ -75,35 +76,36 @@ export class TaskService {
 		return task
 	}
 
-	public async updateTask(user: User, taskId: string, input: TaskInput) {
+	public async updateTask(user: User, taskId: string, input: UpdateTaskInput) {
 		const task = await this.prismaServie.task.findFirst({
-			where: {
-				id: taskId,
-				createdById: user.id
-			}
+			where: { id: taskId }
 		})
 
 		if (!task) {
 			throw new NotFoundException('Task not found')
 		}
 
-		const newTask = await this.prismaServie.task.update({
-			where: {
-				id: taskId
-			},
+		const filteredInput = Object.fromEntries(
+			Object.entries(input).filter(([_, value]) => value !== undefined)
+		)
+
+		if (Object.keys(filteredInput).length === 0) {
+			throw new BadRequestException('No valid fields provided for update')
+		}
+
+		const updatedTask = await this.prismaServie.task.update({
+			where: { id: taskId },
 			data: { ...input },
 			include: {
 				createdBy: true,
-				assignees: {
-					include: { user: true }
-				},
+				assignees: { include: { user: true } },
 				comments: true,
 				labels: true,
 				links: true
 			}
 		})
 
-		return newTask
+		return updatedTask
 	}
 
 	public async deleteTask(taskId: string) {
@@ -147,16 +149,6 @@ export class TaskService {
 
 			const newStatus = input.status ?? currentTask.status
 			const newPosition = input.position ?? currentTask.position
-
-			const maxPositionInNewStatus = await tx.task.count({
-				where: { status: newStatus }
-			})
-
-			if (newPosition > maxPositionInNewStatus) {
-				throw new BadRequestException(
-					`Position ${newPosition} is greater than maximum allowed position ${maxPositionInNewStatus}`
-				)
-			}
 
 			if (
 				newStatus !== currentTask.status ||
