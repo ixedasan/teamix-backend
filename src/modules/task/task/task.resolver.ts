@@ -128,7 +128,7 @@ export class TaskResolver {
 		return this.pubSub.asyncIterator(EVENTS.TASK_CHANGED)
 	}
 
-	private async publishTaskChanged(task: Task) {
+	public async publishTaskChanged(task: Task) {
 		await this.pubSub.publish(EVENTS.TASK_CHANGED, {
 			taskChanged: {
 				...task,

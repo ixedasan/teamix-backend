@@ -37,7 +37,7 @@ export class TaskLabelsService {
 	}
 
 	public async createLabel(projectId: string, input: CreateLabelInput) {
-		await this.prismaService.taskLabel.create({
+		const label = await this.prismaService.taskLabel.create({
 			data: {
 				...input,
 				project: {
@@ -48,7 +48,7 @@ export class TaskLabelsService {
 			}
 		})
 
-		return true
+		return label
 	}
 
 	public async addLabelToTask(taskId: string, labelId: string) {
@@ -72,7 +72,7 @@ export class TaskLabelsService {
 			throw new NotFoundException('Label not found')
 		}
 
-		await this.prismaService.task.update({
+		const updatedTask = await this.prismaService.task.update({
 			where: {
 				id: taskId
 			},
@@ -82,10 +82,21 @@ export class TaskLabelsService {
 						id: labelId
 					}
 				}
+			},
+			include: {
+				createdBy: true,
+				assignees: {
+					include: {
+						user: true
+					}
+				},
+				comments: true,
+				labels: true,
+				links: true
 			}
 		})
 
-		return true
+		return updatedTask
 	}
 
 	public async removeLabelFromTask(taskId: string, labelId: string) {
@@ -109,7 +120,7 @@ export class TaskLabelsService {
 			throw new NotFoundException('Label not found')
 		}
 
-		await this.prismaService.task.update({
+		const updatedTask = await this.prismaService.task.update({
 			where: {
 				id: taskId
 			},
@@ -119,10 +130,21 @@ export class TaskLabelsService {
 						id: labelId
 					}
 				}
+			},
+			include: {
+				createdBy: true,
+				assignees: {
+					include: {
+						user: true
+					}
+				},
+				comments: true,
+				labels: true,
+				links: true
 			}
 		})
 
-		return true
+		return updatedTask
 	}
 
 	public async deleteLabel(id: string) {

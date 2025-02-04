@@ -149,8 +149,8 @@ type MemberModel {
 
 type Mutation {
   acceptProjectInvitation(token: String!): Boolean!
-  addLabelToTask(labelId: String!, taskId: String!): Boolean!
-  assignTask(taskId: String!, userId: String!): Boolean!
+  addLabelToTask(labelId: String!, taskId: String!): TaskModel!
+  assignTask(taskId: String!, userId: String!): TaskModel!
   changeDocument(documentId: String!, input: ChangeDocumentInput!): DocumentModel!
   changeEmail(data: ChangeEmailInput!): Boolean!
   changeMemberRole(data: ChangeRoleInput!): Boolean!
@@ -166,7 +166,7 @@ type Mutation {
   createProject(data: ProjectInput!): ProjectModel!
   createSocialLink(data: SocialLinkInput!): Boolean!
   createTask(input: TaskInput!): TaskModel!
-  createTaskLabel(input: CreateLabelInput!): Boolean!
+  createTaskLabel(input: CreateLabelInput!): TaskLabelModel!
   createTaskLink(input: TaskLinkInput!, taskId: String!): Boolean!
   createUser(data: CreateUserInput!): Boolean!
   deleteComment(commentId: String!): Boolean!
@@ -184,7 +184,7 @@ type Mutation {
   logoutUser: Boolean!
   makePayment: MakePaymentModel!
   newPassword(data: NewPasswordInput!): Boolean!
-  removeLabelFromTask(labelId: String!, taskId: String!): Boolean!
+  removeLabelFromTask(labelId: String!, taskId: String!): TaskModel!
   removeProfileAvatar: Boolean!
   removeProjectCover: Boolean!
   removeProjectMember(userId: String!): Boolean!
@@ -194,7 +194,7 @@ type Mutation {
   resetPassword(data: ResetPasswordInput!): Boolean!
   sendComment(input: SendCommentInput!): CommentModel!
   setCurrentProject(projectId: String!): Boolean!
-  unassignTask(taskId: String!, userId: String!): Boolean!
+  unassignTask(taskId: String!, userId: String!): TaskModel!
   updateSocialLink(data: SocialLinkInput!, id: String!): Boolean!
   updateTask(input: UpdateTaskInput!, taskId: String!): TaskModel!
   updateTaskLink(input: TaskLinkInput!, linkId: String!): Boolean!

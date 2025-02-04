@@ -11,22 +11,29 @@ import { UpdateTaskInput } from './inputs/update-task.input'
 
 @Injectable()
 export class TaskService {
-	public constructor(private readonly prismaServie: PrismaService) {}
+	public constructor(private readonly prismaService: PrismaService) {}
 
 	public async findTask(taskId: string) {
-		return this.prismaServie.task.findFirst({
+		return this.prismaService.task.findFirst({
 			where: {
 				id: taskId
 			},
 			include: {
 				createdBy: true,
-				assignees: true
+				assignees: {
+					include: { user: true }
+				},
+				comments: {
+					include: { author: true }
+				},
+				labels: true,
+				links: true
 			}
 		})
 	}
 
 	public async findTasks(projectId: string) {
-		const tasks = await this.prismaServie.task.findMany({
+		const tasks = await this.prismaService.task.findMany({
 			where: { projectId },
 			orderBy: [{ status: 'asc' }, { position: 'asc' }],
 			include: {
@@ -41,7 +48,7 @@ export class TaskService {
 	}
 
 	public async createTask(user: User, project: Project, input: TaskInput) {
-		const maxPosition = await this.prismaServie.task.aggregate({
+		const maxPosition = await this.prismaService.task.aggregate({
 			where: {
 				projectId: project.id,
 				status: input.status
@@ -49,7 +56,7 @@ export class TaskService {
 			_max: { position: true }
 		})
 
-		const task = await this.prismaServie.task.create({
+		const task = await this.prismaService.task.create({
 			data: {
 				...input,
 				position: (maxPosition._max?.position ?? -1) + 1,
@@ -77,7 +84,7 @@ export class TaskService {
 	}
 
 	public async updateTask(user: User, taskId: string, input: UpdateTaskInput) {
-		const task = await this.prismaServie.task.findFirst({
+		const task = await this.prismaService.task.findFirst({
 			where: { id: taskId }
 		})
 
@@ -93,7 +100,7 @@ export class TaskService {
 			throw new BadRequestException('No valid fields provided for update')
 		}
 
-		const updatedTask = await this.prismaServie.task.update({
+		const updatedTask = await this.prismaService.task.update({
 			where: { id: taskId },
 			data: { ...input },
 			include: {
@@ -109,7 +116,7 @@ export class TaskService {
 	}
 
 	public async deleteTask(taskId: string) {
-		const task = await this.prismaServie.task.findFirst({
+		const task = await this.prismaService.task.findFirst({
 			where: {
 				id: taskId
 			}
@@ -119,7 +126,7 @@ export class TaskService {
 			throw new NotFoundException('Task not found')
 		}
 
-		const deletedTask = await this.prismaServie.task.delete({
+		const deletedTask = await this.prismaService.task.delete({
 			where: {
 				id: taskId
 			},
@@ -138,7 +145,7 @@ export class TaskService {
 	}
 
 	public async changeTaskStatus(input: ChangeStatusInput) {
-		return this.prismaServie.$transaction(async tx => {
+		return this.prismaService.$transaction(async tx => {
 			const currentTask = await tx.task.findUnique({
 				where: { id: input.taskId }
 			})
@@ -197,6 +204,6 @@ export class TaskService {
 	}
 
 	public async findAllProjects() {
-		return this.prismaServie.project.findMany()
+		return this.prismaService.project.findMany()
 	}
 }
