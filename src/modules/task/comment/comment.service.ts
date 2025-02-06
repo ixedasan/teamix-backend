@@ -6,6 +6,7 @@ import {
 import { Role } from '@/prisma/generated'
 import { PrismaService } from '@/src/core/prisma/prisma.service'
 import { SendCommentInput } from './inputs/send-comment.input'
+import { UpdateCommentInput } from './inputs/update-comment.input'
 
 @Injectable()
 export class CommentService {
@@ -13,79 +14,78 @@ export class CommentService {
 
 	public async findComments(taskId: string) {
 		const task = await this.prismaService.task.findUnique({
-			where: {
-				id: taskId
-			}
+			where: { id: taskId }
 		})
+		if (!task) throw new NotFoundException('Task not found')
 
-		if (!task) {
-			throw new NotFoundException('Task not found')
-		}
-
-		const comments = await this.prismaService.comment.findMany({
+		return this.prismaService.comment.findMany({
 			where: {
 				taskId: task.id
 			},
-			include: {
-				author: true
-			},
-			orderBy: {
-				createdAt: 'asc'
-			}
+			include: { author: true },
+			orderBy: { createdAt: 'asc' }
 		})
-
-		return comments
 	}
 
 	public async sendComment(userId: string, input: SendCommentInput) {
 		const { taskId, content } = input
 
 		const task = await this.prismaService.task.findUnique({
-			where: {
-				id: taskId
-			}
+			where: { id: taskId }
 		})
+		if (!task) throw new NotFoundException('Task not found')
 
-		if (!task) {
-			throw new NotFoundException('Task not found')
-		}
-
-		const comment = await this.prismaService.comment.create({
+		return this.prismaService.comment.create({
 			data: {
 				content,
 				task: {
-					connect: {
-						id: taskId
-					}
+					connect: { id: taskId }
 				},
 				author: {
-					connect: {
-						id: userId
-					}
+					connect: { id: userId }
 				}
 			},
-			include: {
-				author: true
-			}
+			include: { author: true }
 		})
+	}
 
-		return comment
+	public async updateComment(userId: string, input: UpdateCommentInput) {
+		const { commentId, content } = input
+
+		const comment = await this.prismaService.comment.findUnique({
+			where: { id: commentId }
+		})
+		if (!comment) throw new NotFoundException('Comment not found')
+
+		if (comment.authorId !== userId) {
+			throw new BadRequestException('You can only edit your own comments')
+		}
+
+		return this.prismaService.comment.update({
+			where: {
+				id: commentId
+			},
+			data: {
+				content
+			},
+			include: { author: true }
+		})
 	}
 
 	public async deleteComment(userId: string, commentId: string) {
 		const comment = await this.prismaService.comment.findUnique({
-			where: { id: commentId },
+			where: {
+				id: commentId
+			},
 			include: { task: true }
 		})
 
-		if (!comment) {
-			throw new NotFoundException('Comment not found')
-		}
+		if (!comment) throw new NotFoundException('Comment not found')
 
 		const membership = await this.prismaService.member.findUnique({
 			where: {
 				userId_projectId: {
-					userId: userId,
+					userId,
 					projectId: comment.task.projectId
 				}
 			}
@@ -98,10 +98,9 @@ export class CommentService {
 			throw new BadRequestException('You can only delete your own comments')
 		}
 
-		await this.prismaService.comment.delete({
-			where: { id: commentId }
+		return this.prismaService.comment.delete({
+			where: { id: commentId },
+			include: { author: true }
 		})
-
-		return true
 	}
 }

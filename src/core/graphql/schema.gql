@@ -69,6 +69,11 @@ type CommentModel {
   updatedAt: DateTime!
 }
 
+type CommentSubscriptionPayload {
+  comment: CommentModel
+  mutation: MutationType!
+}
+
 input CreateDocumentInput {
   title: String!
 }
@@ -192,14 +197,21 @@ type Mutation {
   removeSocialLink(id: String!): Boolean!
   reorderSocialLink(list: [SocialLinkOrderInput!]!): Boolean!
   resetPassword(data: ResetPasswordInput!): Boolean!
-  sendComment(input: SendCommentInput!): CommentModel!
+  sendComment(data: SendCommentInput!): CommentModel!
   setCurrentProject(projectId: String!): Boolean!
   unassignTask(taskId: String!, userId: String!): TaskModel!
+  updateComment(data: UpdateCommentInput!): CommentModel!
   updateSocialLink(data: SocialLinkInput!, id: String!): Boolean!
   updateTask(input: UpdateTaskInput!, taskId: String!): TaskModel!
   updateTaskLink(input: TaskLinkInput!, linkId: String!): Boolean!
   uploadTaskAttachment(file: Upload!, taskId: String!): Boolean!
   verifyAccaunt(data: VerificationInput!): AuthModel!
+}
+
+enum MutationType {
+  CREATED
+  DELETED
+  UPDATED
 }
 
 input NewPasswordInput {
@@ -344,7 +356,7 @@ type SocialLinksModel {
 }
 
 type Subscription {
-  commentAdded(taskId: String!): CommentModel!
+  commentChanged(taskId: String!): CommentSubscriptionPayload!
   documentUpdated(projectId: String!): DocumentModel!
   taskAdded(projectId: String!): TaskModel!
   taskChanged(projectId: String!): TaskModel!
@@ -428,6 +440,11 @@ enum TaskStatus {
 type TotpModel {
   qrCodeUrl: String!
   secret: String!
+}
+
+input UpdateCommentInput {
+  commentId: ID!
+  content: String!
 }
 
 input UpdateTaskInput {
