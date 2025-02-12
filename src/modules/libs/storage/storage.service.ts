@@ -58,10 +58,11 @@ export class StorageService {
 		}
 	}
 
-	public async getSignedUrl(key: string, expiresIn: number = 3600) {
+	public async getSignedUrl(key: string, filename, expiresIn: number = 3600) {
 		const command = new GetObjectCommand({
 			Bucket: this.bucket,
-			Key: String(key)
+			Key: key,
+			ResponseContentDisposition: `attachment; filename="${filename}"`
 		})
 
 		try {

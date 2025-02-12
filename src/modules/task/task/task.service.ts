@@ -27,7 +27,8 @@ export class TaskService {
 					include: { author: true }
 				},
 				labels: true,
-				links: true
+				links: true,
+				attachments: true
 			}
 		})
 	}

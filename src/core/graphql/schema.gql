@@ -156,7 +156,7 @@ type Mutation {
   acceptProjectInvitation(token: String!): Boolean!
   addLabelToTask(labelId: String!, taskId: String!): TaskModel!
   assignTask(taskId: String!, userId: String!): TaskModel!
-  changeDocument(documentId: String!, input: ChangeDocumentInput!): DocumentModel!
+  changeDocument(data: ChangeDocumentInput!, documentId: String!): DocumentModel!
   changeEmail(data: ChangeEmailInput!): Boolean!
   changeMemberRole(data: ChangeRoleInput!): Boolean!
   changeNotificationsSettings(data: ChangeNotificationSettingsInput!): ChangeNotificationsSettingsResponse!
@@ -172,7 +172,7 @@ type Mutation {
   createSocialLink(data: SocialLinkInput!): Boolean!
   createTask(input: TaskInput!): TaskModel!
   createTaskLabel(input: CreateLabelInput!): TaskLabelModel!
-  createTaskLink(input: TaskLinkInput!, taskId: String!): Boolean!
+  createTaskLink(data: TaskLinkInput!, taskId: String!): Boolean!
   createUser(data: CreateUserInput!): Boolean!
   deleteComment(commentId: String!): Boolean!
   deleteDocument(documentId: String!): Boolean!
@@ -203,7 +203,7 @@ type Mutation {
   updateComment(data: UpdateCommentInput!): CommentModel!
   updateSocialLink(data: SocialLinkInput!, id: String!): Boolean!
   updateTask(input: UpdateTaskInput!, taskId: String!): TaskModel!
-  updateTaskLink(input: TaskLinkInput!, linkId: String!): Boolean!
+  updateTaskLink(data: TaskLinkInput!, linkId: String!): Boolean!
   uploadTaskAttachment(file: Upload!, taskId: String!): Boolean!
   verifyAccaunt(data: VerificationInput!): AuthModel!
 }
@@ -286,7 +286,7 @@ type Query {
   findAllTasks: [TaskModel!]!
   findCommentsByTask(taskId: String!): [CommentModel!]!
   findCurrentSession: SessionModel!
-  findDocument(documentId: String!): DocumentModel!
+  findDocumentById(documentId: String!): DocumentModel!
   findDocumentsByProject: [DocumentModel!]!
   findNotificationsByUser: [NotificationModel!]!
   findNotificationsUnreadCount: Float!
@@ -357,7 +357,7 @@ type SocialLinksModel {
 
 type Subscription {
   commentChanged(taskId: String!): CommentSubscriptionPayload!
-  documentUpdated(projectId: String!): DocumentModel!
+  documentChanged(documentId: String!): DocumentModel!
   taskAdded(projectId: String!): TaskModel!
   taskChanged(projectId: String!): TaskModel!
   taskDeleted(projectId: String!): TaskModel!
@@ -410,6 +410,7 @@ type TaskLinkModel {
 
 type TaskModel {
   assignees: [TaskAssigneeModel!]!
+  attachments: [AttachmentModel!]!
   comments: [CommentModel!]!
   createdAt: DateTime!
   createdBy: UserModel!

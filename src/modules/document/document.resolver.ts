@@ -25,7 +25,7 @@ export class DocumentResolver {
 	}
 
 	@UseGuards(GqlAuthGuard, ProjectGuard)
-	@Query(() => DocumentModel, { name: 'findDocument' })
+	@Query(() => DocumentModel, { name: 'findDocumentById' })
 	public async findDocument(@Args('documentId') documentId: string) {
 		return this.documentService.getDocument(documentId)
 	}
@@ -45,7 +45,7 @@ export class DocumentResolver {
 	@Mutation(() => DocumentModel, { name: 'changeDocument' })
 	public async updateDocument(
 		@Args('documentId') documentId: string,
-		@Args('input') input: ChangeDocumentInput
+		@Args('data') input: ChangeDocumentInput
 	) {
 		const document = await this.documentService.updateDocument(
 			documentId,
@@ -65,10 +65,20 @@ export class DocumentResolver {
 	}
 
 	@Subscription(() => DocumentModel, {
+		name: 'documentChanged',
 		filter: (payload, variables) =>
-			payload.documentUpdated.documentId === variables.documentId
+			payload.documentUpdated.id === variables.documentId,
+		resolve: payload => ({
+			...payload.documentUpdated,
+			createdAt: payload.documentUpdated.createdAt
+				? new Date(payload.documentUpdated.createdAt)
+				: null,
+			updatedAt: payload.documentUpdated.updatedAt
+				? new Date(payload.documentUpdated.updatedAt)
+				: null
+		})
 	})
-	public documentUpdated(@Args('projectId') projectId: string) {
+	public documentUpdated(@Args('documentId') documentId: string) {
 		return this.pubSub.asyncIterableIterator('DOCUMENT_CHANGED')
 	}
 }
