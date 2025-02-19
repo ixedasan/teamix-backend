@@ -23,7 +23,7 @@ export class TaskLinkResolver {
 	@Mutation(() => Boolean, { name: 'createTaskLink' })
 	public async createTaskLink(
 		@Args('taskId') taskId: string,
-		@Args('input') input: TaskLinkInput
+		@Args('data') input: TaskLinkInput
 	) {
 		return this.taskLinkService.createTaskLink(taskId, input)
 	}
@@ -33,7 +33,7 @@ export class TaskLinkResolver {
 	@Mutation(() => Boolean, { name: 'updateTaskLink' })
 	public async updateTaskLink(
 		@Args('linkId') linkId: string,
-		@Args('input') input: TaskLinkInput
+		@Args('data') input: TaskLinkInput
 	) {
 		return this.taskLinkService.updateTaskLink(linkId, input)
 	}

@@ -30,11 +30,11 @@ export class ProfileService {
 
 		const buffer = Buffer.concat(chunks)
 
-		const fileName = `avatars/${user.id}/${file.filename}.webp`
+		const fileName = `avatars/${user.username}.webp`
 
 		if (file.filename && file.filename.endsWith('.gif')) {
 			const processedBuffer = await sharp(buffer, { animated: true })
-				.resize(512, 521)
+				.resize(512, 512)
 				.webp()
 				.toBuffer()
 
@@ -47,6 +47,7 @@ export class ProfileService {
 
 			await this.storageService.upload(processedBuffer, fileName, 'image/webp')
 		}
+
 		await this.prismaService.user.update({
 			where: {
 				id: user.id

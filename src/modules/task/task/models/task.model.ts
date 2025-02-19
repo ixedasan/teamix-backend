@@ -4,6 +4,7 @@ import { UserModel } from '@/src/modules/auth/account/models/user.models'
 import { ProjectModel } from '@/src/modules/project/project-core/models/project.model'
 import { CommentModel } from '@/src/modules/task/comment/models/comment.model'
 import { TaskAssigneeModel } from '@/src/modules/task/task-assignee/model/task-assignee.model'
+import { AttachmentModel } from '../../attachment/models/attachment.model'
 import { TaskLabelModel } from '../../task-labels/models/task-labels.model'
 import { TaskLinkModel } from '../../task-link/models/task-link.model'
 
@@ -32,6 +33,9 @@ export class TaskModel implements Task {
 	@Field(() => Priority)
 	public priority: Priority
 
+	@Field(() => Number)
+	public position: number
+
 	@Field(() => Date, { nullable: true })
 	public startDate: Date
 
@@ -46,6 +50,9 @@ export class TaskModel implements Task {
 
 	@Field(() => [TaskLinkModel])
 	public links: TaskLinkModel[]
+
+	@Field(() => [AttachmentModel])
+	public attachments: AttachmentModel[]
 
 	@Field(() => [CommentModel])
 	public comments: CommentModel[]

@@ -13,7 +13,7 @@ export function InviteMemberTemplate({
   projectName, 
   token 
 }: InviteMemberTemplateProps) {
-  const invitationLink = `${domain}/project/join?token=${token}`
+  const invitationLink = `${domain}/join?token=${token}`
 
   return (
     <Html>

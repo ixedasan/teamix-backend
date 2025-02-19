@@ -28,7 +28,8 @@ export class MemberService {
 				projectId
 			},
 			include: {
-				user: true
+				user: true,
+				project: true
 			}
 		})
 
@@ -100,12 +101,6 @@ export class MemberService {
 		})
 
 		if (!inviteToken) {
-			await this.prismaService.token.delete({
-				where: {
-					id: inviteToken.id
-				}
-			})
-
 			throw new UnauthorizedException('Token not found')
 		}
 
@@ -123,25 +118,21 @@ export class MemberService {
 			throw new NotFoundException('User not found')
 		}
 
-		try {
-			await this.prismaService.$transaction(async prisma => {
-				await prisma.member.create({
-					data: {
-						role: inviteToken.role,
-						userId: user.id,
-						projectId: inviteToken.projectId
-					}
-				})
-
-				await prisma.token.delete({
-					where: { id: inviteToken.id }
-				})
+		await this.prismaService.$transaction(async prisma => {
+			await prisma.member.create({
+				data: {
+					role: inviteToken.role,
+					userId: user.id,
+					projectId: inviteToken.projectId
+				}
 			})
 
-			return true
-		} catch (error) {
-			throw new BadRequestException(`Failed to accept invitation: ${error}`)
-		}
+			await prisma.token.delete({
+				where: { id: inviteToken.id }
+			})
+		})
+
+		return true
 	}
 
 	public async changeMemberRole(

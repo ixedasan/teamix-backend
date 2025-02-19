@@ -1,6 +1,6 @@
-import { UseGuards } from '@nestjs/common'
+import { Inject, UseGuards } from '@nestjs/common'
 import { Args, Mutation, Query, Resolver, Subscription } from '@nestjs/graphql'
-import { PubSub } from 'graphql-subscriptions'
+import { RedisPubSub } from 'graphql-redis-subscriptions'
 import { Role } from '@/prisma/generated'
 import { Authorized } from '@/src/shared/decorators/authorized.decorator'
 import { RolesAccess } from '@/src/shared/decorators/role-access.decorator'
@@ -8,15 +8,19 @@ import { GqlAuthGuard } from '@/src/shared/guards/gql-auth.guard'
 import { ProjectGuard } from '@/src/shared/guards/project.guard'
 import { CommentService } from './comment.service'
 import { SendCommentInput } from './inputs/send-comment.input'
+import { UpdateCommentInput } from './inputs/update-comment.input'
+import {
+	CommentSubscriptionPayload,
+	MutationType
+} from './models/comment-subscription.model'
 import { CommentModel } from './models/comment.model'
 
 @Resolver('Comment')
 export class CommentResolver {
-	private readonly pubSub: PubSub
-
-	public constructor(private readonly commentService: CommentService) {
-		this.pubSub = new PubSub()
-	}
+	public constructor(
+		@Inject('PUB_SUB') private readonly pubSub: RedisPubSub,
+		private readonly commentService: CommentService
+	) {}
 
 	@UseGuards(GqlAuthGuard, ProjectGuard)
 	@Query(() => [CommentModel], { name: 'findCommentsByTask' })
@@ -29,11 +33,28 @@ export class CommentResolver {
 	@Mutation(() => CommentModel, { name: 'sendComment' })
 	public async sendComment(
 		@Authorized('id') userId: string,
-		@Args('input') input: SendCommentInput
+		@Args('data') input: SendCommentInput
 	) {
 		const comment = await this.commentService.sendComment(userId, input)
 
-		this.pubSub.publish('COMMENT_ADDED', { commentAdded: comment })
+		await this.pubSub.publish('COMMENT_CHANGED', {
+			commentChanged: { mutation: MutationType.CREATED, comment }
+		})
+
+		return comment
+	}
+
+	@UseGuards(GqlAuthGuard, ProjectGuard)
+	@Mutation(() => CommentModel, { name: 'updateComment' })
+	public async updateComment(
+		@Authorized('id') userId: string,
+		@Args('data') input: UpdateCommentInput
+	) {
+		const comment = await this.commentService.updateComment(userId, input)
+
+		await this.pubSub.publish('COMMENT_CHANGED', {
+			commentChanged: { mutation: MutationType.UPDATED, comment }
+		})
 
 		return comment
 	}
@@ -44,14 +65,40 @@ export class CommentResolver {
 		@Authorized('id') userId: string,
 		@Args('commentId') commentId: string
 	) {
-		return this.commentService.deleteComment(userId, commentId)
+		const deletedComment = await this.commentService.deleteComment(
+			userId,
+			commentId
+		)
+
+		if (deletedComment) {
+			await this.pubSub.publish('COMMENT_CHANGED', {
+				commentChanged: {
+					mutation: MutationType.DELETED,
+					comment: deletedComment
+				}
+			})
+		}
+
+		return true
 	}
 
-	@Subscription(() => CommentModel, {
+	@Subscription(() => CommentSubscriptionPayload, {
 		filter: (payload, variables) =>
-			payload.commentAdded.taskId === variables.taskId
+			payload.commentChanged.comment.taskId === variables.taskId,
+		resolve: payload => ({
+			...payload.commentChanged,
+			comment: {
+				...payload.commentChanged.comment,
+				createdAt: payload.commentChanged.comment.createdAt
+					? new Date(payload.commentChanged.comment.createdAt)
+					: null,
+				updatedAt: payload.commentChanged.comment.updatedAt
+					? new Date(payload.commentChanged.comment.updatedAt)
+					: null
+			}
+		})
 	})
-	public commentAdded(@Args('taskId') taskId: string) {
-		return this.pubSub.asyncIterableIterator('COMMENT_ADDED')
+	public commentChanged(@Args('taskId') taskId: string) {
+		return this.pubSub.asyncIterator('COMMENT_CHANGED')
 	}
 }

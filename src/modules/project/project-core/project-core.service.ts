@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
 import type { Request } from 'express'
 import * as Upload from 'graphql-upload/Upload.js'
-import sharp from 'sharp'
+import * as sharp from 'sharp'
 import { Role, type Project, type User } from '@/prisma/generated'
 import { PrismaService } from '@/src/core/prisma/prisma.service'
 import { StorageService } from '../../libs/storage/storage.service'
@@ -14,6 +14,28 @@ export class ProjectCoreService {
 		private readonly storageService: StorageService
 	) {}
 
+	public async getProjectById(projectId: string) {
+		const project = await this.prismaService.project.findFirst({
+			where: {
+				id: projectId
+			},
+			include: {
+				members: {
+					include: {
+						user: true
+					}
+				},
+				labels: true
+			}
+		})
+
+		if (!project) {
+			throw new NotFoundException('Project not found')
+		}
+
+		return project
+	}
+
 	public async gerUserProjects(user: User) {
 		const projects = await this.prismaService.project.findMany({
 			where: {
@@ -24,7 +46,14 @@ export class ProjectCoreService {
 				}
 			},
 			include: {
-				members: true
+				members: {
+					include: {
+						user: true
+					}
+				}
+			},
+			orderBy: {
+				createdAt: 'desc'
 			}
 		})
 
@@ -57,7 +86,7 @@ export class ProjectCoreService {
 	}
 
 	public async createProject(user: User, input: ProjectInput) {
-		await this.prismaService.project.create({
+		const project = await this.prismaService.project.create({
 			data: {
 				...input,
 				members: {
@@ -76,7 +105,7 @@ export class ProjectCoreService {
 			}
 		})
 
-		return true
+		return project
 	}
 
 	public async updateProject(project: Project, input: ProjectInput) {
@@ -115,7 +144,7 @@ export class ProjectCoreService {
 
 		const buffer = Buffer.concat(chunks)
 
-		const fileName = `projects/${project.id}/cover.webp`
+		const fileName = `project/cover/${project.id}.webp`
 
 		if (file.filename && file.filename.endsWith('.gif')) {
 			const processedBuffer = await sharp(buffer, { animated: true })

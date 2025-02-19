@@ -10,7 +10,7 @@ export class InviteMemberInput {
 	@IsEmail()
 	public email: string
 
-	@Field(() => String)
+	@Field(() => Role)
 	@IsString()
 	@IsNotEmpty()
 	public role: Role

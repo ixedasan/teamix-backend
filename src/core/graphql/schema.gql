@@ -54,6 +54,7 @@ input ChangeRoleInput {
 }
 
 input ChangeStatusInput {
+  position: Float
   status: TaskStatus
   taskId: ID!
 }
@@ -66,6 +67,11 @@ type CommentModel {
   id: ID!
   taskId: ID!
   updatedAt: DateTime!
+}
+
+type CommentSubscriptionPayload {
+  comment: CommentModel
+  mutation: MutationType!
 }
 
 input CreateDocumentInput {
@@ -110,7 +116,7 @@ input EnableTotpInput {
 
 input InviteMemberInput {
   email: String!
-  role: String!
+  role: Role!
 }
 
 """
@@ -138,17 +144,19 @@ type MakePaymentModel {
 type MemberModel {
   createdAt: DateTime!
   id: ID!
+  project: ProjectModel!
   projectId: ID!
-  role: String!
+  role: Role!
   updatedAt: DateTime!
+  user: UserModel!
   userId: ID!
 }
 
 type Mutation {
   acceptProjectInvitation(token: String!): Boolean!
-  addLabelToTask(labelId: String!, taskId: String!): Boolean!
-  assignTask(taskId: String!, userId: String!): Boolean!
-  changeDocument(documentId: String!, input: ChangeDocumentInput!): DocumentModel!
+  addLabelToTask(labelId: String!, taskId: String!): TaskModel!
+  assignTask(taskId: String!, userId: String!): TaskModel!
+  changeDocument(data: ChangeDocumentInput!, documentId: String!): DocumentModel!
   changeEmail(data: ChangeEmailInput!): Boolean!
   changeMemberRole(data: ChangeRoleInput!): Boolean!
   changeNotificationsSettings(data: ChangeNotificationSettingsInput!): ChangeNotificationsSettingsResponse!
@@ -156,14 +164,15 @@ type Mutation {
   changeProfileAvatar(avatar: Upload!): Boolean!
   changeProfileInfo(data: ChangeProfileInfoInput!): Boolean!
   changeProjectCover(cover: Upload!): Boolean!
+  changeProjectInfo(data: ProjectInput!): Boolean!
   changeTaskStatus(input: ChangeStatusInput!): TaskModel!
   clearSessionCookie: Boolean!
   createDocument(data: CreateDocumentInput!): Boolean!
-  createProject(data: ProjectInput!): Boolean!
+  createProject(data: ProjectInput!): ProjectModel!
   createSocialLink(data: SocialLinkInput!): Boolean!
   createTask(input: TaskInput!): TaskModel!
-  createTaskLabel(input: CreateLabelInput!): Boolean!
-  createTaskLink(input: TaskLinkInput!, taskId: String!): Boolean!
+  createTaskLabel(input: CreateLabelInput!): TaskLabelModel!
+  createTaskLink(data: TaskLinkInput!, taskId: String!): Boolean!
   createUser(data: CreateUserInput!): Boolean!
   deleteComment(commentId: String!): Boolean!
   deleteDocument(documentId: String!): Boolean!
@@ -180,7 +189,7 @@ type Mutation {
   logoutUser: Boolean!
   makePayment: MakePaymentModel!
   newPassword(data: NewPasswordInput!): Boolean!
-  removeLabelFromTask(labelId: String!, taskId: String!): Boolean!
+  removeLabelFromTask(labelId: String!, taskId: String!): TaskModel!
   removeProfileAvatar: Boolean!
   removeProjectCover: Boolean!
   removeProjectMember(userId: String!): Boolean!
@@ -188,15 +197,21 @@ type Mutation {
   removeSocialLink(id: String!): Boolean!
   reorderSocialLink(list: [SocialLinkOrderInput!]!): Boolean!
   resetPassword(data: ResetPasswordInput!): Boolean!
-  sendComment(input: SendCommentInput!): CommentModel!
+  sendComment(data: SendCommentInput!): CommentModel!
   setCurrentProject(projectId: String!): Boolean!
-  unassignTask(taskId: String!, userId: String!): Boolean!
-  updateProjectInfo(data: ProjectInput!): Boolean!
+  unassignTask(taskId: String!, userId: String!): TaskModel!
+  updateComment(data: UpdateCommentInput!): CommentModel!
   updateSocialLink(data: SocialLinkInput!, id: String!): Boolean!
-  updateTask(input: TaskInput!, taskId: String!): TaskModel!
-  updateTaskLink(input: TaskLinkInput!, linkId: String!): Boolean!
+  updateTask(input: UpdateTaskInput!, taskId: String!): TaskModel!
+  updateTaskLink(data: TaskLinkInput!, linkId: String!): Boolean!
   uploadTaskAttachment(file: Upload!, taskId: String!): Boolean!
-  verifyAccaunt(data: VerificationInput!): UserModel!
+  verifyAccaunt(data: VerificationInput!): AuthModel!
+}
+
+enum MutationType {
+  CREATED
+  DELETED
+  UPDATED
 }
 
 input NewPasswordInput {
@@ -244,6 +259,7 @@ enum Priority {
 
 input ProjectInput {
   description: String
+  icon: String
   name: String!
 }
 
@@ -251,14 +267,16 @@ type ProjectModel {
   cover: String
   createdAt: DateTime!
   description: String
+  icon: String
   id: ID!
+  labels: [TaskLabelModel!]!
   members: [MemberModel!]!
   name: String!
-  plan: ProjectStatus!
+  plan: ProjectPlan!
   updatedAt: DateTime!
 }
 
-enum ProjectStatus {
+enum ProjectPlan {
   ENTERPRISE
   FREE
   PRO
@@ -268,11 +286,12 @@ type Query {
   findAllTasks: [TaskModel!]!
   findCommentsByTask(taskId: String!): [CommentModel!]!
   findCurrentSession: SessionModel!
-  findDocument(documentId: String!): DocumentModel!
+  findDocumentById(documentId: String!): DocumentModel!
   findDocumentsByProject: [DocumentModel!]!
   findNotificationsByUser: [NotificationModel!]!
   findNotificationsUnreadCount: Float!
   findProfile: UserModel!
+  findProjectById: ProjectModel!
   findProjectMembers: [MemberModel!]!
   findSessionsByUser: [SessionModel!]!
   findSocialLinks: [SocialLinksModel!]!
@@ -288,6 +307,13 @@ type Query {
 
 input ResetPasswordInput {
   email: String!
+}
+
+"""User role in project"""
+enum Role {
+  ADMIN
+  MEMBER
+  VIEWER
 }
 
 input SendCommentInput {
@@ -330,9 +356,11 @@ type SocialLinksModel {
 }
 
 type Subscription {
-  commentAdded(taskId: String!): CommentModel!
-  documentUpdated(projectId: String!): DocumentModel!
+  commentChanged(taskId: String!): CommentSubscriptionPayload!
+  documentChanged(documentId: String!): DocumentModel!
+  taskAdded(projectId: String!): TaskModel!
   taskChanged(projectId: String!): TaskModel!
+  taskDeleted(projectId: String!): TaskModel!
 }
 
 type TaskAssigneeModel {
@@ -350,6 +378,7 @@ input TaskInput {
   description: String
   dueDate: DateTime
   labelsIds: [ID!]
+  position: Float
   priority: Priority!
   startDate: DateTime
   status: TaskStatus!
@@ -381,6 +410,7 @@ type TaskLinkModel {
 
 type TaskModel {
   assignees: [TaskAssigneeModel!]!
+  attachments: [AttachmentModel!]!
   comments: [CommentModel!]!
   createdAt: DateTime!
   createdBy: UserModel!
@@ -390,6 +420,7 @@ type TaskModel {
   id: ID!
   labels: [TaskLabelModel!]!
   links: [TaskLinkModel!]!
+  position: Float!
   priority: Priority!
   project: ProjectModel!
   projectId: ID!
@@ -410,6 +441,23 @@ enum TaskStatus {
 type TotpModel {
   qrCodeUrl: String!
   secret: String!
+}
+
+input UpdateCommentInput {
+  commentId: ID!
+  content: String!
+}
+
+input UpdateTaskInput {
+  assigneeId: ID
+  description: String
+  dueDate: DateTime
+  labelsIds: [ID!]
+  position: Float
+  priority: Priority
+  startDate: DateTime
+  status: TaskStatus
+  title: String
 }
 
 """The `Upload` scalar type represents a file upload."""

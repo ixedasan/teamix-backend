@@ -35,7 +35,7 @@ export class AttachmentService {
 		const buffer = Buffer.concat(chunks)
 
 		const fileExtension = file.filename.split('.').pop()
-		const uniqueFilename = `${Date.now()}-${uuidv4}.${fileExtension}`
+		const uniqueFilename = `${Date.now()}-${uuidv4()}.${fileExtension}`
 		const filePath = `tasks/${taskId}/attachments/${uniqueFilename}`
 
 		try {
@@ -95,7 +95,8 @@ export class AttachmentService {
 		}
 
 		const downloadUrl = await this.storageService.getSignedUrl(
-			attachment.filepath
+			attachment.filepath,
+			attachment.filename
 		)
 
 		return downloadUrl

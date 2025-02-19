@@ -54,11 +54,28 @@ export class TaskAssigneeService {
 			throw new NotFoundException('User not found')
 		}
 
-		await this.prismaService.taskAssignee.create({
-			data: {
-				taskId,
-				userId
-			}
+		const updatedTask = await this.prismaService.$transaction(async prisma => {
+			await prisma.taskAssignee.create({
+				data: {
+					taskId,
+					userId
+				}
+			})
+
+			return prisma.task.findUnique({
+				where: { id: taskId },
+				include: {
+					createdBy: true,
+					assignees: {
+						include: {
+							user: true
+						}
+					},
+					comments: true,
+					labels: true,
+					links: true
+				}
+			})
 		})
 
 		if (user.notificationSettings.siteNotification) {
@@ -76,19 +93,44 @@ export class TaskAssigneeService {
 			)
 		}
 
-		return true
+		return updatedTask
 	}
 
 	public async unassignTask(taskId: string, userId: string) {
-		await this.prismaService.taskAssignee.delete({
-			where: {
-				taskId_userId: {
-					taskId,
-					userId
+		const updatedTask = await this.prismaService.$transaction(async prisma => {
+			await prisma.taskAssignee.delete({
+				where: {
+					taskId_userId: {
+						taskId,
+						userId
+					}
 				}
-			}
+			})
+
+			return prisma.task.findUnique({
+				where: { id: taskId },
+				include: {
+					createdBy: true,
+					assignees: {
+						include: {
+							user: true
+						}
+					},
+					comments: {
+						include: {
+							author: true
+						}
+					},
+					labels: true,
+					links: true
+				}
+			})
 		})
 
-		return true
+		if (!updatedTask) {
+			throw new NotFoundException('Task not found')
+		}
+
+		return updatedTask
 	}
 }

@@ -11,6 +11,11 @@ export class ProjectInput {
 	@Field(() => String, { nullable: true })
 	@IsString()
 	@IsOptional()
+	public icon?: string
+
+	@Field(() => String, { nullable: true })
+	@IsString()
+	@IsOptional()
 	@MaxLength(300)
 	public description?: string
 }

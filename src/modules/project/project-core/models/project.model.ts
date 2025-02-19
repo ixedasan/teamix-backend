@@ -1,10 +1,16 @@
 import { Field, ID, ObjectType, registerEnumType } from '@nestjs/graphql'
-import { ProjectPlan, type Project } from '@/prisma/generated'
+import { ProjectPlan, TaskStatus, type Project } from '@/prisma/generated'
+import { TaskLabelModel } from '@/src/modules/task/task-labels/models/task-labels.model'
 import { MemberModel } from '../../member/models/member.model'
 
 registerEnumType(ProjectPlan, {
-	name: 'ProjectStatus'
+	name: 'ProjectPlan'
 })
+
+registerEnumType(TaskStatus, {
+	name: 'TaskStatus'
+})
+
 @ObjectType()
 export class ProjectModel implements Project {
 	@Field(() => ID)
@@ -14,6 +20,9 @@ export class ProjectModel implements Project {
 	public name: string
 
 	@Field(() => String, { nullable: true })
+	public icon: string
+
+	@Field(() => String, { nullable: true })
 	public description: string
 
 	@Field(() => String, { nullable: true })
@@ -21,6 +30,9 @@ export class ProjectModel implements Project {
 
 	@Field(() => [MemberModel])
 	public members: MemberModel[]
+
+	@Field(() => [TaskLabelModel])
+	public labels: TaskLabelModel[]
 
 	@Field(() => ProjectPlan)
 	public plan: ProjectPlan

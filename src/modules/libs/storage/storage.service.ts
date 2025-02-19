@@ -24,9 +24,7 @@ export class StorageService {
 				secretAccessKey: this.configService.getOrThrow<string>(
 					'S3_SECRET_ACCESS_KEY'
 				)
-			},
-			// TODO: Test this
-			forcePathStyle: true // !!! This is important for LocalStack
+			}
 		})
 
 		this.bucket = this.configService.getOrThrow<string>('S3_BUCKET_NAME')
@@ -60,10 +58,11 @@ export class StorageService {
 		}
 	}
 
-	public async getSignedUrl(key: string, expiresIn: number = 3600) {
+	public async getSignedUrl(key: string, filename, expiresIn: number = 3600) {
 		const command = new GetObjectCommand({
 			Bucket: this.bucket,
-			Key: String(key)
+			Key: key,
+			ResponseContentDisposition: `attachment; filename="${filename}"`
 		})
 
 		try {

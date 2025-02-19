@@ -1,6 +1,6 @@
-import { UseGuards } from '@nestjs/common'
+import { Inject, UseGuards } from '@nestjs/common'
 import { Args, Mutation, Query, Resolver, Subscription } from '@nestjs/graphql'
-import { PubSub } from 'graphql-subscriptions'
+import { RedisPubSub } from 'graphql-redis-subscriptions'
 import { Role } from '@/prisma/generated'
 import { CurrentProject } from '@/src/shared/decorators/current-project.decorator'
 import { RolesAccess } from '@/src/shared/decorators/role-access.decorator'
@@ -13,11 +13,10 @@ import { DocumentModel } from './models/document.model'
 
 @Resolver('Document')
 export class DocumentResolver {
-	private readonly pubSub: PubSub
-
-	public constructor(private readonly documentService: DocumentService) {
-		this.pubSub = new PubSub()
-	}
+	public constructor(
+		@Inject('PUB_SUB') private readonly pubSub: RedisPubSub,
+		private readonly documentService: DocumentService
+	) {}
 
 	@UseGuards(GqlAuthGuard, ProjectGuard)
 	@Query(() => [DocumentModel], { name: 'findDocumentsByProject' })
@@ -26,7 +25,7 @@ export class DocumentResolver {
 	}
 
 	@UseGuards(GqlAuthGuard, ProjectGuard)
-	@Query(() => DocumentModel, { name: 'findDocument' })
+	@Query(() => DocumentModel, { name: 'findDocumentById' })
 	public async findDocument(@Args('documentId') documentId: string) {
 		return this.documentService.getDocument(documentId)
 	}
@@ -46,7 +45,7 @@ export class DocumentResolver {
 	@Mutation(() => DocumentModel, { name: 'changeDocument' })
 	public async updateDocument(
 		@Args('documentId') documentId: string,
-		@Args('input') input: ChangeDocumentInput
+		@Args('data') input: ChangeDocumentInput
 	) {
 		const document = await this.documentService.updateDocument(
 			documentId,
@@ -66,10 +65,20 @@ export class DocumentResolver {
 	}
 
 	@Subscription(() => DocumentModel, {
+		name: 'documentChanged',
 		filter: (payload, variables) =>
-			payload.documentUpdated.documentId === variables.documentId
+			payload.documentUpdated.id === variables.documentId,
+		resolve: payload => ({
+			...payload.documentUpdated,
+			createdAt: payload.documentUpdated.createdAt
+				? new Date(payload.documentUpdated.createdAt)
+				: null,
+			updatedAt: payload.documentUpdated.updatedAt
+				? new Date(payload.documentUpdated.updatedAt)
+				: null
+		})
 	})
-	public documentUpdated(@Args('projectId') projectId: string) {
+	public documentUpdated(@Args('documentId') documentId: string) {
 		return this.pubSub.asyncIterableIterator('DOCUMENT_CHANGED')
 	}
 }
