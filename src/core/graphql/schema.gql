@@ -2,6 +2,18 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type ActivityPoint {
+  count: Int!
+  date: DateTime!
+}
+
+type AssigneeDistribution {
+  displayName: String!
+  taskCount: Int!
+  userId: String!
+  username: String!
+}
+
 type AttachmentModel {
   createdAt: DateTime!
   filename: String!
@@ -101,7 +113,7 @@ type DeviceModel {
 }
 
 type DocumentModel {
-  content: JSON!
+  content: JSON
   createdAt: DateTime!
   id: ID!
   projectId: String!
@@ -124,6 +136,13 @@ The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://
 """
 scalar JSON
 
+type LabelUsage {
+  color: String!
+  id: String!
+  name: String!
+  taskCount: Int!
+}
+
 type LocationModel {
   city: String!
   country: String!
@@ -139,6 +158,15 @@ input LoginInput {
 
 type MakePaymentModel {
   url: String!
+}
+
+type MemberActivity {
+  avatar: String
+  commentCount: Int
+  displayName: String!
+  taskCount: Int
+  userId: String!
+  username: String!
 }
 
 type MemberModel {
@@ -257,6 +285,11 @@ enum Priority {
   URGENT
 }
 
+type PriorityCount {
+  count: Int!
+  priority: Priority
+}
+
 input ProjectInput {
   description: String
   icon: String
@@ -282,17 +315,28 @@ enum ProjectPlan {
   PRO
 }
 
+type ProjectStatistics {
+  activityTrend: [ActivityPoint!]!
+  completionRate: Float!
+  memberActivity: Int!
+  overdueTasks: Int!
+  tasksByPriority: [PriorityCount!]!
+  tasksByStatus: [StatusCount!]!
+}
+
 type Query {
   findAllTasks: [TaskModel!]!
   findCommentsByTask(taskId: String!): [CommentModel!]!
   findCurrentSession: SessionModel!
   findDocumentById(documentId: String!): DocumentModel!
   findDocumentsByProject: [DocumentModel!]!
+  findMemberStatistics(days: Int! = 30): UserActivityStatistics!
   findNotificationsByUser: [NotificationModel!]!
   findNotificationsUnreadCount: Float!
   findProfile: UserModel!
   findProjectById: ProjectModel!
   findProjectMembers: [MemberModel!]!
+  findProjectStatistics(period: String!): ProjectStatistics!
   findSessionsByUser: [SessionModel!]!
   findSocialLinks: [SocialLinksModel!]!
   findTask(taskId: String!): TaskModel!
@@ -300,6 +344,7 @@ type Query {
   findTaskLabelsByProject: [TaskLabelModel!]!
   findTaskLabelsByTask(taskId: String!): [TaskLabelModel!]!
   findTaskLinks(taskId: String!): [TaskLinkModel!]!
+  findTaskStatistics: TaskStatistics!
   generateTotpSecret: TotpModel!
   getAllUserProjects: [ProjectModel!]!
   getTaskAssignees(taskId: String!): [TaskAssigneeModel!]!
@@ -353,6 +398,11 @@ type SocialLinksModel {
   updatedAt: DateTime!
   url: String!
   userId: String!
+}
+
+type StatusCount {
+  count: Int!
+  status: TaskStatus!
 }
 
 type Subscription {
@@ -430,6 +480,12 @@ type TaskModel {
   updatedAt: DateTime!
 }
 
+type TaskStatistics {
+  assigneeDistribution: [AssigneeDistribution!]!
+  avgCompletionTimeHours: Float!
+  popularLabels: [LabelUsage!]!
+}
+
 enum TaskStatus {
   BACKLOG
   CANCELLED
@@ -462,6 +518,20 @@ input UpdateTaskInput {
 
 """The `Upload` scalar type represents a file upload."""
 scalar Upload
+
+type UserActivityStatistics {
+  mostActiveMembersByComments: [MemberActivity!]!
+  mostActiveMembersByTasks: [MemberActivity!]!
+  recentUserActivity: [UserLastActivity!]!
+}
+
+type UserLastActivity {
+  avatar: String
+  displayName: String!
+  lastActive: DateTime!
+  userId: String!
+  username: String!
+}
 
 type UserModel {
   avatar: String

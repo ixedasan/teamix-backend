@@ -16,6 +16,7 @@ import { StorageModule } from '../modules/libs/storage/storage.module'
 import { StripeModule } from '../modules/libs/stripe/stripe.module'
 import { TelegramModule } from '../modules/libs/telegram/telegram.module'
 import { NotificationModule } from '../modules/notification/notification.module'
+import { AnalyticsModule } from '../modules/project/analytics/analytics.module'
 import { MemberModule } from '../modules/project/member/member.module'
 import { ProjectCoreModule } from '../modules/project/project-core/project-core.module'
 import { ProjectPlanModule } from '../modules/project/project-plan/project-plan.module'
@@ -67,6 +68,7 @@ import { RedisModule } from './redis/redis.module'
 		CronModule,
 		ProjectCoreModule,
 		ProjectPlanModule,
+		AnalyticsModule,
 		MemberModule,
 		TaskModule,
 		TaskAssigneeModule,
