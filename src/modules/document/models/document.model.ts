@@ -10,7 +10,7 @@ export class DocumentModel implements Document {
 	@Field(() => String)
 	public title: string
 
-	@Field(() => GraphQLJSON)
+	@Field(() => GraphQLJSON, { nullable: true })
 	public content: any
 
 	@Field(() => String)
