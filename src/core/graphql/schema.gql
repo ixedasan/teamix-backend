@@ -2,18 +2,6 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type ActivityPoint {
-  count: Int!
-  date: DateTime!
-}
-
-type AssigneeDistribution {
-  displayName: String!
-  taskCount: Int!
-  userId: String!
-  username: String!
-}
-
 type AttachmentModel {
   createdAt: DateTime!
   filename: String!
@@ -86,6 +74,17 @@ type CommentSubscriptionPayload {
   mutation: MutationType!
 }
 
+type ComprehensiveProjectAnalytics {
+  activity: ProjectActivity!
+  labelDistribution: LabelDistribution!
+  memberProductivity: [MemberProductivity!]!
+  priorityDistribution: PriorityDistribution!
+  statistics: ProjectStatistics!
+  statusDistribution: TaskStatusAnalytics!
+  taskTrends: [TaskTrend!]!
+  timeline: ProjectTimeline!
+}
+
 input CreateDocumentInput {
   title: String!
 }
@@ -99,6 +98,11 @@ input CreateUserInput {
   email: String!
   password: String!
   username: String!
+}
+
+type DailyCount {
+  count: Int!
+  date: String!
 }
 
 """
@@ -136,11 +140,17 @@ The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://
 """
 scalar JSON
 
-type LabelUsage {
+type LabelCount {
   color: String!
-  id: String!
-  name: String!
-  taskCount: Int!
+  count: Int!
+  labelId: String!
+  labelName: String!
+  percentage: Int!
+}
+
+type LabelDistribution {
+  distribution: [LabelCount!]!
+  totalLabelsUsed: Int!
 }
 
 type LocationModel {
@@ -160,15 +170,6 @@ type MakePaymentModel {
   url: String!
 }
 
-type MemberActivity {
-  avatar: String
-  commentCount: Int
-  displayName: String!
-  taskCount: Int
-  userId: String!
-  username: String!
-}
-
 type MemberModel {
   createdAt: DateTime!
   id: ID!
@@ -178,6 +179,20 @@ type MemberModel {
   updatedAt: DateTime!
   user: UserModel!
   userId: ID!
+}
+
+type MemberProductivity {
+  assignedTasks: Int!
+  avatar: String
+  commentsCount: Int!
+  completedTasks: Int!
+  completionRate: Int!
+  displayName: String!
+  lastActive: DateTime
+  role: Role!
+  urgentTasks: Int!
+  userId: String!
+  username: String!
 }
 
 type Mutation {
@@ -285,9 +300,20 @@ enum Priority {
   URGENT
 }
 
-type PriorityCount {
-  count: Int!
-  priority: Priority
+type PriorityDistribution {
+  high: Int!
+  low: Int!
+  medium: Int!
+  none: Int!
+  totalTasks: Int!
+  urgent: Int!
+}
+
+type ProjectActivity {
+  activeUsers: [DailyCount!]!
+  comments: [DailyCount!]!
+  tasksCompleted: [DailyCount!]!
+  tasksCreated: [DailyCount!]!
 }
 
 input ProjectInput {
@@ -316,12 +342,26 @@ enum ProjectPlan {
 }
 
 type ProjectStatistics {
-  activityTrend: [ActivityPoint!]!
-  completionRate: Float!
-  memberActivity: Int!
+  avgCompletionTime: Int!
+  completedTasks: Int!
+  completionRate: Int!
   overdueTasks: Int!
-  tasksByPriority: [PriorityCount!]!
-  tasksByStatus: [StatusCount!]!
+  taskGrowthRate: Int!
+  totalComments: Int!
+  totalDocuments: Int!
+  totalMembers: Int!
+  totalTasks: Int!
+}
+
+type ProjectTimeline {
+  firstTaskCreatedAt: DateTime
+  firstTaskTitle: String
+  latestCompletedTaskAt: DateTime
+  latestCompletedTaskTitle: String
+  mostRecentTaskAt: DateTime
+  mostRecentTaskTitle: String
+  projectCreatedAt: DateTime!
+  projectDurationDays: Int!
 }
 
 type Query {
@@ -330,13 +370,11 @@ type Query {
   findCurrentSession: SessionModel!
   findDocumentById(documentId: String!): DocumentModel!
   findDocumentsByProject: [DocumentModel!]!
-  findMemberStatistics(days: Int! = 30): UserActivityStatistics!
   findNotificationsByUser: [NotificationModel!]!
   findNotificationsUnreadCount: Float!
   findProfile: UserModel!
   findProjectById: ProjectModel!
   findProjectMembers: [MemberModel!]!
-  findProjectStatistics(period: String!): ProjectStatistics!
   findSessionsByUser: [SessionModel!]!
   findSocialLinks: [SocialLinksModel!]!
   findTask(taskId: String!): TaskModel!
@@ -344,10 +382,18 @@ type Query {
   findTaskLabelsByProject: [TaskLabelModel!]!
   findTaskLabelsByTask(taskId: String!): [TaskLabelModel!]!
   findTaskLinks(taskId: String!): [TaskLinkModel!]!
-  findTaskStatistics: TaskStatistics!
   generateTotpSecret: TotpModel!
   getAllUserProjects: [ProjectModel!]!
   getTaskAssignees(taskId: String!): [TaskAssigneeModel!]!
+  labelDistribution: LabelDistribution!
+  memberProductivity(timeframe: String): [MemberProductivity!]!
+  priorityDistribution: PriorityDistribution!
+  projectActivity(days: Float! = 30): ProjectActivity!
+  projectAnalytics: ComprehensiveProjectAnalytics!
+  projectStatistics: ProjectStatistics!
+  projectTimeline: ProjectTimeline!
+  taskStatusDistribution: TaskStatusAnalytics!
+  taskTrends(months: Float! = 3): [TaskTrend!]!
 }
 
 input ResetPasswordInput {
@@ -398,11 +444,6 @@ type SocialLinksModel {
   updatedAt: DateTime!
   url: String!
   userId: String!
-}
-
-type StatusCount {
-  count: Int!
-  status: TaskStatus!
 }
 
 type Subscription {
@@ -480,18 +521,28 @@ type TaskModel {
   updatedAt: DateTime!
 }
 
-type TaskStatistics {
-  assigneeDistribution: [AssigneeDistribution!]!
-  avgCompletionTimeHours: Float!
-  popularLabels: [LabelUsage!]!
-}
-
 enum TaskStatus {
   BACKLOG
   CANCELLED
   DONE
   IN_PROGRESS
   TODO
+}
+
+type TaskStatusAnalytics {
+  backlog: Int!
+  cancelled: Int!
+  done: Int!
+  inProgress: Int!
+  todo: Int!
+  totalTasks: Int!
+}
+
+type TaskTrend {
+  completed: Int!
+  completionRate: Int!
+  created: Int!
+  month: String!
 }
 
 type TotpModel {
@@ -518,20 +569,6 @@ input UpdateTaskInput {
 
 """The `Upload` scalar type represents a file upload."""
 scalar Upload
-
-type UserActivityStatistics {
-  mostActiveMembersByComments: [MemberActivity!]!
-  mostActiveMembersByTasks: [MemberActivity!]!
-  recentUserActivity: [UserLastActivity!]!
-}
-
-type UserLastActivity {
-  avatar: String
-  displayName: String!
-  lastActive: DateTime!
-  userId: String!
-  username: String!
-}
 
 type UserModel {
   avatar: String

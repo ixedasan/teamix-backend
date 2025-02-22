@@ -1,154 +1,230 @@
-import {
-	Field,
-	Float,
-	Int,
-	ObjectType,
-	registerEnumType
-} from '@nestjs/graphql'
-import { Priority, TaskStatus } from '@/prisma/generated'
-import { Period } from '../analytics.service'
-
-registerEnumType(Period, {
-	name: 'Period'
-})
-
-@ObjectType()
-export class StatusCount {
-	@Field(() => TaskStatus)
-	public status: TaskStatus
-
-	@Field(() => Int)
-	public count: number
-}
-
-@ObjectType()
-export class PriorityCount {
-	@Field(() => Priority, { nullable: true })
-	public priority: Priority | null
-
-	@Field(() => Int)
-	public count: number
-}
-
-@ObjectType()
-export class ActivityPoint {
-	@Field()
-	public date: Date
-
-	@Field(() => Int)
-	public count: number
-}
+import { Field, Int, ObjectType } from '@nestjs/graphql'
+import { Role } from '@/prisma/generated'
 
 @ObjectType()
 export class ProjectStatistics {
-	@Field(() => [StatusCount])
-	public tasksByStatus: StatusCount[]
-
-	@Field(() => [PriorityCount])
-	public tasksByPriority: PriorityCount[]
-
-	@Field(() => Float)
-	public completionRate: number
+	@Field(() => Int)
+	totalTasks: number
 
 	@Field(() => Int)
-	public overdueTasks: number
+	completedTasks: number
 
 	@Field(() => Int)
-	public memberActivity: number
+	overdueTasks: number
 
-	@Field(() => [ActivityPoint])
-	public activityTrend: ActivityPoint[]
+	@Field(() => Int)
+	completionRate: number
+
+	@Field(() => Int)
+	totalMembers: number
+
+	@Field(() => Int)
+	totalDocuments: number
+
+	@Field(() => Int)
+	totalComments: number
+
+	@Field(() => Int)
+	taskGrowthRate: number
+
+	@Field(() => Int)
+	avgCompletionTime: number
 }
 
 @ObjectType()
-export class LabelUsage {
-	@Field()
-	public id: string
-
-	@Field()
-	public name: string
-
-	@Field()
-	public color: string
+export class TaskStatusAnalytics {
+	@Field(() => Int)
+	backlog: number
 
 	@Field(() => Int)
-	public taskCount: number
-}
-
-@ObjectType()
-export class AssigneeDistribution {
-	@Field()
-	public userId: string
-
-	@Field()
-	public displayName: string
-
-	@Field()
-	public username: string
+	todo: number
 
 	@Field(() => Int)
-	public taskCount: number
+	inProgress: number
+
+	@Field(() => Int)
+	done: number
+
+	@Field(() => Int)
+	cancelled: number
+
+	@Field(() => Int)
+	totalTasks: number
 }
 
 @ObjectType()
-export class TaskStatistics {
-	@Field(() => Float)
-	public avgCompletionTimeHours: number
-
-	@Field(() => [LabelUsage])
-	public popularLabels: LabelUsage[]
-
-	@Field(() => [AssigneeDistribution])
-	public assigneeDistribution: AssigneeDistribution[]
-}
-
-@ObjectType()
-export class MemberActivity {
+export class MemberProductivity {
 	@Field()
-	public userId: string
+	userId: string
 
 	@Field()
-	public displayName: string
+	username: string
 
 	@Field()
-	public username: string
+	displayName: string
 
 	@Field({ nullable: true })
-	public avatar?: string
+	avatar?: string
 
-	@Field(() => Int, { nullable: true })
-	public taskCount?: number
+	@Field(() => Role)
+	role: Role
 
-	@Field(() => Int, { nullable: true })
-	public commentCount?: number
+	@Field(() => Int)
+	assignedTasks: number
+
+	@Field(() => Int)
+	completedTasks: number
+
+	@Field(() => Int)
+	completionRate: number
+
+	@Field(() => Int)
+	commentsCount: number
+
+	@Field(() => Date, { nullable: true })
+	lastActive: Date | null
+
+	@Field(() => Int)
+	urgentTasks: number
 }
 
 @ObjectType()
-export class UserLastActivity {
+class DailyCount {
 	@Field()
-	public userId: string
+	date: string
+
+	@Field(() => Int)
+	count: number
+}
+
+@ObjectType()
+export class ProjectActivity {
+	@Field(() => [DailyCount])
+	tasksCreated: DailyCount[]
+
+	@Field(() => [DailyCount])
+	tasksCompleted: DailyCount[]
+
+	@Field(() => [DailyCount])
+	comments: DailyCount[]
+
+	@Field(() => [DailyCount])
+	activeUsers: DailyCount[]
+}
+
+@ObjectType()
+class LabelCount {
+	@Field()
+	labelId: string
 
 	@Field()
-	public displayName: string
+	labelName: string
 
 	@Field()
-	public username: string
+	color: string
+
+	@Field(() => Int)
+	count: number
+
+	@Field(() => Int)
+	percentage: number
+}
+
+@ObjectType()
+export class LabelDistribution {
+	@Field(() => [LabelCount])
+	distribution: LabelCount[]
+
+	@Field(() => Int)
+	totalLabelsUsed: number
+}
+
+@ObjectType()
+export class PriorityDistribution {
+	@Field(() => Int)
+	none: number
+
+	@Field(() => Int)
+	low: number
+
+	@Field(() => Int)
+	medium: number
+
+	@Field(() => Int)
+	high: number
+
+	@Field(() => Int)
+	urgent: number
+
+	@Field(() => Int)
+	totalTasks: number
+}
+
+@ObjectType()
+export class TaskTrend {
+	@Field()
+	month: string
+
+	@Field(() => Int)
+	created: number
+
+	@Field(() => Int)
+	completed: number
+
+	@Field(() => Int)
+	completionRate: number
+}
+
+@ObjectType()
+export class ProjectTimeline {
+	@Field(() => Date)
+	projectCreatedAt: Date
+
+	@Field(() => Date, { nullable: true })
+	firstTaskCreatedAt: Date | null
 
 	@Field({ nullable: true })
-	public avatar?: string
+	firstTaskTitle: string | null
 
-	@Field()
-	public lastActive: Date
+	@Field(() => Date, { nullable: true })
+	latestCompletedTaskAt: Date | null
+
+	@Field({ nullable: true })
+	latestCompletedTaskTitle: string | null
+
+	@Field(() => Date, { nullable: true })
+	mostRecentTaskAt: Date | null
+
+	@Field({ nullable: true })
+	mostRecentTaskTitle: string | null
+
+	@Field(() => Int)
+	projectDurationDays: number
 }
 
 @ObjectType()
-export class UserActivityStatistics {
-	@Field(() => [MemberActivity])
-	public mostActiveMembersByTasks: MemberActivity[]
+export class ComprehensiveProjectAnalytics {
+	@Field(() => ProjectStatistics)
+	statistics: ProjectStatistics
 
-	@Field(() => [MemberActivity])
-	public mostActiveMembersByComments: MemberActivity[]
+	@Field(() => TaskStatusAnalytics)
+	statusDistribution: TaskStatusAnalytics
 
-	@Field(() => [UserLastActivity])
-	public recentUserActivity: UserLastActivity[]
+	@Field(() => [MemberProductivity])
+	memberProductivity: MemberProductivity[]
+
+	@Field(() => ProjectActivity)
+	activity: ProjectActivity
+
+	@Field(() => LabelDistribution)
+	labelDistribution: LabelDistribution
+
+	@Field(() => PriorityDistribution)
+	priorityDistribution: PriorityDistribution
+
+	@Field(() => [TaskTrend])
+	taskTrends: TaskTrend[]
+
+	@Field(() => ProjectTimeline)
+	timeline: ProjectTimeline
 }
