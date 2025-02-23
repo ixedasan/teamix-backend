@@ -1,9 +1,36 @@
 import { Injectable } from '@nestjs/common'
+import { CacheService } from '@/src/core/cache/cache.service'
 import { PrismaService } from '@/src/core/prisma/prisma.service'
 
 @Injectable()
 export class AnalyticsService {
-	constructor(private readonly prismaService: PrismaService) {}
+	constructor(
+		private readonly prismaService: PrismaService,
+		private readonly cacheService: CacheService
+	) {}
+
+	private getCacheKey(projectId: string, method: string): string {
+		return `project:${projectId}:analytics:${method}`
+	}
+
+	async getCachedData<T>(
+		projectId: string,
+		method: string,
+		fetchFn: () => Promise<T>,
+		ttl: string = '5m'
+	): Promise<T> {
+		const cacheKey = this.getCacheKey(projectId, method)
+
+		const cachedData = await this.cacheService.get(cacheKey)
+
+		if (cachedData) {
+			return cachedData
+		}
+
+		const freshData = await fetchFn()
+		await this.cacheService.set(cacheKey, freshData, ttl)
+		return freshData
+	}
 
 	async getProjectStatistics(projectId: string) {
 		const [
@@ -561,35 +588,44 @@ export class AnalyticsService {
 	}
 
 	async getComprehensiveProjectAnalytics(projectId: string) {
-		const [
-			statistics,
-			statusDistribution,
-			memberProductivity,
-			activity,
-			labelDistribution,
-			priorityDistribution,
-			taskTrends,
-			timeline
-		] = await Promise.all([
-			this.getProjectStatistics(projectId),
-			this.getTaskStatusDistribution(projectId),
-			this.getMemberProductivity(projectId, 'month'),
-			this.getProjectActivity(projectId, 30),
-			this.getLabelDistribution(projectId),
-			this.getPriorityDistribution(projectId),
-			this.getTaskTrends(projectId, 3),
-			this.getProjectTimeline(projectId)
-		])
+		const analyticsData = await this.getCachedData(
+			projectId,
+			'comprehensive',
+			async () => {
+				const [
+					statistics,
+					statusDistribution,
+					memberProductivity,
+					activity,
+					labelDistribution,
+					priorityDistribution,
+					taskTrends,
+					timeline
+				] = await Promise.all([
+					this.getProjectStatistics(projectId),
+					this.getTaskStatusDistribution(projectId),
+					this.getMemberProductivity(projectId, 'month'),
+					this.getProjectActivity(projectId, 30),
+					this.getLabelDistribution(projectId),
+					this.getPriorityDistribution(projectId),
+					this.getTaskTrends(projectId, 3),
+					this.getProjectTimeline(projectId)
+				])
 
-		return {
-			statistics,
-			statusDistribution,
-			memberProductivity,
-			activity,
-			labelDistribution,
-			priorityDistribution,
-			taskTrends,
-			timeline
-		}
+				return {
+					statistics,
+					statusDistribution,
+					memberProductivity,
+					activity,
+					labelDistribution,
+					priorityDistribution,
+					taskTrends,
+					timeline
+				}
+			},
+			'5m'
+		)
+
+		return analyticsData
 	}
 }

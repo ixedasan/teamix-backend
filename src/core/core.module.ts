@@ -28,6 +28,7 @@ import { TaskLinkModule } from '../modules/task/task-link/task-link.module'
 import { TaskModule } from '../modules/task/task/task.module'
 import { WebhookModule } from '../modules/webhook/webhook.module'
 import { ProjectMiddleware } from '../shared/middlewares/project.middleware'
+import { CacheModule } from './cache/cache.module'
 import { getGraphQLConfig } from './config/graphql.config'
 import { getStripeConfig } from './config/stripe.config'
 import { PrismaModule } from './prisma/prisma.module'
@@ -52,6 +53,7 @@ import { RedisModule } from './redis/redis.module'
 		}),
 		PrismaModule,
 		RedisModule,
+		CacheModule,
 		MailModule,
 		StorageModule,
 		PubSubModule,
@@ -76,7 +78,8 @@ import { RedisModule } from './redis/redis.module'
 		AttachmentModule,
 		TaskLinkModule,
 		CommentModule,
-		DocumentModule
+		DocumentModule,
+		CacheModule
 	]
 })
 export class CoreModule implements NestModule {
