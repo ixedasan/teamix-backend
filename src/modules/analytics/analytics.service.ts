@@ -13,7 +13,7 @@ export class AnalyticsService {
 		return `project:${projectId}:analytics:${method}`
 	}
 
-	async getCachedData<T>(
+	private async getCachedData<T>(
 		projectId: string,
 		method: string,
 		fetchFn: () => Promise<T>,
@@ -32,7 +32,7 @@ export class AnalyticsService {
 		return freshData
 	}
 
-	async getProjectStatistics(projectId: string) {
+	public async getProjectStatistics(projectId: string) {
 		const [
 			totalTasks,
 			completedTasks,
@@ -43,15 +43,12 @@ export class AnalyticsService {
 			createdLastMonth,
 			completedLastMonth
 		] = await Promise.all([
-			// Total tasks count
 			this.prismaService.task.count({ where: { projectId } }),
 
-			// Completed tasks count
 			this.prismaService.task.count({
 				where: { projectId, status: 'DONE' }
 			}),
 
-			// Overdue tasks count
 			this.prismaService.task.count({
 				where: {
 					projectId,
@@ -60,18 +57,14 @@ export class AnalyticsService {
 				}
 			}),
 
-			// Members count
 			this.prismaService.member.count({ where: { projectId } }),
 
-			// Documents count
 			this.prismaService.document.count({ where: { projectId } }),
 
-			// Comments count
 			this.prismaService.comment.count({
 				where: { task: { projectId } }
 			}),
 
-			// Tasks created last month
 			this.prismaService.task.count({
 				where: {
 					projectId,
@@ -81,7 +74,6 @@ export class AnalyticsService {
 				}
 			}),
 
-			// Tasks completed last month
 			this.prismaService.task.count({
 				where: {
 					projectId,
@@ -93,7 +85,6 @@ export class AnalyticsService {
 			})
 		])
 
-		// Calculate completion rate
 		const completionRate =
 			totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0
 
@@ -143,7 +134,7 @@ export class AnalyticsService {
 		}
 	}
 
-	async getTaskStatusDistribution(projectId: string) {
+	public async getTaskStatusDistribution(projectId: string) {
 		// Get counts for each status
 		const statusCounts = await this.prismaService.task.groupBy({
 			by: ['status'],
@@ -188,7 +179,7 @@ export class AnalyticsService {
 		return result
 	}
 
-	async getMemberProductivity(projectId: string, timeframe?: string) {
+	public async getMemberProductivity(projectId: string, timeframe?: string) {
 		// Define the date range based on timeframe
 		const dateFilter = {}
 		if (timeframe) {
@@ -212,7 +203,6 @@ export class AnalyticsService {
 			}
 		}
 
-		// Get project members
 		const members = await this.prismaService.member.findMany({
 			where: { projectId },
 			include: {
@@ -237,7 +227,6 @@ export class AnalyticsService {
 					lastActive,
 					urgentTasks
 				] = await Promise.all([
-					// Assigned tasks count
 					this.prismaService.taskAssignee.count({
 						where: {
 							userId: member.userId,
@@ -250,7 +239,6 @@ export class AnalyticsService {
 						}
 					}),
 
-					// Completed tasks count
 					this.prismaService.taskAssignee.count({
 						where: {
 							userId: member.userId,
@@ -264,7 +252,6 @@ export class AnalyticsService {
 						}
 					}),
 
-					// Comments count
 					this.prismaService.comment.count({
 						where: {
 							authorId: member.userId,
@@ -289,7 +276,6 @@ export class AnalyticsService {
 						}
 					}),
 
-					// Urgent tasks count
 					this.prismaService.taskAssignee.count({
 						where: {
 							userId: member.userId,
@@ -327,8 +313,7 @@ export class AnalyticsService {
 		return productivity
 	}
 
-	async getProjectActivity(projectId: string, days: number = 30) {
-		// Calculate start date
+	public async getProjectActivity(projectId: string, days: number = 30) {
 		const startDate = new Date()
 		startDate.setDate(startDate.getDate() - days)
 
@@ -397,7 +382,6 @@ export class AnalyticsService {
 	}
 
 	async getLabelDistribution(projectId: string) {
-		// Get all labels for the project
 		const labels = await this.prismaService.taskLabel.findMany({
 			where: { projectId },
 			select: {
@@ -412,7 +396,6 @@ export class AnalyticsService {
 			}
 		})
 
-		// Get total tasks count for percentage calculation
 		const totalTasks = await this.prismaService.task.count({
 			where: { projectId }
 		})
@@ -435,7 +418,7 @@ export class AnalyticsService {
 		}
 	}
 
-	async getPriorityDistribution(projectId: string) {
+	public async getPriorityDistribution(projectId: string) {
 		// Get counts for each priority
 		const priorityCounts = await this.prismaService.task.groupBy({
 			by: ['priority'],
@@ -486,7 +469,7 @@ export class AnalyticsService {
 		return result
 	}
 
-	async getTaskTrends(projectId: string, months: number = 3) {
+	public async getTaskTrends(projectId: string, months: number = 3) {
 		const startDate = new Date()
 		startDate.setMonth(startDate.getMonth() - months)
 
@@ -514,7 +497,7 @@ export class AnalyticsService {
 		}))
 	}
 
-	async getProjectTimeline(projectId: string) {
+	public async getProjectTimeline(projectId: string) {
 		const project = await this.prismaService.project.findUnique({
 			where: { id: projectId },
 			select: {
@@ -587,7 +570,7 @@ export class AnalyticsService {
 		}
 	}
 
-	async getComprehensiveProjectAnalytics(projectId: string) {
+	public async getComprehensiveProjectAnalytics(projectId: string) {
 		const analyticsData = await this.getCachedData(
 			projectId,
 			'comprehensive',
@@ -613,6 +596,7 @@ export class AnalyticsService {
 				])
 
 				return {
+					id: projectId,
 					statistics,
 					statusDistribution,
 					memberProductivity,

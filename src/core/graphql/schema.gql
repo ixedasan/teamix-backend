@@ -76,6 +76,7 @@ type CommentSubscriptionPayload {
 
 type ComprehensiveProjectAnalytics {
   activity: ProjectActivity!
+  id: ID!
   labelDistribution: LabelDistribution!
   memberProductivity: [MemberProductivity!]!
   priorityDistribution: PriorityDistribution!
