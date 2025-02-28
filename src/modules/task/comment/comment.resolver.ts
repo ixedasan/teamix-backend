@@ -84,19 +84,7 @@ export class CommentResolver {
 
 	@Subscription(() => CommentSubscriptionPayload, {
 		filter: (payload, variables) =>
-			payload.commentChanged.comment.taskId === variables.taskId,
-		resolve: payload => ({
-			...payload.commentChanged,
-			comment: {
-				...payload.commentChanged.comment,
-				createdAt: payload.commentChanged.comment.createdAt
-					? new Date(payload.commentChanged.comment.createdAt)
-					: null,
-				updatedAt: payload.commentChanged.comment.updatedAt
-					? new Date(payload.commentChanged.comment.updatedAt)
-					: null
-			}
-		})
+			payload.commentChanged.comment.taskId === variables.taskId
 	})
 	public commentChanged(@Args('taskId') taskId: string) {
 		return this.pubSub.asyncIterator('COMMENT_CHANGED')

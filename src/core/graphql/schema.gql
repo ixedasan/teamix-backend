@@ -3,14 +3,14 @@
 # ------------------------------------------------------
 
 type AttachmentModel {
-  createdAt: DateTime!
+  createdAt: Date!
   filename: String!
   filepath: String!
   id: ID!
   mimeType: String!
   size: Float!
   taskId: ID!
-  updatedAt: DateTime!
+  updatedAt: Date!
 }
 
 type AuthModel {
@@ -63,10 +63,10 @@ type CommentModel {
   author: UserModel!
   authorId: ID!
   content: String!
-  createdAt: DateTime!
+  createdAt: Date!
   id: ID!
   taskId: ID!
-  updatedAt: DateTime!
+  updatedAt: Date!
 }
 
 type CommentSubscriptionPayload {
@@ -106,10 +106,17 @@ type DailyCount {
   date: String!
 }
 
-"""
-A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
-"""
-scalar DateTime
+type DashboardModel {
+  assignedTasks: [TaskModel!]!
+  overdueTasks: [TaskModel!]!
+  projectStats: ProjectStatsModel!
+  recentProjects: [ProjectModel!]!
+  recentTasks: [TaskModel!]!
+  taskStats: TaskStatsModel!
+}
+
+"""Date custom scalar type"""
+scalar Date
 
 type DeviceModel {
   browser: String!
@@ -119,11 +126,11 @@ type DeviceModel {
 
 type DocumentModel {
   content: JSON
-  createdAt: DateTime!
+  createdAt: Date!
   id: ID!
   projectId: String!
   title: String!
-  updatedAt: DateTime!
+  updatedAt: Date!
 }
 
 input EnableTotpInput {
@@ -172,12 +179,12 @@ type MakePaymentModel {
 }
 
 type MemberModel {
-  createdAt: DateTime!
+  createdAt: Date!
   id: ID!
   project: ProjectModel!
   projectId: ID!
   role: Role!
-  updatedAt: DateTime!
+  updatedAt: Date!
   user: UserModel!
   userId: ID!
 }
@@ -189,7 +196,7 @@ type MemberProductivity {
   completedTasks: Int!
   completionRate: Int!
   displayName: String!
-  lastActive: DateTime
+  lastActive: Date
   role: Role!
   urgentTasks: Int!
   userId: String!
@@ -265,22 +272,22 @@ input NewPasswordInput {
 }
 
 type NotificationModel {
-  createdAt: DateTime!
+  createdAt: Date!
   id: String!
   isRead: Boolean!
   message: String!
   type: NotificationType!
-  updatedAt: DateTime!
+  updatedAt: Date!
   user: UserModel!
   userId: String!
 }
 
 type NotificationSettingsModel {
-  createdAt: DateTime!
+  createdAt: Date!
   id: String!
   siteNotification: Boolean!
   telegramNotification: Boolean!
-  updatedAt: DateTime!
+  updatedAt: Date!
   user: UserModel!
   userId: String!
 }
@@ -325,7 +332,7 @@ input ProjectInput {
 
 type ProjectModel {
   cover: String
-  createdAt: DateTime!
+  createdAt: Date!
   description: String
   icon: String
   id: ID!
@@ -333,7 +340,7 @@ type ProjectModel {
   members: [MemberModel!]!
   name: String!
   plan: ProjectPlan!
-  updatedAt: DateTime!
+  updatedAt: Date!
 }
 
 enum ProjectPlan {
@@ -354,14 +361,21 @@ type ProjectStatistics {
   totalTasks: Int!
 }
 
+type ProjectStatsModel {
+  asAdmin: Int!
+  asMember: Int!
+  asViewer: Int!
+  total: Int!
+}
+
 type ProjectTimeline {
-  firstTaskCreatedAt: DateTime
+  firstTaskCreatedAt: Date
   firstTaskTitle: String
-  latestCompletedTaskAt: DateTime
+  latestCompletedTaskAt: Date
   latestCompletedTaskTitle: String
-  mostRecentTaskAt: DateTime
+  mostRecentTaskAt: Date
   mostRecentTaskTitle: String
-  projectCreatedAt: DateTime!
+  projectCreatedAt: Date!
   projectDurationDays: Int!
 }
 
@@ -383,6 +397,10 @@ type Query {
   findTaskLabelsByProject: [TaskLabelModel!]!
   findTaskLabelsByTask(taskId: String!): [TaskLabelModel!]!
   findTaskLinks(taskId: String!): [TaskLinkModel!]!
+  findUserAssignedTasks: [TaskModel!]!
+  findUserDashboard: DashboardModel!
+  findUserOverdueTasks: [TaskModel!]!
+  findUserRecentProjects: [TaskModel!]!
   generateTotpSecret: TotpModel!
   getAllUserProjects: [ProjectModel!]!
   getTaskAssignees(taskId: String!): [TaskAssigneeModel!]!
@@ -438,11 +456,11 @@ input SocialLinkOrderInput {
 }
 
 type SocialLinksModel {
-  createdAt: DateTime!
+  createdAt: Date!
   id: ID!
   position: Float!
   title: String!
-  updatedAt: DateTime!
+  updatedAt: Date!
   url: String!
   userId: String!
 }
@@ -456,11 +474,11 @@ type Subscription {
 }
 
 type TaskAssigneeModel {
-  createdAt: DateTime!
+  createdAt: Date!
   id: ID!
   task: TaskModel!
   taskId: ID!
-  updatedAt: DateTime!
+  updatedAt: Date!
   user: UserModel!
   userId: ID!
 }
@@ -468,22 +486,22 @@ type TaskAssigneeModel {
 input TaskInput {
   assigneeId: ID
   description: String
-  dueDate: DateTime
+  dueDate: Date
   labelsIds: [ID!]
   position: Float
   priority: Priority!
-  startDate: DateTime
+  startDate: Date
   status: TaskStatus!
   title: String!
 }
 
 type TaskLabelModel {
   color: String!
-  createdAt: DateTime!
+  createdAt: Date!
   id: ID!
   name: String!
   projectId: ID!
-  updatedAt: DateTime!
+  updatedAt: Date!
 }
 
 input TaskLinkInput {
@@ -492,11 +510,11 @@ input TaskLinkInput {
 }
 
 type TaskLinkModel {
-  createdAt: DateTime!
+  createdAt: Date!
   id: ID!
   taskId: ID!
   title: String
-  updatedAt: DateTime!
+  updatedAt: Date!
   url: String!
 }
 
@@ -504,11 +522,11 @@ type TaskModel {
   assignees: [TaskAssigneeModel!]!
   attachments: [AttachmentModel!]!
   comments: [CommentModel!]!
-  createdAt: DateTime!
+  createdAt: Date!
   createdBy: UserModel!
   createdById: ID!
   description: String
-  dueDate: DateTime
+  dueDate: Date
   id: ID!
   labels: [TaskLabelModel!]!
   links: [TaskLinkModel!]!
@@ -516,10 +534,20 @@ type TaskModel {
   priority: Priority!
   project: ProjectModel!
   projectId: ID!
-  startDate: DateTime
+  startDate: Date
   status: TaskStatus!
   title: String!
-  updatedAt: DateTime!
+  updatedAt: Date!
+}
+
+type TaskStatsModel {
+  backlog: Int!
+  cancelled: Int!
+  done: Int!
+  inProgress: Int!
+  overdue: Int!
+  todo: Int!
+  total: Int!
 }
 
 enum TaskStatus {
@@ -559,11 +587,11 @@ input UpdateCommentInput {
 input UpdateTaskInput {
   assigneeId: ID
   description: String
-  dueDate: DateTime
+  dueDate: Date
   labelsIds: [ID!]
   position: Float
   priority: Priority
-  startDate: DateTime
+  startDate: Date
   status: TaskStatus
   title: String
 }
@@ -574,7 +602,7 @@ scalar Upload
 type UserModel {
   avatar: String
   bio: String
-  createdAt: DateTime!
+  createdAt: Date!
   displayName: String!
   email: String!
   id: ID!
@@ -587,7 +615,7 @@ type UserModel {
   socialLinks: [SocialLinksModel!]!
   telegramId: String
   totpSecret: String
-  updatedAt: DateTime!
+  updatedAt: Date!
   username: String!
 }
 

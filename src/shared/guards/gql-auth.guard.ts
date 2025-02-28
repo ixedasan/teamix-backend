@@ -1,18 +1,22 @@
+import { CACHE_MANAGER } from '@nestjs/cache-manager'
 import {
+	CanActivate,
+	ExecutionContext,
+	Inject,
 	Injectable,
-	UnauthorizedException,
-	type CanActivate,
-	type ExecutionContext
+	UnauthorizedException
 } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { GqlExecutionContext } from '@nestjs/graphql'
+import { Cache } from 'cache-manager'
 import { PrismaService } from '@/src/core/prisma/prisma.service'
 
 @Injectable()
 export class GqlAuthGuard implements CanActivate {
-	public constructor(
+	constructor(
 		private readonly prismaService: PrismaService,
-		private readonly configService: ConfigService
+		private readonly configService: ConfigService,
+		@Inject(CACHE_MANAGER) private readonly cacheManager: Cache
 	) {}
 
 	public async canActivate(context: ExecutionContext): Promise<boolean> {
@@ -20,18 +24,26 @@ export class GqlAuthGuard implements CanActivate {
 		const request = ctx.getContext().req
 		const response = ctx.getContext().res
 
-		if (typeof request.session.userId === 'undefined') {
+		if (!request.session?.userId) {
 			this.logoutUser(request, response)
 			throw new UnauthorizedException('User not authenticated')
 		}
 
-		const user = await this.prismaService.user.findUnique({
-			where: { id: request.session.userId }
-		})
+		const userId = request.session.userId
+
+		let user = await this.cacheManager.get(`user:${userId}`)
 
 		if (!user) {
-			this.logoutUser(request, response)
-			throw new UnauthorizedException('User not authenticated')
+			user = await this.prismaService.user.findUnique({
+				where: { id: userId }
+			})
+
+			if (!user) {
+				this.logoutUser(request, response)
+				throw new UnauthorizedException('User not authenticated')
+			}
+
+			await this.cacheManager.set(`user:${userId}`, user, 600000) // 10 minutes
 		}
 
 		request.user = user
