@@ -106,13 +106,25 @@ type DailyCount {
   date: String!
 }
 
-type DashboardModel {
-  assignedTasks: [TaskModel!]!
-  overdueTasks: [TaskModel!]!
-  projectStats: ProjectStatsModel!
-  recentProjects: [ProjectModel!]!
+input DashboardFilterInput {
+  daysRange: Int
+  limit: Int
+  offset: Int
+  onlyOverdue: Boolean
+  onlyUpcoming: Boolean
+  priorities: [Priority!]
+  projectIds: [String!]
+  statuses: [TaskStatus!]
+}
+
+type DashboardSummaryModel {
+  projectsSummary: [ProjectTasksSummaryModel!]!
   recentTasks: [TaskModel!]!
-  taskStats: TaskStatsModel!
+  tasksByDueDate: TasksDueDateModel!
+  tasksByPriority: [TasksCountByPriorityModel!]!
+  tasksByStatus: [TasksCountByStatusModel!]!
+  totalAssignedTasks: Int!
+  upcomingDeadlines: [TaskModel!]!
 }
 
 """Date custom scalar type"""
@@ -361,11 +373,11 @@ type ProjectStatistics {
   totalTasks: Int!
 }
 
-type ProjectStatsModel {
-  asAdmin: Int!
-  asMember: Int!
-  asViewer: Int!
-  total: Int!
+type ProjectTasksSummaryModel {
+  completedTasks: Int!
+  pendingTasks: Int!
+  project: ProjectModel!
+  totalTasks: Int!
 }
 
 type ProjectTimeline {
@@ -380,6 +392,12 @@ type ProjectTimeline {
 }
 
 type Query {
+  FindUserAssigedTasks(filter: TaskFilterInput): [TaskModel!]!
+  FindUserCreatedTasks(filter: TaskFilterInput): [TaskModel!]!
+  FindUserDashboard(filter: DashboardFilterInput): DashboardSummaryModel!
+  FindUserOverdueTasks(filter: TaskFilterInput): [TaskModel!]!
+  FindUserProjectsTasksSummary(projectIds: [String!]): [ProjectTasksSummaryModel!]!
+  FindUserUpcomingTasks(filter: TaskFilterInput): [TaskModel!]!
   findAllTasks: [TaskModel!]!
   findCommentsByTask(taskId: String!): [CommentModel!]!
   findCurrentSession: SessionModel!
@@ -397,10 +415,6 @@ type Query {
   findTaskLabelsByProject: [TaskLabelModel!]!
   findTaskLabelsByTask(taskId: String!): [TaskLabelModel!]!
   findTaskLinks(taskId: String!): [TaskLinkModel!]!
-  findUserAssignedTasks: [TaskModel!]!
-  findUserDashboard: DashboardModel!
-  findUserOverdueTasks: [TaskModel!]!
-  findUserRecentProjects: [TaskModel!]!
   generateTotpSecret: TotpModel!
   getAllUserProjects: [ProjectModel!]!
   getTaskAssignees(taskId: String!): [TaskAssigneeModel!]!
@@ -483,6 +497,20 @@ type TaskAssigneeModel {
   userId: ID!
 }
 
+input TaskFilterInput {
+  limit: Int
+  offset: Int
+  onlyAssignedToMe: Boolean
+  onlyCreatedByMe: Boolean
+  onlyDueThisWeek: Boolean
+  onlyDueToday: Boolean
+  onlyOverdue: Boolean
+  priorities: [Priority!]
+  projectIds: [String!]
+  searchTerm: String
+  statuses: [TaskStatus!]
+}
+
 input TaskInput {
   assigneeId: ID
   description: String
@@ -540,16 +568,6 @@ type TaskModel {
   updatedAt: Date!
 }
 
-type TaskStatsModel {
-  backlog: Int!
-  cancelled: Int!
-  done: Int!
-  inProgress: Int!
-  overdue: Int!
-  todo: Int!
-  total: Int!
-}
-
 enum TaskStatus {
   BACKLOG
   CANCELLED
@@ -572,6 +590,24 @@ type TaskTrend {
   completionRate: Int!
   created: Int!
   month: String!
+}
+
+type TasksCountByPriorityModel {
+  count: Int!
+  priority: Priority
+}
+
+type TasksCountByStatusModel {
+  count: Int!
+  status: TaskStatus!
+}
+
+type TasksDueDateModel {
+  dueThisWeek: Int!
+  dueToday: Int!
+  noDueDate: Int!
+  overdue: Int!
+  upcoming: Int!
 }
 
 type TotpModel {

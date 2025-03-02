@@ -14,6 +14,7 @@ import { SessionModule } from '../modules/auth/session/session.module'
 import { TotpModule } from '../modules/auth/totp/totp.module'
 import { VerificationModule } from '../modules/auth/verification/verification.module'
 import { CronModule } from '../modules/cron/cron.module'
+import { DashboardModule } from '../modules/dashboard/dashboard.module'
 import { DocumentModule } from '../modules/document/document.module'
 import { MailModule } from '../modules/libs/mail/mail.module'
 import { PubSubModule } from '../modules/libs/pubsub/pubsub.module'
@@ -26,7 +27,6 @@ import { ProjectCoreModule } from '../modules/project/project-core/project-core.
 import { ProjectPlanModule } from '../modules/project/project-plan/project-plan.module'
 import { AttachmentModule } from '../modules/task/attachment/attachment.module'
 import { CommentModule } from '../modules/task/comment/comment.module'
-import { DashboardModule } from '../modules/task/dashboard/dashboard.module'
 import { TaskAssigneeModule } from '../modules/task/task-assignee/task-assignee.module'
 import { TaskLabelsModule } from '../modules/task/task-labels/task-labels.module'
 import { TaskLinkModule } from '../modules/task/task-link/task-link.module'
@@ -98,8 +98,8 @@ import { RedisModule } from './redis/redis.module'
 		AttachmentModule,
 		TaskLinkModule,
 		CommentModule,
-		DashboardModule,
-		DocumentModule
+		DocumentModule,
+		DashboardModule
 	],
 	providers: [DateScalar]
 })
