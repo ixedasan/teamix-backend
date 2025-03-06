@@ -1,7 +1,12 @@
+import { createKeyv } from '@keyv/redis'
 import { ApolloDriver } from '@nestjs/apollo'
+import { CacheModule } from '@nestjs/cache-manager'
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common'
 import { ConfigModule, ConfigService } from '@nestjs/config'
 import { GraphQLModule } from '@nestjs/graphql'
+import { CacheableMemory } from 'cacheable'
+import Keyv from 'keyv'
+import { AnalyticsModule } from '../modules/analytics/analytics.module'
 import { AccountModule } from '../modules/auth/account/account.module'
 import { PasswordRecoveryModule } from '../modules/auth/password-recovery/password-recovery.module'
 import { ProfileModule } from '../modules/auth/profile/profile.module'
@@ -9,6 +14,7 @@ import { SessionModule } from '../modules/auth/session/session.module'
 import { TotpModule } from '../modules/auth/totp/totp.module'
 import { VerificationModule } from '../modules/auth/verification/verification.module'
 import { CronModule } from '../modules/cron/cron.module'
+import { DashboardModule } from '../modules/dashboard/dashboard.module'
 import { DocumentModule } from '../modules/document/document.module'
 import { MailModule } from '../modules/libs/mail/mail.module'
 import { PubSubModule } from '../modules/libs/pubsub/pubsub.module'
@@ -27,6 +33,7 @@ import { TaskLinkModule } from '../modules/task/task-link/task-link.module'
 import { TaskModule } from '../modules/task/task/task.module'
 import { WebhookModule } from '../modules/webhook/webhook.module'
 import { ProjectMiddleware } from '../shared/middlewares/project.middleware'
+import { DateScalar } from '../shared/scalars/date.scalar'
 import { getGraphQLConfig } from './config/graphql.config'
 import { getStripeConfig } from './config/stripe.config'
 import { PrismaModule } from './prisma/prisma.module'
@@ -49,6 +56,22 @@ import { RedisModule } from './redis/redis.module'
 			useFactory: getStripeConfig,
 			inject: [ConfigService]
 		}),
+		CacheModule.registerAsync({
+			isGlobal: true,
+			imports: [ConfigModule],
+			useFactory: async (configService: ConfigService) => {
+				return {
+					ttl: 60000,
+					stores: [
+						new Keyv({
+							store: new CacheableMemory({ ttl: 60000, lruSize: 5000 })
+						}),
+						createKeyv(configService.getOrThrow<string>('REDIS_URI'))
+					]
+				}
+			},
+			inject: [ConfigService]
+		}),
 		PrismaModule,
 		RedisModule,
 		MailModule,
@@ -67,6 +90,7 @@ import { RedisModule } from './redis/redis.module'
 		CronModule,
 		ProjectCoreModule,
 		ProjectPlanModule,
+		AnalyticsModule,
 		MemberModule,
 		TaskModule,
 		TaskAssigneeModule,
@@ -74,8 +98,10 @@ import { RedisModule } from './redis/redis.module'
 		AttachmentModule,
 		TaskLinkModule,
 		CommentModule,
-		DocumentModule
-	]
+		DocumentModule,
+		DashboardModule
+	],
+	providers: [DateScalar]
 })
 export class CoreModule implements NestModule {
 	configure(consumer: MiddlewareConsumer) {

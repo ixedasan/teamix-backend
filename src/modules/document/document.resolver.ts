@@ -67,16 +67,7 @@ export class DocumentResolver {
 	@Subscription(() => DocumentModel, {
 		name: 'documentChanged',
 		filter: (payload, variables) =>
-			payload.documentUpdated.id === variables.documentId,
-		resolve: payload => ({
-			...payload.documentUpdated,
-			createdAt: payload.documentUpdated.createdAt
-				? new Date(payload.documentUpdated.createdAt)
-				: null,
-			updatedAt: payload.documentUpdated.updatedAt
-				? new Date(payload.documentUpdated.updatedAt)
-				: null
-		})
+			payload.documentUpdated.id === variables.documentId
 	})
 	public documentUpdated(@Args('documentId') documentId: string) {
 		return this.pubSub.asyncIterableIterator('DOCUMENT_CHANGED')

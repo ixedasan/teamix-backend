@@ -115,7 +115,7 @@ export class CronService {
 				if (!existingNotification) {
 					await this.notificationService.createTaskOverdueNotification(
 						assignee.userId,
-						task.id
+						task.title
 					)
 				}
 

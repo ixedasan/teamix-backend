@@ -5,6 +5,7 @@ import type { User } from '@/prisma/generated'
 import { Authorization } from '@/src/shared/decorators/auth.decorator'
 import { Authorized } from '@/src/shared/decorators/authorized.decorator'
 import { FileValidationPipe } from '@/src/shared/pipes/file-validation.pipe'
+import { UserModel } from '../account/models/user.models'
 import { ChangeProfileInfoInput } from './inputs/change-info.input'
 import {
 	SocialLinkInput,
@@ -16,6 +17,11 @@ import { ProfileService } from './profile.service'
 @Resolver('Profile')
 export class ProfileResolver {
 	public constructor(private readonly profileService: ProfileService) {}
+
+	@Query(() => UserModel, { name: 'findProfileBySlug' })
+	public async findProfile(@Args('slug') username: string) {
+		return this.profileService.findProfile(username)
+	}
 
 	@Authorization()
 	@Mutation(() => Boolean, { name: 'changeProfileAvatar' })

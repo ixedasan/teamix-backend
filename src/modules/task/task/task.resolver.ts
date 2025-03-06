@@ -85,84 +85,39 @@ export class TaskResolver {
 	@Subscription(() => TaskModel, {
 		name: 'taskAdded',
 		filter: (payload, variables) =>
-			payload.taskAdded.projectId === variables.projectId,
-		resolve: payload => ({
-			...payload.taskAdded,
-			startDate: payload.taskAdded.startDate
-				? new Date(payload.taskAdded.startDate)
-				: null,
-			dueDate: payload.taskAdded.dueDate
-				? new Date(payload.taskAdded.dueDate)
-				: null
-		})
+			payload.taskAdded.projectId === variables.projectId
 	})
 	public taskAdded(@Args('projectId') projectId: string) {
 		return this.pubSub.asyncIterator(EVENTS.TASK_ADDED)
 	}
 
 	private async publishTaskAdded(task: Task) {
-		await this.pubSub.publish(EVENTS.TASK_ADDED, {
-			taskAdded: {
-				...task,
-				startDate: task.startDate ? task.startDate.toISOString() : null,
-				dueDate: task.dueDate ? task.dueDate.toISOString() : null
-			}
-		})
+		await this.pubSub.publish(EVENTS.TASK_ADDED, { taskAdded: task })
 	}
 
 	@Subscription(() => TaskModel, {
 		name: 'taskChanged',
 		filter: (payload, variables) =>
-			payload.taskChanged.projectId === variables.projectId,
-		resolve: payload => ({
-			...payload.taskChanged,
-			startDate: payload.taskChanged.startDate
-				? new Date(payload.taskChanged.startDate)
-				: null,
-			dueDate: payload.taskChanged.dueDate
-				? new Date(payload.taskChanged.dueDate)
-				: null
-		})
+			payload.taskChanged.projectId === variables.projectId
 	})
 	public taskChanged(@Args('projectId') projectId: string) {
 		return this.pubSub.asyncIterator(EVENTS.TASK_CHANGED)
 	}
 
 	public async publishTaskChanged(task: Task) {
-		await this.pubSub.publish(EVENTS.TASK_CHANGED, {
-			taskChanged: {
-				...task,
-				startDate: task.startDate ? task.startDate.toISOString() : null,
-				dueDate: task.dueDate ? task.dueDate.toISOString() : null
-			}
-		})
+		await this.pubSub.publish(EVENTS.TASK_CHANGED, { taskChanged: task })
 	}
 
 	@Subscription(() => TaskModel, {
 		name: 'taskDeleted',
 		filter: (payload, variables) =>
-			payload.taskDeleted.projectId === variables.projectId,
-		resolve: payload => ({
-			...payload.taskDeleted,
-			startDate: payload.taskDeleted.startDate
-				? new Date(payload.taskDeleted.startDate)
-				: null,
-			dueDate: payload.taskDeleted.dueDate
-				? new Date(payload.taskDeleted.dueDate)
-				: null
-		})
+			payload.taskDeleted.projectId === variables.projectId
 	})
 	public taskDeleted(@Args('projectId') projectId: string) {
 		return this.pubSub.asyncIterator(EVENTS.TASK_DELETED)
 	}
 
 	private async publishTaskDeleted(task: Task) {
-		await this.pubSub.publish(EVENTS.TASK_DELETED, {
-			taskDeleted: {
-				...task,
-				startDate: task.startDate ? task.startDate.toISOString() : null,
-				dueDate: task.dueDate ? task.dueDate.toISOString() : null
-			}
-		})
+		await this.pubSub.publish(EVENTS.TASK_DELETED, { taskDeleted: task })
 	}
 }
