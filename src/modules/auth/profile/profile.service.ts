@@ -17,6 +17,17 @@ export class ProfileService {
 		private readonly storageService: StorageService
 	) {}
 
+	public async findProfile(username: string) {
+		return this.prismaService.user.findFirst({
+			where: {
+				username
+			},
+			include: {
+				socialLinks: true
+			}
+		})
+	}
+
 	public async changeAvatar(user: User, file: Upload) {
 		if (user.avatar) {
 			await this.storageService.delete(user.avatar)

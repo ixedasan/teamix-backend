@@ -406,6 +406,7 @@ type Query {
   findNotificationsByUser: [NotificationModel!]!
   findNotificationsUnreadCount: Float!
   findProfile: UserModel!
+  findProfileBySlug(slug: String!): UserModel!
   findProjectById: ProjectModel!
   findProjectMembers: [MemberModel!]!
   findSessionsByUser: [SessionModel!]!
